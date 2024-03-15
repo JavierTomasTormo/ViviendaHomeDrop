@@ -1,0 +1,84 @@
+<section id="footer-sec" >
+             
+             <div class="container">
+            <div class="row  pad-bottom" >
+                <div class="col-md-4" align="left">
+                 <h4> <strong>ABOUT COMPANY</strong> </h4>
+                    <p align="justify">
+                                HomeDrop es más que una inmobiliaria; Somos tus aliados en la búsqueda del hogar perfecto.
+                                Ofrecemos un servicio personalizado que se adapta a tus necesidades. 
+                    </p>
+                    <p align="justify">
+                                En HomeDrop nos esforzamos por convertir tus sueños de vivienda en realidad.
+                                Descubre la excelencia de comodidad y satisfacción. 
+                                <br/>Tu próximo hogar te espera con HomeDrop.
+                    </p>
+                    <a href="#" >Read more</a>
+                </div>
+
+                <div class="col-md-4" align="center">
+                     <h4> <strong>SOCIAL LINKS</strong> </h4>
+                    <p>
+                      <a href="#"><i class="fa fa-facebook-square fa-3x"  ></i></a>  
+                         <a href="#"><i class="fa fa-twitter-square fa-3x"  ></i></a>  
+                         <a href="#"><i class="fa fa-linkedin-square fa-3x"  ></i></a>  
+                        <a href="#"><i class="fa fa-google-plus-square fa-3x"  ></i></a>  
+                    </p>
+                 </div>
+
+                <div class="col-md-4" align="right">
+                    <h4> <strong>Nuesta Localización</strong> </h4>
+                             <p>
+                                999/JTT , JavierTomasTormo, <br />
+                                Albaida, Valencia  <br />
+                                España -46860
+                             </p>
+                     <a href="#" class="btn btn-primary" >SEND QUERY</a>
+                 </div>
+                </div>
+             </div>
+     </section>         
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            window.addEventListener("scroll", function() {
+                
+                var scrollTop = window.scrollY || document.documentElement.scrollTop;
+
+                var triggerPosition = 10;
+
+                // Selecciona el navbar
+                var navbar = document.querySelector(".navbar");
+
+                if (scrollTop > triggerPosition) {
+                    navbar.classList.remove("navbar-hidden");
+                } else {
+                    navbar.classList.add("navbar-hidden");
+                }
+            });
+        });
+    </script>
+
+    <script>
+        function myFunction() {
+          document.getElementById("myDropdown").classList.toggle("show");
+        }
+        window.onclick = function(event) {
+          if (!event.target.matches('.dropbtn')) {
+            var dropdowns = document.getElementsByClassName("dropdown-content");
+            var i;
+            for (i = 0; i < dropdowns.length; i++) {
+              var openDropdown = dropdowns[i];
+              if (openDropdown.classList.contains('show')) {
+                openDropdown.classList.remove('show');
+              }
+            }
+          }
+        }
+        </script>
+
+
+
+
+</body>
+</html>

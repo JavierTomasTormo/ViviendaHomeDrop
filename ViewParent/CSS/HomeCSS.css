@@ -1,0 +1,50 @@
+/* CSS PARA LAS CATEGORÍAS */
+#Contenedor_de_Categorias {
+  display: flex;
+  flex-wrap: wrap;
+  /* Permite que las imágenes se coloquen debajo cuando no hay espacio horizontal */
+  justify-content: space-around;
+  align-items: center;
+  /* Centra verticalmente las imágenes en el contenedor */
+}
+
+#Contenedor_de_Tipos {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: center;
+}
+
+#Contenedor_de_Ciudades {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: center;
+}
+
+#Contenedor_de_Extras {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.Categorias {
+  display: inline-block;
+  margin: 10px;
+  width: 200px;
+  height: 200px;
+  border-radius: 40px;
+  box-shadow: 5px 5px 30px 7px rgba(0, 0, 0, 0.25), -5px -5px 30px 7px rgba(0, 0, 0, 0.22);
+  cursor: pointer;
+  transition: 0.4s;
+}
+
+.Categorias:hover {
+  transform: scale(0.9, 0.9);
+  box-shadow: 5px 5px 30px 15px rgba(0, 0, 0, 0.25), -5px -5px 30px 15px rgba(0, 0, 0, 0.22);
+}
+
+.Nombre {
+  text-align: center;
+}

@@ -1,0 +1,100 @@
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet"/>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SearchBarTest</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+/* Estilos generales */
+
+
+.search-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.search-select {
+    padding: 10px;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    margin-right: 10px;
+}
+
+.search-input {
+    width: 300px;
+    padding: 10px;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.search-button {
+    background-color: #333;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.search-button:hover {
+    background-color: #555;
+}
+
+/* Estilos para el icono de búsqueda */
+.search-button i {
+    font-size: 18px;
+}
+
+/* Media query para hacer la barra de búsqueda responsive */
+@media (max-width: 600px) {
+    .search-container {
+        flex-direction: column;
+    }
+
+    .search-input {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+}
+
+
+    </style>
+</head>
+<body>
+    <div class="search-container">
+        <select class="search-select">
+            <option value="city">Ciudad</option>
+            <!-- Aquí puedes añadir opciones para ciudades -->
+            <option value="paris">París</option>
+            <option value="new-york">Nueva York</option>
+            <option value="tokyo">Tokio</option>
+        </select>
+        <select class="search-select">
+            <option value="operation" >Operación</option>
+            <!-- Aquí puedes añadir opciones para operaciones -->
+            <option value="buy">Compra</option>
+            <option value="rent">Alquiler</option>
+        </select>
+        <input type="text" placeholder="Buscar..." class="search-input">
+        <button class="search-button"><i class="fa fa-search"></i></button>
+    </div>
+</body>
+</html>
+
+
+
+
+

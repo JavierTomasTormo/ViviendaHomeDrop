@@ -1,0 +1,158 @@
+<div class="row pad-row" >
+                <div class="col-md-12 col-sm-12" > 
+                    <ul class="portfolio-items col-3"> 
+                        <li class="portfolio-item">
+                            <div class="item-main">
+                                <div class="portfolio-image">
+                                    <img src="/ViviendaHomeDrop/ViewParent\inc\assets\img\portfolio\thumb\t1.png" alt="">
+                                    <div class="overlay">
+                                        <a class="preview btn btn-primary" title="Image Title Here" href="/ViviendaHomeDrop/ViviendaHomeDrop/ViewParent/inc\assets/img/portfolio/big/b1.png">VIEW PROJECT</a>
+                                    </div>
+                                </div>
+                                <h5>Lorem ipsum dolor sit amet</h5>
+                            </div>
+                        </li>
+                       
+                        <li class="portfolio-item">
+                            <div class="item-main">
+                                <div class="portfolio-image">
+                                    <img src="/ViviendaHomeDrop/ViewParent/inc\assets/img/portfolio/thumb/t2.png" alt="">
+                                    <div class="overlay">
+                                        <a class="preview btn btn-primary" title="Image Title Here" href="/ViviendaHomeDrop/ViewParent/inc\assets/img/portfolio/big/b2.png">VIEW PROJECT</a>
+                                    </div>
+                                </div>
+                                <h5>Lorem ipsum dolor sit amet</h5>
+                            </div>
+                        </li>
+                        <li class="portfolio-item">
+                            <div class="item-main">
+                                <div class="portfolio-image">
+                                    <img src="/ViviendaHomeDrop/ViewParent/inc\assets/img/portfolio/thumb/t3.png" alt="">
+                                    <div class="overlay">
+                                        <a class="preview btn btn-primary" title="Image Title Here" href="/ViviendaHomeDrop/ViewParent/inc\assets/img/portfolio/big/b3.png">VIEW PROJECT</a>
+                                    </div>
+                                </div>
+                                <h5>Lorem ipsum dolor sit amet</h5>
+                            </div>
+                        </li>
+                        <li class="portfolio-item">
+                            <div class="item-main">
+                                <div class="portfolio-image">
+                                    <img src="/ViviendaHomeDrop/ViewParent/inc\assets/img/portfolio/thumb/t4.png" alt="">
+                                    <div class="overlay">
+                                        <a class="preview btn btn-primary" title="Image Title Here" href="/ViviendaHomeDrop/ViewParent/inc\assets/img/portfolio/big/b4.png">VIEW PROJECT</a>
+                                    </div>
+                                </div>
+                                <h5>Lorem ipsum dolor sit amet</h5>
+                            </div>
+                        </li>
+                        <li class="portfolio-item">
+                            <div class="item-main">
+                                <div class="portfolio-image">
+                                    <img src="/ViviendaHomeDrop/ViewParent/inc\assets/img/portfolio/thumb/t5.png" alt="">
+                                    <div class="overlay">
+                                        <a class="preview btn btn-primary" title="Image Title Here" href="/ViviendaHomeDrop/ViewParent/inc\assets/img/portfolio/big/b5.png">VIEW PROJECT</a>
+                                    </div>
+                                </div>
+                                <h5>Lorem ipsum dolor sit amet</h5>
+                            </div>
+                        </li>
+                        <li class="portfolio-item ">
+                            <div class="item-main">
+                                <div class="portfolio-image">
+                                    <img src="/ViviendaHomeDrop/ViewParent/inc\assets/img/portfolio/thumb/t6.png" alt="">
+                                    <div class="overlay">
+                                        <a class="preview btn btn-primary" title="Image Title Here" href="/ViviendaHomeDrop/ViewParent/inc\assets/img/portfolio/big/b6.png">VIEW PROJECT</a>
+                                    </div>
+                                </div>
+                                <h5>Lorem ipsum dolor sit amet</h5>
+                            </div>
+                        </li>
+                        <li class="portfolio-item ">
+                           <div class="item-main">
+                                <div class="portfolio-image">
+                                    <img src="/ViviendaHomeDrop/ViewParent/inc\assets/img/portfolio/thumb/t7.png" alt="" />
+                                    <div class="overlay">
+                                        <a class="preview btn btn-primary" title="Image Title Here" href="/ViviendaHomeDrop/ViewParent/inc\assets/img/portfolio/big/b7.png">VIEW PROJECT</a>
+                                    </div>
+                                </div>
+                                <h5>Lorem ipsum dolor sit amet</h5>
+                            </div>
+                        </li>
+                        <li class="portfolio-item ">
+                           <div class="item-main">
+                                <div class="portfolio-image">
+                                    <img src="/ViviendaHomeDrop/ViewParent/inc\assets/img/portfolio/thumb/t8.png" alt="" />
+                                    <div class="overlay">
+                                        <a class="preview btn btn-primary" title="Image Title Here" href="/ViviendaHomeDrop/ViewParent/inc\assets/img/portfolio/big/b8.png">VIEW PROJECT</a>
+                                    </div>
+                                </div>
+                                <h5>Lorem ipsum dolor sit amet</h5>
+                            </div>
+                        </li>
+                         <li class="portfolio-item">
+                            <div class="item-main">
+                                <div class="portfolio-image">
+                                    <img src="/ViviendaHomeDrop/ViewParent/inc\assets/img/portfolio/thumb/t9.png" alt="" />
+                                    <div class="overlay">
+                                        <a class="preview btn btn-primary" title="Image Title Here" href="/ViviendaHomeDrop/ViewParent/inc\assets/img/portfolio/big/b9.png">VIEW PROJECT</a>
+                                    </div>
+                                </div>
+                                <h5>Lorem ipsum dolor sit amet</h5>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+           </div>
+       </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   $('#content_shop_cars').empty();
+            $('.date_car' && '.date_img').empty();
+
+            //Mejora para que cuando no hayan resultados en los filtros aplicados
+            if (data == "error") {
+                $('<div></div>').appendTo('#content_shop_cars')
+                    .html(
+                        '<h3>¡No se encuentarn resultados con los filtros aplicados!</h3>'
+                    )
+            } else {
+                for (row in data) {
+                    $('<div></div>').attr({ 'id': data[row].id_car, 'class': 'list_content_shop' }).appendTo('#content_shop_cars')
+                        .html(
+                            "<div class='list_product'>" +
+                            "<div class='img-container'>" +
+                            "<img src= '" + data[row].img_car + "'" + "</img>" +
+                            "</div>" +
+                            "<div class='product-info'>" +
+                            "<div class='product-content'>" +
+                            "<h1><b>" + data[row].id_brand + " " + data[row].name_model + "<a class='list__heart' id='" + data[row].id_car + "'><i id= " + data[row].id_car + " class='fa-solid fa-heart fa-lg'></i></a>" + "</b></h1>" +
+                            "<p>Up-to-date maintenance and revisions</p>" +
+                            "<ul>" +
+                            "<li> <i id='col-ico' class='fa-solid fa-road fa-xl'></i>&nbsp;&nbsp;" + data[row].Km + " KM" + "</li>" +
+                            "<li> <i id='col-ico' class='fa-solid fa-person fa-xl'></i>&nbsp;&nbsp;&nbsp;" + data[row].gear_shift + "</li>" +
+                            "<li> <i id='col-ico' class='fa-solid fa-palette fa-xl'></i>&nbsp;" + data[row].color + "</li>" +
+                            "</ul>" +
+                            "<div class='buttons'>" +
+                            "<button id='" + data[row].id_car + "' class='more_info_list button add' >More Info</button>" +
+                            "<button class='button buy' >Buy</button>" +
+                            "<span class='button' id='price'>" + data[row].price + '€' + "</span>" +
+                            "</div>" +
+                            "</div>" +
+                            "</div>" +
+                            "</div>"
+                        )
+                }//endfor
