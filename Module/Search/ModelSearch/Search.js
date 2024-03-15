@@ -1,13 +1,14 @@
 //#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·//
 //#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·//
 function LoadCitySearch() {
-    console.log('Entro a LoadCitySearch');
+    //console.log('Entro a LoadCitySearch');
 
 //PUEDO RECOGER LOS DATOS DE CONTROLLER_HOMEDROP!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    ajaxPromise('Module/Search/ControladorSearch/ControllerSearch.php?Option=SearchCity', 'POST', 'JSON', {})
+    ajaxPromise('Module/Search/ControladorSearch/ControllerSearch.php?Option=SearchCity', 'GET', 'JSON')
         .then(function (data) {
 
-            console.log(data, 'datos recogidos de la base de datos');
+            //console.log(data, '/////datos recogidos de la base de datos');
+            
 
             $('<option>Ciudad</option>').attr('selected', true).attr('disabled', true).appendTo('.search_selectCity')
             for (row in data) {
@@ -20,12 +21,15 @@ function LoadCitySearch() {
 //#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·//
 //#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·//
 function LoadOperationSearch(Ciudad) {
+    //console.log('Entro a LoadOperationSearch')
+
     $('.search_selectOperation').empty();
 
     if (Ciudad == undefined) {
-        ajaxPromise('Module/Search/ControladorSearch/ControllerSearch.php?Option=SearchOperationNull', 'POST', 'JSON', {})
+        ajaxPromise('Module/Search/ControladorSearch/ControllerSearch.php?Option=SearchOperationNull', 'GET', 'JSON')
             .then(function (data) {
-                console.log(data, 'datos recogidos de la base de datos');
+
+                console.log(data, '/////datos recogidos de la base de datos/// CITY NOT DEFINED');
 
 
                 $('<option>Operación</option>').attr('selected', true).attr('disabled', true).appendTo('.search_selectOperation')
@@ -35,9 +39,15 @@ function LoadOperationSearch(Ciudad) {
             }).catch(function () {
                 //window.location.href = "index.php?modules=exception&op=503&error=fail_load_category&type=503";
             });
+
     } else {
         ajaxPromise('Module/Search/ControladorSearch/ControllerSearch.php?Option=SearchOperation', 'POST', 'JSON', {'Ciudad' : Ciudad})
             .then(function (data) {
+
+                    console.log(data, '/////datos recogidos de la base de datos')
+
+
+                    $('<option>Operación</option>').attr('selected', true).attr('disabled', true).appendTo('.search_selectOperation')
                 for (row in data) {
                     $('<option value="' + data[row].ID_Operation + '">' + data[row].Operation + '</option>').appendTo('.search_selectOperation')
                 }

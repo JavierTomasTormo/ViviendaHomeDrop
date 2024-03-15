@@ -1,5 +1,4 @@
 function ajaxPromise(sUrl, sType, sTData, sData = undefined) {
-//return false;
     return new Promise((resolve, reject) => {
 
 
@@ -11,12 +10,12 @@ function ajaxPromise(sUrl, sType, sTData, sData = undefined) {
             data: sData
         }).done((data) => {
 
-            console.log(data);
+            // const firstObject = data[0];
+            // const firstKey = Object.keys(firstObject)[0];
+
+            // console.log(firstKey, data);
 
             resolve(data);
-
-
-//return false;
 
         }).fail((jqXHR, textStatus, errorThrown) => {
             reject(errorThrown);
