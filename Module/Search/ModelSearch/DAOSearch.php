@@ -44,23 +44,41 @@ class DAOSearch {
 		return $retrArray;
 	}
 //##########################################################################//
-    function search_category($brand){
-        $select="SELECT ca.*
-        FROM car c, categoria ca
-        WHERE ca.id_categoria = c.categoria AND c.marca = '$brand'";
+function SearchOperation($CiudadPropo){
 
-        $conexion = connect::con();
-        $res = mysqli_query($conexion, $select);
+    $ciudad = $CiudadPropo['Ciudad'];
+
+    //return $ciudad;
+    // return 'AAAA';
+
+    $sqlopera = "SELECT oh.Operation FROM operationhomedrop oh
+                    INNER JOIN viviendasoperation vo ON vo.ID_Operation = oh.ID_Operation 
+                    INNER JOIN viviendashomedrop vh ON vh.ID_HomeDrop = vo.ID_HomeDrop
+                    INNER JOIN cityhomedrop ch ON ch.ID_City = vh.ID_City 
+                WHERE ch.ID_City = $ciudad
+                GROUP BY oh.ID_Operation";
+
+    //return $sqlopera;
+
+    $conexion = connect::con();
+    $res = mysqli_query($conexion, $sqlopera);
+    
+    if (!$res) {
+        echo "Error en la consulta: " . mysqli_error($conexion);
         connect::close($conexion);
-
-        $retrArray = array();
-        if ($res -> num_rows > 0) {
-            while ($row = mysqli_fetch_assoc($res)) {
-                $retrArray[] = $row;
-            }
-        }
-        return $retrArray;
+        return false; 
     }
+    
+    $retrArray = array();
+    if (mysqli_num_rows($res) > 0) {
+        while ($row = mysqli_fetch_assoc($res)) {
+            $retrArray[] = $row;
+        }
+    }
+
+    connect::close($conexion);
+    return $retrArray;
+}
 //##########################################################################//
     function select_only_brand($complete, $brand){
         $select="SELECT *

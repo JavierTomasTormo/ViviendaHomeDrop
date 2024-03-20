@@ -31,8 +31,10 @@ switch ($_GET['Option']) {
 //-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-//
     case 'SearchOperationNull';
 
-        //echo json_encode('SearchOperationNull');
-        //break;
+        // echo json_encode('Lo que no funciona es el post?');
+        // break;
+        // echo json_encode($_POST['Ciudad']);
+        // break;
         //////
 
         $homeQuery = new DAOSearch();
@@ -53,21 +55,20 @@ switch ($_GET['Option']) {
 //-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-//
     case 'SearchOperation';
 
-        echo json_encode('SearchOperation');
-    break;
-    //////
+        //echo json_encode('SearchOperation');
+        // break;
 
-        echo json_encode($_POST['Ciudad']);
-    break;
-    //////
+
+        // echo json_encode($_POST['Ciudad']);
+        // break;
+ 
 
         $homeQuery = new DAOSearch();
         $selSlide = $homeQuery -> SearchOperation($_POST['Ciudad']);    
 
 
-        echo json_encode($selSlide);
-    break;
-    //////   
+        // echo json_encode($selSlide);
+        // break;   
 
         if (!empty($selSlide)) {
             echo json_encode($selSlide);

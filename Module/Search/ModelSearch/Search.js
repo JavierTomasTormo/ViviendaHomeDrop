@@ -29,7 +29,7 @@ function LoadOperationSearch(Ciudad) {
         ajaxPromise('Module/Search/ControladorSearch/ControllerSearch.php?Option=SearchOperationNull', 'GET', 'JSON')
             .then(function (data) {
 
-                console.log(data, '/////datos recogidos de la base de datos/// CITY NOT DEFINED');
+                //console.log(data, '/////datos recogidos de la base de datos /// CITY NOT DEFINED');
 
 
                 $('<option>Operación</option>').attr('selected', true).attr('disabled', true).appendTo('.search_selectOperation')
@@ -44,8 +44,7 @@ function LoadOperationSearch(Ciudad) {
         ajaxPromise('Module/Search/ControladorSearch/ControllerSearch.php?Option=SearchOperation', 'POST', 'JSON', {'Ciudad' : Ciudad})
             .then(function (data) {
 
-                    console.log(data, '/////datos recogidos de la base de datos')
-
+                    //console.log(data);
 
                     $('<option>Operación</option>').attr('selected', true).attr('disabled', true).appendTo('.search_selectOperation')
                 for (row in data) {
@@ -131,7 +130,7 @@ function ButtonSearch() {
                 search.push({ "Operation": [$('.search_selectOperation').val()] })
             }
             if ($('#autocom').val() != undefined) {
-                search.push({ "Ciudad": [$('#autocom').val()] })
+                search.push({ "Type": [$('#autocom').val()] })
             }
         }
         localStorage.removeItem('Filters_Search');

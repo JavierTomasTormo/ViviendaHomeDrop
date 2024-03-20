@@ -12,7 +12,6 @@ function ajaxPromise(sUrl, sType, sTData, sData = undefined) {
 
             // const firstObject = data[0];
             // const firstKey = Object.keys(firstObject)[0];
-
             // console.log(firstKey, data);
 
             resolve(data);
