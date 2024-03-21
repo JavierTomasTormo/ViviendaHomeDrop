@@ -733,7 +733,7 @@ function LoadSearch() {
     //console.log('LoadSearch Charged');
     var FiltersSearch = JSON.parse(localStorage.getItem('Filters_Search') || '[]');
 
-    console.log(FiltersSearch);
+    //console.log(FiltersSearch);
 
             //REMOVE DATA BEFORE USING ON LIST
             localStorage.removeItem('Filters_Search');
@@ -741,8 +741,12 @@ function LoadSearch() {
     ajaxPromise('Module/Shop/ControllerShop/ControllerShop.php?Option=Search', 'POST', 'JSON', { 'FiltersSearch': FiltersSearch })
         .then(function(Serach) {
 
+
+            console.log(FiltersSearch);
+
             console.log(Serach);
 
+            
             $("#ListViviendasHomeDrop").empty();
             for (row in Serach) {
                 $('<div></div>').attr({ 'id': Serach[row].ID_HomeDrop, 'class': 'list_content_shop' }).appendTo('#ListViviendasHomeDrop')

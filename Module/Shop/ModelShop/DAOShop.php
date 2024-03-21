@@ -99,7 +99,6 @@ class DAOShop{
 
 		//return $select;
 
-		/*//!!!!!!!!!!!EMPTY¡¡¡¡¡¡¡¡¡¡¡¡///-*/
 		if (!empty($FiltersHome[0]['ID_Type'])){
 			$prueba = $FiltersHome[0]['ID_Type'][0];
 			$select.= " AND th.ID_Type = '$prueba'";
@@ -318,20 +317,18 @@ function FiltrosSilderPriceResults($priceMin, $priceMax){
 		$res = mysqli_query($conexion, $consulta);
 	
 
-		// Cerrar la conexión a la base de datos
 		connect::close($conexion);
 	
 		if ($res) {
 			return true;
 		} else {
-			// La consulta falló, devolver falso
 			return false;
 		}
 	}
 /* ---------- */
 function RedirectSearchDAO($FiltersSearch){
-
-	return $FiltersSearch;
+	//return 'DAO';
+	//return $FiltersSearch;
 	////////////////
 
 	$select = "SELECT vh.ID_HomeDrop, vh.Precio, vh.Superficie, ch.ID_City ,ch.Ciudad, vh.Calle, th.ID_Type ,th.Type, oh.ID_Operation ,oh.Operation, 
@@ -350,24 +347,14 @@ function RedirectSearchDAO($FiltersSearch){
 	//return $select;
 	//HAY QUE HACERLO BIEN !
 
-	/*//!!!!!!!!!!!EMPTY¡¡¡¡¡¡¡¡¡¡¡¡//*/
-	if (!empty($FiltersSearch[0]['ID_Type'])){
-		$prueba = $FiltersSearch[0]['ID_Type'][0];
-		$select.= " AND th.ID_Type = '$prueba'";
-
-	}
 	if(!empty($FiltersSearch[0]['Ciudad'])) {
 		$prueba = $FiltersSearch[0]['Ciudad'][0];
-		$select.= " AND ch.Ciudad = '$prueba'";
+		$select.= " AND ch.ID_City = '$prueba'";
 
 	}
-	if(!empty($FiltersSearch[0]['ID_Operation'])) {
+	if(!empty($FiltersSearch[0]['Operation'])) {
 		$prueba = $FiltersSearch[0]['ID_Operation'][0];
 		$select.= " AND oh.ID_Operation = '$prueba'";
-	}
-	if(!empty($FiltersSearch[0]['ID_Category'])) {
-		$prueba = $FiltersSearch[0]['ID_Category'][0];
-		$select.= " AND chd.ID_Category = '$prueba'";
 	}
 
 

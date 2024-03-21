@@ -204,7 +204,6 @@ case 'Visitas':
     
 break;
 //#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#//
-
 case 'FiltersShopPrice':
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $priceMin = $_POST['precioMin'] ?? 0; 
@@ -227,22 +226,22 @@ case 'FiltersShopPrice':
 break;
 //#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#//
 case 'Search';
-  echo json_encode("Buenas Tardes");
-  break;
-//echo json_encode($_POST['FiltersSearch']);
-// break;
-$SearchQueryDAO = new DAOShop();
-$selSlide = $SearchQueryDAO -> RedirectSearchDAO($_POST['FiltersSearch']);
+    //   echo json_encode("Buenas Tardes");
+    //   break;
+    // echo json_encode($_POST['FiltersSearch']);
+    // break;
+    $SearchQueryDAO = new DAOShop();
+    $selSlide = $SearchQueryDAO -> RedirectSearchDAO($_POST['FiltersSearch']);
 
-//   echo json_encode($selSlide);
-//   break;
+    //   echo json_encode($selSlide);
+    //   break;
 
-if (!empty($selSlide)) {
-    echo json_encode($selSlide);
-}
-else {
-    echo "error";
-}
+    if (!empty($selSlide)) {
+        echo json_encode($selSlide);
+    }
+    else {
+        echo "error";
+    }
 
 break;
 //#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#//

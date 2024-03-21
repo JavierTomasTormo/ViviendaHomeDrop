@@ -1,18 +1,24 @@
 //#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·//
+
+        // ajaxPromise('Module/Search/ControladorSearch/ControllerSearch.php?Option=SearchCityNotNull', 'POST', 'JSON', {'Operacion' : Operacion})
+        //     .then(function (data) {
+        //         $('<option>Ciudad</option>').attr('selected', true).attr('disabled', true).appendTo('.search_selectCity')
+        //         for (row in data) {
+        //             $('<option value="' + data[row].ID_City + '">' + data[row].Ciudad + '</option>').appendTo('.search_selectCity')
+        //         }
+        //     }).catch(function () {
+        //         //window.location.href = "index.php?modules=exception&op=503&error=fail_load_brands&type=503";
+        //     });
+
 //#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·//
 function LoadCitySearch() {
     //console.log('Entro a LoadCitySearch');
 
-//PUEDO RECOGER LOS DATOS DE CONTROLLER_HOMEDROP!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     ajaxPromise('Module/Search/ControladorSearch/ControllerSearch.php?Option=SearchCity', 'GET', 'JSON')
         .then(function (data) {
-
-            //console.log(data, '/////datos recogidos de la base de datos');
-            
-
-            $('<option>Ciudad</option>').attr('selected', true).attr('disabled', true).appendTo('.search_selectCity')
+            $('<option>Ciudad</option>').attr('selected', true).attr('disabled', true).appendTo('.search_selectCity');
             for (row in data) {
-                $('<option value="' + data[row].ID_City + '">' + data[row].Ciudad + '</option>').appendTo('.search_selectCity')
+                $('<option value="' + data[row].ID_City + '">' + data[row].Ciudad + '</option>').appendTo('.search_selectCity');
             }
         }).catch(function () {
             //window.location.href = "index.php?modules=exception&op=503&error=fail_load_brands&type=503";
@@ -28,8 +34,6 @@ function LoadOperationSearch(Ciudad) {
     if (Ciudad == undefined) {
         ajaxPromise('Module/Search/ControladorSearch/ControllerSearch.php?Option=SearchOperationNull', 'GET', 'JSON')
             .then(function (data) {
-
-                //console.log(data, '/////datos recogidos de la base de datos /// CITY NOT DEFINED');
 
 
                 $('<option>Operación</option>').attr('selected', true).attr('disabled', true).appendTo('.search_selectOperation')
@@ -60,6 +64,29 @@ function LoadOperationSearch(Ciudad) {
 function SearchCharger() {
     LoadCitySearch();
     LoadOperationSearch();
+
+        // $('.search_selectOperation').on('change', function () {
+        //     let Operacion = $(this).val();
+
+        //     //console.log(Operacion);
+
+        //     if (Operacion != null) {
+
+        //         console.log(Operacion, 'dentro if operation');
+                
+
+        //         ajaxPromise('Module/Search/ControladorSearch/ControllerSearch.php?Option=SearchCityNotNull', 'POST', 'JSON', {'Operacion' : Operacion})
+        //             .then(function (data) {
+        //                 $('.search_selectCity').empty(); // Limpiar opciones anteriores
+        //                 $('<option>Ciudad</option>').attr('selected', true).attr('disabled', true).appendTo('.search_selectCity');
+        //                 for (row in data) {
+        //                     $('<option value="' + data[row].ID_City + '">' + data[row].Ciudad + '</option>').appendTo('.search_selectCity');
+        //                 }
+        //             }).catch(function () {
+        //                 //window.location.href = "index.php?modules=exception&op=503&error=fail_load_brands&type=503";
+        //             });
+        //     }
+        // });
 
     $(document).on('change', '.search_selectCity', function () {
         let Ciudad = $(this).val();
@@ -116,28 +143,47 @@ function AutocompleteSearch() {
 function ButtonSearch() {
     $('#search-btn').on('click', function () {
         var search = [];
-        
-        if ($('.search_selectCity').val() != undefined) {
-            search.push({ "Ciudad": [$('.search_selectCity').val()] })
-            if ($('.search_selectOperation').val() != undefined) {
-                search.push({ "Operation": [$('.search_selectOperation').val()] })
-            }
-            if ($('#autocom').val() != undefined) {
-                search.push({ "Ciudad": [$('#autocom').val()] })
-            }
-        } else if ($('.search_selectCity').val() == undefined) {
-            if ($('.search_selectOperation').val() != undefined) {
-                search.push({ "Operation": [$('.search_selectOperation').val()] })
-            }
-            if ($('#autocom').val() != undefined) {
-                search.push({ "Type": [$('#autocom').val()] })
+
+        var selectedCity = $('.search_selectCity').val() || localStorage.getItem('Ciudad');
+        var selectedOperation = $('.search_selectOperation').val() || localStorage.getItem('Operacion');
+
+
+        if (selectedCity != undefined) {
+            search.push({ "Ciudad": [selectedCity] });
+            localStorage.setItem('Ciudad', selectedCity); 
+        } else {
+            localStorage.removeItem('Ciudad'); 
+        }
+
+
+        if (selectedOperation != undefined) {
+            search.push({ "Operation": [selectedOperation] });
+            localStorage.setItem('Operacion', selectedOperation); 
+        } else {
+            localStorage.removeItem('Operacion'); 
+        }
+
+
+        var autocomValue = $('#autocom').val();
+        if (autocomValue != undefined && autocomValue.trim() !== '') {
+
+            if (selectedCity != undefined) {
+                search.push({ "Ciudad": [autocomValue] });
+            } else {
+                search.push({ "Operation": [autocomValue] });
             }
         }
+
         localStorage.removeItem('Filters_Search');
         if (search.length != 0) {
             localStorage.setItem('Filters_Search', JSON.stringify(search));
+            
+            
+            //console.log(localStorage.getItem('Filters_Search'));
         }
-        window.location.href = 'index.php?page=Shop';
+
+
+        window.location.href = 'index.php?page=Shop'; 
     });
 }
 //#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·//
