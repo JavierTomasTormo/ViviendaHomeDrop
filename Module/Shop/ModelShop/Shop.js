@@ -684,41 +684,36 @@ function ShopAllHome() {
      var filtroShop = (localStorage.getItem('FiltersShop') || 0);
      var filtroShopPrice = (localStorage.getItem('FiltersShop_Price') || 0);
 //-----------------------------------------------------------------//.
-    var flitroSearch = (localStorage.getItem('Filters_Search') || undefined);
+    var flitroSearch = (localStorage.getItem('Filters_Search') || [undefined]);
 
 
 //-----------------------------------------------------------------//
-    //console.log(filtros);
-    //  console.log(filtroShop);
-    // console.log(filtroShopPrice);
+
     
     if (filtros != undefined ) {
-        //console.log('Estoy dentro de los filtros de home ');
-        //console.log(filtros); 
+
             setTimeout(function() {
                 LoadJump();
-            }, 200); //Si añadimos un retraso cargamos los filtros bien; 
+            }, 200); 
 
     } if (filtroShop != 0 || filtroShopPrice != 0) {
         var filtroSho2 = JSON.parse(localStorage.getItem('FiltersShop') || 0 );
-        console.log(filtroSho2);
-        // var priceRange = localStorage.getItem('FiltersShop_Price') || "0€ - 0€";
-        // var values = priceRange.split("€ - ");
-        // var minValue = values.length === 2 ? parseFloat(values[0]) : 0;
-        // var maxValue = values.length === 2 ? parseFloat(values[1]) : 0;
-        //console.log('Estoy dentro de los FILTROS SHOP'); 
-        //console.log(filtroSho2, 'aun no en controller'); 
+
+       //console.log(filtroSho2);
 
         setTimeout(function() {
             ajaxForSearch('Module/Shop/ControllerShop/ControllerShop.php?Option=FiltersShop', 'POST', 'JSON', {'FiltersShop': filtroSho2});
-        }, 200); //Si añadimos un retraso cargamos los filtros bien; 
+        }, 200); 
         HighlightFilters(filtroSho2);
 
     } if (flitroSearch != undefined) {
         //console.log('Hola desde FiltrosSearch en el ShopAllHome de Search');
         //var filtroSho2 = JSON.parse(localStorage.getItem('FiltersShop') || 0 );
-        //console.log(filtroSho2);
+        //console.log(flitroSearch);
         setTimeout(function() {
+            //localStorage.setItem('FiltersShop', filtroShop)  
+            //console.log(localStorage.getItem('FiltersShop'));
+
             LoadSearch();
         }, 200);
 
@@ -730,23 +725,33 @@ function ShopAllHome() {
 }
 //#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·//
 function LoadSearch() {
-    //console.log('LoadSearch Charged');
+
+
+
     var FiltersSearch = JSON.parse(localStorage.getItem('Filters_Search') || '[]');
+    
 
-    //console.log(FiltersSearch);
+    //console.log(localStorage.getItem('FiltersShop'));
+    //console.log(localStorage.getItem('Filters_Search'));
+    
+    
 
-            //REMOVE DATA BEFORE USING ON LIST
-            localStorage.removeItem('Filters_Search');
+    
+    //localStorage.removeItem('FiltersShop');
+    
+    localStorage.removeItem('Filters_Search');
+
+
 
     ajaxPromise('Module/Shop/ControllerShop/ControllerShop.php?Option=Search', 'POST', 'JSON', { 'FiltersSearch': FiltersSearch })
         .then(function(Serach) {
 
 
-            console.log(FiltersSearch);
+            //console.log(FiltersSearch);
 
-            console.log(Serach);
+           // console.log(Serach);
 
-            
+
             $("#ListViviendasHomeDrop").empty();
             for (row in Serach) {
                 $('<div></div>').attr({ 'id': Serach[row].ID_HomeDrop, 'class': 'list_content_shop' }).appendTo('#ListViviendasHomeDrop')
@@ -784,11 +789,15 @@ function LoadSearch() {
 //#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·//
 function HighlightFilters() {
 
-    
+    // var flitroSearch = (localStorage.getItem('Filters_Search') || undefined);
+
+    //     if (flitroSearch != undefined) {
+    //             localStorage.setItem('FiltersShop', flitroSearch)  
+    //     }
 
     TodoFiltroShop = JSON.parse(localStorage.getItem('FiltersShop')) || [];
 
-    //console.log(TodoFiltroShop);
+     //console.log(TodoFiltroShop);
 
     // Control de Filtros Nulos
     if (TodoFiltroShop.length === 0) {
@@ -814,6 +823,7 @@ function HighlightFilters() {
     // Muestra los filtros aplicados
     
     //console.log('Categoría:', document.getElementById('select_Category'));
+    // console.log('Ciudad:', Ciudad);
     // console.log('Categoría:', Category);
     // console.log('Ciudad:', City);
     // console.log('Tipo:', Type);
@@ -864,16 +874,22 @@ function HighlightFilters() {
     //         FiltrosApplied2++;
     //     }
     // }
+    var City = localStorage.getItem('FiltersShop_City');
+
     if (City) {
         var selectElementCity = document.getElementById('select_City');
+
         if (selectElementCity) {
             selectElementCity.value = City;
+            
             FiltrosApplied2++;
-            //localStorage.removeItem('CitySeleccted');
+            
             localStorage.setItem('CitySeleccted', City);
+            
             $(selectElementCity).addClass('highlight');
         }
-    }    
+    }
+   
 
     if (Type) {
         var selectElementType = document.getElementById('select_Type');
@@ -893,37 +909,26 @@ function HighlightFilters() {
         }
     }
 
-    if (Operation) {
-        var selectElementOperation = document.getElementById('select_Operation');
-        if (selectElementOperation) {
-            selectElementOperation.value = Operation;
-            FiltrosApplied2++;
-            $(selectElementOperation).addClass('highlight');
-        }
+var Operation = localStorage.getItem('FiltersShop_Operation');
+
+if (Operation) {
+    var selectElementOperation = document.getElementById('select_Operation');
+
+    if (selectElementOperation) {
+        selectElementOperation.value = Operation;
+        
+        FiltrosApplied2++;
+        
+        $(selectElementOperation).addClass('highlight');
     }
+}
 
-    //console.log('Número de filtros aplicados:', FiltrosApplied2);
-
-    // Filtro MultyQuery
-        // if (Colors && Colors.length > 0) {
-        //     Colors.forEach(color => {
-        //         var checkbox = document.getElementById(color);
-        //         if (checkbox) {
-        //             checkbox.checked = true;
-        //         }
-        //     });
-        // }
 
     if (FiltrosApplied2 > localStorage.getItem('FiltrosApplied')) {
         localStorage.setItem('FiltrosApplied', FiltrosApplied2);
         location.reload();
     }
     localStorage.setItem('FiltrosApplied', FiltrosApplied2);
-
-
-
-
-
 
 }
 function getValueByKey(array, key) {

@@ -99,23 +99,21 @@ break;
 //-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-//
     case 'AutocompleteSearch';
 
-        echo json_encode('AutocompleteSearch');
-    break;
-    //////
-        try {
-            $complete = isset($_POST['sdata']['complete']) ? $_POST['sdata']['complete'] : null;
-            $ciudad = isset($_POST['sdata']['Ciudad']) ? $_POST['sdata']['Ciudad'] : null;
-            $operation = isset($_POST['sdata']['Operation']) ? $_POST['sdata']['Operation'] : null;
 
             $dao = new DAOSearch();
-            $result = $dao->AutocompleteSearch($complete, $ciudad, $operation);
+            $result = $dao->AutocompleteSearch($_POST['sdata']);
 
-        echo json_encode($result);
-    break;
-    //////
-        } catch (Exception $e) {
-            echo json_encode("Error: " . $e->getMessage());
+        //echo json_encode($result);
+        //break;
+        
+
+        if (!empty($result)) {
+            echo json_encode($result);
         }
+        else {
+            echo "error";
+        }
+
     break; 
 //-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-//
 //-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-//

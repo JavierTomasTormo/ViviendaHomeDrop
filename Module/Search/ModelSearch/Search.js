@@ -89,7 +89,8 @@ function LoadOperationSearch(Ciudad) {
             }
         });*/
 function SearchCharger() {
-
+    localStorage.removeItem('Ciudad');
+    localStorage.removeItem('Operacion');
     LoadCitySearch();
     LoadOperationSearch();
 
@@ -113,23 +114,31 @@ function SearchCharger() {
 //#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·//
 function AutocompleteSearch() {
     $("#autocom").on("keyup", function () {
+
+        //console.log('KeyUp Activo');
+
         let sdata = { complete: $(this).val() };
 
-        if (($('.search_selectCity').val() != 0)) {
+        if ($('.search_selectCity').val() != undefined) {
             sdata.Ciudad = $('.search_selectCity').val();
-            if (($('.search_selectCity').val() != 0) && ($('.search_selectOperation').val() != 0)) {
+
+            if ($('.search_selectOperation').val() != undefined) {
                 sdata.Operation = $('.search_selectOperation').val();
             }
-        }
-
-        if (($('.search_selectCity').val() == undefined) && ($('.search_selectOperation').val() != 0)) {
+        } else if ($('.search_selectOperation').val() != undefined) {
             sdata.Operation = $('.search_selectOperation').val();
         }
 
-        ajaxPromise('Module/Search/ControladorSearch/ControllerSearch.php?Option=AutocompleteSearch', 'POST', 'JSON', {'sdata' : sdata})
+
+        //console.log(sdata);
+
+        ajaxPromise('Module/Search/ControladorSearch/ControllerSearch.php?Option=AutocompleteSearch', 'POST', 'JSON', { 'sdata': sdata })
             .then(function (data) {
-                $('#searchAuto').empty();
-                $('#searchAuto').fadeIn(10000000);
+
+                console.log(data);
+
+                $('#search_auto').empty();
+                $('#search_auto').fadeIn(10000000);
                 for (row in data) {
                     $('<div></div>').appendTo('#search_auto').html(data[row].Ciudad).attr({ 'class': 'searchElement', 'id': data[row].Ciudad });
                 }
@@ -149,7 +158,15 @@ function AutocompleteSearch() {
                 $('#search_auto').fadeOut(500);
             });
     });
+
+    // Agregar función de búsqueda cuando se hace clic en el botón de búsqueda
+    $("#search-btn").on("click", function () {
+        let searchQuery = $("#autocom").val();
+        // Realizar la búsqueda con el valor del campo de autocompletar
+        // Agrega aquí la lógica para realizar la búsqueda con el valor searchQuery
+    });
 }
+
 //#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·//
 //#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·//
 function ButtonSearch() {
@@ -175,7 +192,7 @@ function ButtonSearch() {
         }
 
         if (selectedOperation !== null && selectedOperation !== "0") {
-            search.push({ "Operation": [selectedOperation] });
+            search.push({ "Operacion": [selectedOperation] });
             localStorage.setItem('Operacion', selectedOperation);
         } else {
             localStorage.removeItem('Operacion');
@@ -191,12 +208,33 @@ function ButtonSearch() {
         }
 
         if (search.length !== 0) {
-            localStorage.removeItem('Filters_Search');
+            //localStorage.removeItem('Filters_Search');
             localStorage.setItem('Filters_Search', JSON.stringify(search));
-            
             ////
-            //console.log(localStorage.getItem('Filters_Search'));
+            console.log(localStorage.getItem('Filters_Search'));
         }
+
+        
+
+    var FiltersSearch = JSON.parse(localStorage.getItem('Filters_Search') || '[]');
+    localStorage.setItem('FiltersShop', JSON.stringify(FiltersSearch));    
+    
+    //console.log(localStorage.getItem('FiltersShop'));
+    //console.log(localStorage.getItem('Filters_Search'));
+
+    // var dataFromLocalStorage = JSON.parse(localStorage.getItem('FiltersShop') || '[]');
+    
+    // dataFromLocalStorage.forEach(function(filter) {
+    //     for (var key in filter) {
+    //         if (key === 'ch.ID_City') {
+    //             localStorage.setItem('FiltersShop_City', filter[key][0])
+
+    //         } else if (key === 'oh.ID_Operation') {
+    //             //FiltersShop.push(['oh.ID_Operation', filter[key][0]]);
+    //             localStorage.setItem('FiltersShop_Operation', filter[key][0])
+    //         }
+    //     }
+    // });
 
         window.location.href = 'index.php?page=Shop';
     });

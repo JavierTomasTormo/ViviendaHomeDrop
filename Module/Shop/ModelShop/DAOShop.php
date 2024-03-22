@@ -347,13 +347,16 @@ function RedirectSearchDAO($FiltersSearch){
 	//return $select;
 	//HAY QUE HACERLO BIEN !
 
+		//return $FiltersSearch[0]['Operacion'][0];
+
+
+
 	if(!empty($FiltersSearch[0]['Ciudad'])) {
 		$prueba = $FiltersSearch[0]['Ciudad'][0];
 		$select.= " AND ch.ID_City = '$prueba'";
-
 	}
-	if(!empty($FiltersSearch[0]['Operation'])) {
-		$prueba = $FiltersSearch[0]['ID_Operation'][0];
+	if(!empty($FiltersSearch[0]['Operacion'])) {
+		$prueba = $FiltersSearch[0]['Operacion'][0];
 		$select.= " AND oh.ID_Operation = '$prueba'";
 	}
 

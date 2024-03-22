@@ -228,8 +228,8 @@ break;
 case 'Search';
     //   echo json_encode("Buenas Tardes");
     //   break;
-    // echo json_encode($_POST['FiltersSearch']);
-    // break;
+     //echo json_encode($_POST['FiltersSearch']);
+     //break;
     $SearchQueryDAO = new DAOShop();
     $selSlide = $SearchQueryDAO -> RedirectSearchDAO($_POST['FiltersSearch']);
 
