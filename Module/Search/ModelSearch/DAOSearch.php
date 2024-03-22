@@ -51,7 +51,7 @@ function SearchOperation($CiudadPropo){
     //return $ciudad;
     // return 'AAAA';
 
-    $sqlopera = "SELECT oh.Operation FROM operationhomedrop oh
+    $sqlopera = "SELECT * FROM operationhomedrop oh
                     INNER JOIN viviendasoperation vo ON vo.ID_Operation = oh.ID_Operation 
                     INNER JOIN viviendashomedrop vh ON vh.ID_HomeDrop = vo.ID_HomeDrop
                     INNER JOIN cityhomedrop ch ON ch.ID_City = vh.ID_City 
