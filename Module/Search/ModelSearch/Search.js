@@ -112,7 +112,7 @@ function SearchCharger() {
 }
 //#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·//
 //#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·//
-function AutocompleteSearch() {
+/*function AutocompleteSearch() {
     $("#autocom").on("keyup", function () {
 
         //console.log('KeyUp Activo');
@@ -165,8 +165,61 @@ function AutocompleteSearch() {
         // Realizar la búsqueda con el valor del campo de autocompletar
         // Agrega aquí la lógica para realizar la búsqueda con el valor searchQuery
     });
-}
+}*/
+function AutocompleteSearch() {
+    $("#autocom").on("keyup", function () {
+        let sdata = { complete: $(this).val() };
 
+        if ($('.search_selectCity').val() != undefined) {
+            sdata.Ciudad = $('.search_selectCity').val();
+
+            if ($('.search_selectOperation').val() != undefined) {
+                sdata.Operation = $('.search_selectOperation').val();
+
+            }
+        } else if ($('.search_selectOperation').val() != undefined) {
+            sdata.Operation = $('.search_selectOperation').val();
+            
+        }
+
+        ajaxPromise('Module/Search/ControladorSearch/ControllerSearch.php?Option=AutocompleteSearch', 'POST', 'JSON', { 'sdata': sdata })
+        .then(function (data) {
+    
+            console.log(data);
+    
+            $('#search_auto').empty();
+            $('#search_auto').fadeIn(1000);
+            for (row in data) {
+
+                $('<div></div>')
+                    .addClass('autocomplete-item searchElement')
+                    .attr('id', data[row].Type)
+                    .text(data[row].Type)
+                    .appendTo('#search_auto');
+            }
+        }).catch(function () {
+            $('#search_auto').fadeOut(500);
+        });
+    
+    });
+
+
+    $("#search-btn").on("click", function () {
+        let searchQuery = $("#autocom").val();
+        console.log("Realizar búsqueda con:", searchQuery);
+    });
+
+    $(document).on('click', '.searchElement', function () {
+        $('#autocom').val(this.getAttribute('id'));
+        $('#search_auto').fadeOut(1000);
+    });
+
+    $(document).on('click scroll', function (event) {
+        if (event.target.id !== 'autocom') {
+            $('#search_auto').fadeOut(1000);
+        }
+    });
+}
 //#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·//
 //#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·//
 function ButtonSearch() {
@@ -199,30 +252,32 @@ function ButtonSearch() {
         }
 
         var autocomValue = $('#autocom').val();
+
+        //console.log(autocomValue);
+
         if (autocomValue !== null && autocomValue.trim() !== '') {
-            if (selectedCity !== null && selectedCity !== "0") {
-                search.push({ "Ciudad": [autocomValue] });
-            } else {
-                search.push({ "Operation": [autocomValue] });
-            }
+                search.push({"complete" : [autocomValue]})
         }
+
+        //console.log(search);
 
         if (search.length !== 0) {
             //localStorage.removeItem('Filters_Search');
             localStorage.setItem('Filters_Search', JSON.stringify(search));
             ////
-            console.log(localStorage.getItem('Filters_Search'));
+            // console.log(localStorage.getItem('Filters_Search'));
         }
 
-        
+    //console.log(localStorage.getItem('Filters_Search'));      
 
     var FiltersSearch = JSON.parse(localStorage.getItem('Filters_Search') || '[]');
     localStorage.setItem('FiltersShop', JSON.stringify(FiltersSearch));    
     
-    //console.log(localStorage.getItem('FiltersShop'));
-    //console.log(localStorage.getItem('Filters_Search'));
+     console.log(localStorage.getItem('FiltersShop'));
+    // console.log(localStorage.getItem('Filters_Search'));
 
     // var dataFromLocalStorage = JSON.parse(localStorage.getItem('FiltersShop') || '[]');
+
     
     // dataFromLocalStorage.forEach(function(filter) {
     //     for (var key in filter) {
@@ -236,13 +291,111 @@ function ButtonSearch() {
     //     }
     // });
 
-        window.location.href = 'index.php?page=Shop';
+    window.location.href = 'index.php?page=Shop';
     });
 }
 
+
+
 //#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·//
 //#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·//
 
+/*function SearchFunctions() {
+
+    $("#autocom").on("keyup", function () {
+        let sdata = { complete: $(this).val() };
+
+        if ($('.search_selectCity').val() != undefined) {
+            sdata.Ciudad = $('.search_selectCity').val();
+
+            if ($('.search_selectOperation').val() != undefined) {
+                sdata.Operation = $('.search_selectOperation').val();
+            }
+        } else if ($('.search_selectOperation').val() != undefined) {
+            sdata.Operation = $('.search_selectOperation').val();
+        }
+
+        ajaxPromise('Module/Search/ControladorSearch/ControllerSearch.php?Option=AutocompleteSearch', 'POST', 'JSON', { 'sdata': sdata })
+            .then(function (data) {
+                $('#search_auto').empty();
+                $('#search_auto').fadeIn(1000);
+                for (row in data) {
+                    $('<div></div>')
+                        .addClass('autocomplete-item searchElement')
+                        .attr('id', data[row].Type)
+                        .text(data[row].Type)
+                        .appendTo('#search_auto');
+                }
+            }).catch(function () {
+                $('#search_auto').fadeOut(500);
+            });
+    });
+
+    $("#search-btn").on("click", function () {
+        var search = [];
+
+        var selectedCity = $('.search_selectCity').val() || localStorage.getItem('Ciudad');
+        var selectedOperation = $('.search_selectOperation').val() || localStorage.getItem('Operacion');
+
+        localStorage.removeItem('Ciudad');
+        localStorage.removeItem('Operacion');
+
+        if (selectedCity !== null && selectedCity !== "0") {
+            search.push({ "Ciudad": [selectedCity] });
+            localStorage.setItem('Ciudad', selectedCity);
+        } else {
+            localStorage.removeItem('Ciudad');
+        }
+
+        if (selectedOperation !== null && selectedOperation !== "0") {
+            search.push({ "Operacion": [selectedOperation] });
+            localStorage.setItem('Operacion', selectedOperation);
+        } else {
+            localStorage.removeItem('Operacion');
+        }
+
+        var autocomValue = $('#autocom').val();
+        if (autocomValue !== null && autocomValue.trim() !== '') {
+            if (selectedCity !== null && selectedCity !== "0") {
+                search.push({ "Ciudad": [autocomValue] });
+            } else {
+                search.push({ "Operation": [autocomValue] });
+            }
+        }
+
+        if (search.length !== 0) {
+            localStorage.setItem('Filters_Search', JSON.stringify(search));
+        }
+
+        var FiltersSearch = JSON.parse(localStorage.getItem('Filters_Search') || '[]');
+        localStorage.setItem('FiltersShop', JSON.stringify(FiltersSearch));    
+
+        var dataFromLocalStorage = JSON.parse(localStorage.getItem('FiltersShop') || '[]');
+
+        dataFromLocalStorage.forEach(function(filter) {
+            for (var key in filter) {
+                if (key === 'ch.ID_City') {
+                    localStorage.setItem('FiltersShop_City', filter[key][0]);
+                } else if (key === 'oh.ID_Operation') {
+                    localStorage.setItem('FiltersShop_Operation', filter[key][0]);
+                }
+            }
+        });
+
+        window.location.href = 'index.php?page=Shop';
+    });
+
+    $(document).on('click', '.searchElement', function () {
+        $('#autocom').val(this.getAttribute('id'));
+        $('#search_auto').fadeOut(1000);
+    });
+
+    $(document).on('click scroll', function (event) {
+        if (event.target.id !== 'autocom') {
+            $('#search_auto').fadeOut(1000);
+        }
+    });
+}*/
 
 //#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·//
 //#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·//
@@ -253,4 +406,5 @@ $(document).ready(function () {
     SearchCharger();
     AutocompleteSearch();
     ButtonSearch();
+    // SearchFunctions();
 });

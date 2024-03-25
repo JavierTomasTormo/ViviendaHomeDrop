@@ -99,13 +99,14 @@ break;
 //-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-//
     case 'AutocompleteSearch';
 
+        // echo json_encode($_POST['sdata']);
+        // break;
 
-            $dao = new DAOSearch();
-            $result = $dao->AutocompleteSearch($_POST['sdata']);
+        $dao = new DAOSearch();
+        $result = $dao->AutocompleteSearch($_POST['sdata']);
 
-        //echo json_encode($result);
-        //break;
-        
+        // echo json_encode($result);
+        // break;
 
         if (!empty($result)) {
             echo json_encode($result);

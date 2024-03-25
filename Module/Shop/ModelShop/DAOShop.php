@@ -189,15 +189,15 @@ class DAOShop{
 					WHERE vh.ID_HomeDrop IS NOT NULL";
 
 			for ($i = 0; $i < count($Filters); $i++) {
-			if ($Filters[$i][0] === 'vh.Precio') {
-				$consulta .= " AND vh.Precio BETWEEN {$Filters[$i][1]}";
+				if ($Filters[$i][0] === 'vh.Precio') {
+					$consulta .= " AND vh.Precio BETWEEN {$Filters[$i][1]}";
 
-			} elseif ($Filters[$i][0] === 'OrderBy') {
-				$consulta .= " GROUP BY vh.ID_HomeDrop";
-				$consulta .= " ORDER BY vh.Precio {$Filters[$i][1]}";
-			} else {
-				$consulta .= " AND {$Filters[$i][0]} = {$Filters[$i][1]}";
-			}
+				} elseif ($Filters[$i][0] === 'OrderBy') {
+					$consulta .= " GROUP BY vh.ID_HomeDrop";
+					$consulta .= " ORDER BY vh.Precio {$Filters[$i][1]}";
+				} else {
+					$consulta .= " AND {$Filters[$i][0]} = {$Filters[$i][1]}";
+				}
 			}
 
 			
@@ -342,34 +342,62 @@ function RedirectSearchDAO($FiltersSearch){
 		LEFT JOIN imageneshomedrop ih ON ih.ID_HomeDrop = vh.ID_HomeDrop
 		LEFT JOIN viviendascategory vc ON vc.ID_HomeDrop = vh.ID_HomeDrop 
 		LEFT JOIN categoryhomedrop chd ON chd.ID_Category = vc.ID_Category 
-		WHERE vh.ID_HomeDrop IS NOT NULL";
+	WHERE vh.ID_HomeDrop IS NOT NULL";
 
-	//return $select;
-	//HAY QUE HACERLO BIEN !
+	//return $FiltersSearch;
 
-		//return $FiltersSearch[0]['Operacion'][0];
+	// $ciudad = $FiltersSearch[0]['Ciudad']; 
+
+	//$operacion = $FiltersSearch[1]['Operacion'][0];
+	//$operacion2 = $FiltersSearch[0]['Operacion'][0];
 
 
+	//return $operacion2;
 
-	if(!empty($FiltersSearch[0]['Ciudad'])) {
-		$prueba = $FiltersSearch[0]['Ciudad'][0];
-		$select.= " AND ch.ID_City = '$prueba'";
+	// if (!empty($FiltersSearch[0]['Ciudad'])) {
+	// 	$ciudad = $FiltersSearch[0]['Ciudad'][0];
+	// 	$select .= " AND ch.ID_City = '$ciudad'";
+	// }
+
+	// if (!empty($FiltersSearch[0]['Operacion'])) {
+	// 	$operacion2 = $FiltersSearch[0]['Operacion'][0];
+	// 	$select .= " AND oh.ID_Operation = '$operacion2'";
+	// }
+	
+	// if (!empty($FiltersSearch[1]['Operacion'])) {
+	// 	$operacion = $FiltersSearch[1]['Operacion'][0];
+	// 	$select .= " AND oh.ID_Operation = '$operacion'";
+	// }
+
+	for ($i = 0; $i < count($FiltersSearch); $i++) {
+		$filter = $FiltersSearch[$i];
+	
+		if (!empty($filter)) {
+			foreach ($filter as $key => $value) {
+				switch ($key) {
+					case 'Ciudad':
+						$ciudad = $value[0];
+						$select .= " AND ch.ID_City = '$ciudad'";
+						break;
+					case 'Operacion':
+						$operacion = $value[0];
+						$select .= " AND oh.ID_Operation = '$operacion'";
+						break;
+					case 'complete':
+						$complete = $value[0];
+						$select .= " AND th.Type LIKE '$complete%'";
+						break;
+
+				}
+			}
+		}
 	}
-	if(!empty($FiltersSearch[0]['Operacion'])) {
-		$prueba = $FiltersSearch[0]['Operacion'][0];
-		$select.= " AND oh.ID_Operation = '$prueba'";
-	}
+	
 
 
 	$select.= " GROUP BY vh.ID_HomeDrop";
 	
-	
-	
-	/////
-		//return $select;
-	/////
-
-
+	//return $select;
 
 	$conexion = connect::con();
 	$res = mysqli_query($conexion, $select);

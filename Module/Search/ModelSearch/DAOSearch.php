@@ -116,29 +116,66 @@ function SearchCityNotNull($OperacionProp){
     return $retrArray;
 }
 //##########################################################################//
-    function AutocompleteSearch($sdata){
+function AutocompleteSearch($sdata){
+    //return 'DAO de autocompletasión';
 
-        return $sdata;
+    //return $sdata;
+    //return $sdata[0];
+    //return $sdata[1][0];
+    //return $sdata[2][0];
+    //return $sdata[0][1];
+    //return $sdata[1][1];
+    //return $sdata[2][1];
 
 
+    $select = "SELECT vh.ID_HomeDrop, vh.Precio, vh.Superficie, ch.ID_City ,ch.Ciudad, vh.Calle, th.ID_Type ,th.Type, oh.ID_Operation ,oh.Operation, 
+                ih.ID_Imagen, ih.ID_HomeDrop, ih.Img, chd.Category, chd.ID_Category
+                FROM viviendashomedrop vh
+                LEFT JOIN cityhomedrop ch ON vh.ID_City = ch.ID_City
+                LEFT JOIN viviendastype vht ON vh.ID_HomeDrop = vht.ID_HomeDrop
+                LEFT JOIN typehomedrop th ON vht.ID_Type = th.ID_Type
+                LEFT JOIN viviendasoperation vho ON vh.ID_HomeDrop = vho.ID_HomeDrop
+                LEFT JOIN operationhomedrop oh ON vho.ID_Operation = oh.ID_Operation
+                LEFT JOIN imageneshomedrop ih ON ih.ID_HomeDrop = vh.ID_HomeDrop
+                LEFT JOIN viviendascategory vc ON vc.ID_HomeDrop = vh.ID_HomeDrop 
+                LEFT JOIN categoryhomedrop chd ON chd.ID_Category = vc.ID_Category 
+            WHERE vh.ID_HomeDrop IS NOT NULL";
 
+    // return $sdata["complete"];
+    // return $sdata["Ciudad"];
+    // return $sdata["Operation"];
 
-        $select="SELECT *
-        FROM car c
-        WHERE marca = '$brand' AND city LIKE '$complete%'";
-        
-        $conexion = connect::con();
-        $res = mysqli_query($conexion, $select);
-        connect::close($conexion);
-        
-        $retrArray = array();
-        if ($res -> num_rows > 0) {
-            while ($row = mysqli_fetch_assoc($res)) {
-                $retrArray[] = $row;
-            }
-        }
-        return $retrArray;
+    if (!empty($sdata['Operation'])) {
+        $operacion2 = $sdata['Operation'];
+        $select .= " AND oh.ID_Operation = '$operacion2'";
+
+    } if (!empty($sdata['Ciudad'])) {
+        $ciudad = $sdata['Ciudad'];
+        $select .= " AND ch.ID_City = '$ciudad'";
+
+    } if (!empty($sdata['complete'])) {
+        $complete = $sdata['complete'];
+        $select .= " AND th.Type LIKE '$complete%'";
     }
+
+    
+    $select .= " GROUP BY th.Type ";
+
+    //return $select;
+
+
+    $conexion = connect::con();
+    $res = mysqli_query($conexion, $select);
+    connect::close($conexion);
+    
+    $retrArray = array();
+    if ($res -> num_rows > 0) {
+        while ($row = mysqli_fetch_assoc($res)) {
+            $retrArray[] = $row;
+        }
+    }
+    return $retrArray;
+}
 //##########################################################################//
 
 //##########################################################################//

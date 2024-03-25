@@ -797,3 +797,72 @@ border: 1px solid #e1e1e1;
 .inline li {
   margin-right: 10px; /* Espacio entre elementos */
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Estilo general del contenedor */
+#search_auto {
+  position: relative;
+  background-color: #fff;
+}
+
+/* Estilo de la lista de sugerencias */
+#search_auto .autocomplete-list {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 1000;
+  width: 100%;
+  max-height: 200px;
+  overflow-y: auto;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-top: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilo de los elementos de la lista de sugerencias */
+#search_auto .autocomplete-item {
+  padding: 10px;
+  cursor: pointer;
+}
+
+#search_auto .autocomplete-item:hover {
+  background-color: #f5f5f5;
+}
+
+/* Estilo de los elementos seleccionados */
+#search_auto .autocomplete-item.active {
+  background-color: #007bff;
+  color: #fff;
+}
