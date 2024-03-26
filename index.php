@@ -33,15 +33,18 @@ if (isset($_SESSION['Pages'])) {
     }
 } else {
 
-    //echo "La variable de sesión Pages no está definida.(index.php)";
     include("ViewParent/inc/utils/TopPage_HomeDrop.html");
         include("ViewParent/inc/nav.html");
 }
 
-// Incluir el archivo Pages.php
 include("ViewParent/inc/Pages.php");
 include_once("Model/Connect.php");
 
-// Incluir el footer
-include("ViewParent/inc/utils/simpleFooter.html");
+
+if ( $Pages === 'Shop' || $Pages === 'ControllerShop' ){
+    
+}else{
+    include("ViewParent/inc/utils/simpleFooter.html");
+}
+
 ?>

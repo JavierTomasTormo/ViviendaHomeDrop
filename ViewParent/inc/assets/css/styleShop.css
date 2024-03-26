@@ -793,6 +793,15 @@ color:#fff;
 
 }
 
+#mapDetails {
+  overflow: visible;
+  float: right;
+  border-radius: 20px;
+  height: 20%;
+  width: 48%;
+  z-index: 1000; 
+
+}
 
 /* #map {
   float: right;

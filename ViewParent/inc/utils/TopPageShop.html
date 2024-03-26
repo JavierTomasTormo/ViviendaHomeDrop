@@ -64,5 +64,44 @@
     <script src="Module/Search/ModelSearch/Search.js"></script>
     <script src="ViewParent/inc/assets/plugins/bootstrap.js"></script>
     <script src="ViewParent/inc/assets/js/custom.js"></script>
+
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            window.addEventListener("scroll", function() {
+                
+                var scrollTop = window.scrollY || document.documentElement.scrollTop;
+
+                var triggerPosition = 10;
+
+                // Selecciona el navbar
+                var navbar = document.querySelector(".navbar");
+
+                if (scrollTop > triggerPosition) {
+                    navbar.classList.remove("navbar-hidden");
+                } else {
+                    navbar.classList.add("navbar-hidden");
+                }
+            });
+        });
+    </script>
+
+    <script>
+        function myFunction() {
+          document.getElementById("myDropdown").classList.toggle("show");
+        }
+        window.onclick = function(event) {
+          if (!event.target.matches('.dropbtn')) {
+            var dropdowns = document.getElementsByClassName("dropdown-content");
+            var i;
+            for (i = 0; i < dropdowns.length; i++) {
+              var openDropdown = dropdowns[i];
+              if (openDropdown.classList.contains('show')) {
+                openDropdown.classList.remove('show');
+              }
+            }
+          }
+        }
+        </script>
 </head>
 <body>

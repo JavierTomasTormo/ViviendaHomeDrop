@@ -41,7 +41,7 @@ fieldset {
 
 .pad-row {
     padding-top:40px;
-    padding-bottom:40px;
+    /* padding-bottom:40px; */
 }
 .pad-bottom {
     padding-bottom:50px;
@@ -439,7 +439,7 @@ background-size: cover;
 width: 100%;
 display: block;
 height: auto;
-   min-height:300px;
+   /* min-height:300px; */
     color:#fff;
 }
 

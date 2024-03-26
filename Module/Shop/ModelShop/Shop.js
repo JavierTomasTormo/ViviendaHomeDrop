@@ -1089,6 +1089,8 @@ function loadDetails(ID_HomeDrop) {
         $('.Data_Home').empty();
         $('.Data_Img').empty();
         $('#map').hide();
+        //$('#mapDetails').empty();
+ 
 
         for (let row in data[1][0]) {
             let imageDiv = $('<div>').addClass('date_img_dentro')
@@ -1097,7 +1099,7 @@ function loadDetails(ID_HomeDrop) {
                                                     .html(`<img src='${data[1][0][row].Img}'>`));
             $('.Data_Img').append(imageDiv);
         }
-
+        
         let productDetailDiv = $('<div>').addClass('list_product_details')
             .append($('<div>').addClass('product-info_details')
                 .append($('<div>').addClass('product-content_details')
@@ -1124,20 +1126,23 @@ function loadDetails(ID_HomeDrop) {
                             .append($('<a>').addClass('details__heart').attr('id', data[0].ID_HomeDrop)
                             .append($('<i>').attr('id', data[0].ID_HomeDrop).addClass('fa-solid fa-heart fa-lg')))
                     )
+                    
                 )
             );
+            
 
         $('.product_detail_car').append(productDetailDiv);
+        MapBoxDetails(data[0]);
 
         $('.Data_Img').slick({
-        slidesToShow: 1.8,
-        slidesToScroll: 1,
-        arrows: true,
-        prevArrow: '<button type="button" class="slick-prev">Previous</button>',
-        nextArrow: '<button type="button" class="slick-next">Next</button>'
+            slidesToShow: 1.8,
+            slidesToScroll: 1,
+            arrows: true,
+            prevArrow: '<button type="button" class="slick-prev">Previous</button>',
+            nextArrow: '<button type="button" class="slick-next">Next</button>'
         });
 
-        MapBox(data[0]);
+
     }).catch(function() {
         // window.location.href = "index.php?module=ctrl_exceptions&op=503&type=503&lugar=Load_Details SHOP";
     });
@@ -1178,28 +1183,37 @@ function AllMapBox(data) {
 }
 
 //#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·//
-function MapBox(data) {
-
-
-    console.log('buenas desde MapBox');
-    console.log(data);
+function MapBoxDetails(data) {
+    // Muestra el contenedor del mapa
+    $('#mapDetails').show();
 
     mapboxgl.accessToken = 'pk.eyJ1IjoiMjBqdWFuMTUiLCJhIjoiY2t6eWhubW90MDBnYTNlbzdhdTRtb3BkbyJ9.uR4BNyaxVosPVFt8ePxW1g';
-    const map = new mapboxgl.Map({
-        container: 'map',
+    const mapDetails = new mapboxgl.Map({
+        container: 'mapDetails',
         style: 'mapbox://styles/mapbox/streets-v11',
         center: [data.lon, data.lat],
-        zoom: 10 
+        zoom: 8
     });
-    const markerOntinyent = new mapboxgl.Marker()
-    const minPopup = new mapboxgl.Popup()
-    minPopup.setHTML('<h4>' + data.Type + '</h4><p>Categoría: ' + data.Category + '</p>' +
-        '<p>Precio: ' + data.Precio + '€</p>' +
-        '<img src=" ' + data[1][0][row].Img + '"/>')
-    markerOntinyent.setPopup(minPopup)
+
+    // Crear un marcador en las coordenadas proporcionadas
+    const markerDetails = new mapboxgl.Marker()
         .setLngLat([data.lon, data.lat])
-        .addTo(map);
+        .addTo(mapDetails);
+
+    // Crear un popup personalizado si es necesario
+    const minPopupDetails = new mapboxgl.Popup()
+        .setHTML(
+            '<h4>' + item.Type + '</h4>' +
+            '<p>Categoría: ' + item.Category + '</p>' +
+            '<p>Precio: ' + item.Precio + '€</p>' +
+            '<img src="' + item.Img + '"/>'
+        );
+
+    // Asignar el popup al marcador (si se desea)
+    markerDetails.setPopup(minPopupDetails);
 }
+
+
 
 //#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·//
 
