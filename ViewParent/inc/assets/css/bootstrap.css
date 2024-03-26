@@ -736,8 +736,8 @@ pre code {
 .container {
   padding-right: 15px;
   padding-left: 15px;
-  margin-right: auto;
-  margin-left: auto;
+  margin-right: 15%;
+  margin-left: 40px;
 }
 @media (min-width: 768px) {
   .container {
@@ -1113,7 +1113,7 @@ pre code {
     width: 41.66666666666667%;
   }
   .col-md-4 {
-    width: 33.33333333333333%;
+    width: 66.66666666666666%;
   }
   .col-md-3 {
     width: 25%;

@@ -991,10 +991,7 @@ function LoadHomeDropShop() {
 //#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·//
 function ajaxForSearch(url, type, dataType, sData = undefined) {
     //console.log(url)
-
-
     //console.log(url, type, dataType, sData);
-
 
     ajaxPromise(url, type, dataType, sData)
         .then(function(data) {
@@ -1033,7 +1030,7 @@ function ajaxForSearch(url, type, dataType, sData = undefined) {
 
                 }//endfor
             }//endelse
-            
+            AllMapBox(data);
         }).catch(function() {
             //window.location.href = "index.php?module=ctrl_exceptions&op=503&type=503&lugar=Function ajxForSearch SHOP";
         });
@@ -1087,13 +1084,12 @@ function loadDetails(ID_HomeDrop) {
                 //console.log("Hola, ya llego a pasar las Promises");
                 //console.log(data);
 
-        // Limpiar contenido existente en los elementos
         $('#ListViviendasHomeDrop').empty();
         $('.Data_Img').empty();
         $('.Data_Home').empty();
         $('.Data_Img').empty();
+        $('#map').hide();
 
-        // Agregar las imágenes al carrusel
         for (let row in data[1][0]) {
             let imageDiv = $('<div>').addClass('date_img_dentro')
                                     .attr('id', data[1][0][row].ID_Imagen)
@@ -1102,7 +1098,6 @@ function loadDetails(ID_HomeDrop) {
             $('.Data_Img').append(imageDiv);
         }
 
-        // Crear el detalle del producto
         let productDetailDiv = $('<div>').addClass('list_product_details')
             .append($('<div>').addClass('product-info_details')
                 .append($('<div>').addClass('product-content_details')
@@ -1142,9 +1137,69 @@ function loadDetails(ID_HomeDrop) {
         nextArrow: '<button type="button" class="slick-next">Next</button>'
         });
 
+        MapBox(data[0]);
     }).catch(function() {
         // window.location.href = "index.php?module=ctrl_exceptions&op=503&type=503&lugar=Load_Details SHOP";
     });
 }
+//#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·//
+function AllMapBox(data) {
+    mapboxgl.accessToken = 'pk.eyJ1IjoiMjBqdWFuMTUiLCJhIjoiY2t6eWhubW90MDBnYTNlbzdhdTRtb3BkbyJ9.uR4BNyaxVosPVFt8ePxW1g';
+    const map = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/mapbox/streets-v11',
+        center: [-3.74922, 40.463667], 
+        zoom: 5.2
+    });
 
+    for (let row in data) {
+        const marker = new mapboxgl.Marker();
+        const minPopup = new mapboxgl.Popup()
+            .setHTML(
+                '<div class="container2">' +
+                    '<div class="wrapper2">' +
+                        '<img class="buy" src="' + data[row].Img + '" style="width: 50%; padding-top: 10px;">' +
+                        '<br>'+
+                        '<h3 style="text-align:center; color: #333; font-size: 20px; margin-bottom: 5px;">' + data[row].Ciudad + '</h3>' +
+                        '<p style="text-align:center;">Categoría: <b>' + data[row].Category + '</b></p>' +
+                        '<p style="text-align:center;">Precio: <b>' + data[row].Precio + '€</b></p>' +
+                        
+                        // '<a class="button button-primary-outline button-ujarak button-size-1 wow fadeInLeftSmall link" data-wow-delay=".4s" id="' + data[row].ID_HomeDrop + '">Read More</a>' +
+                        '<div style="padding-bottom: 15px; ">'+
+                            '<button id="' + data[row].ID_HomeDrop + '" type="button" class="button buy" >Details</button>'+
+                        '</div>'+
+                    '</div>' +
+                '</div>'
+            );
+        marker.setPopup(minPopup)
+            .setLngLat([data[row].lon, data[row].lat])
+            .addTo(map);
+    }
+}
+
+//#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·//
+function MapBox(data) {
+
+
+    console.log('buenas desde MapBox');
+    console.log(data);
+
+    mapboxgl.accessToken = 'pk.eyJ1IjoiMjBqdWFuMTUiLCJhIjoiY2t6eWhubW90MDBnYTNlbzdhdTRtb3BkbyJ9.uR4BNyaxVosPVFt8ePxW1g';
+    const map = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/mapbox/streets-v11',
+        center: [data.lon, data.lat],
+        zoom: 10 
+    });
+    const markerOntinyent = new mapboxgl.Marker()
+    const minPopup = new mapboxgl.Popup()
+    minPopup.setHTML('<h4>' + data.Type + '</h4><p>Categoría: ' + data.Category + '</p>' +
+        '<p>Precio: ' + data.Precio + '€</p>' +
+        '<img src=" ' + data[1][0][row].Img + '"/>')
+    markerOntinyent.setPopup(minPopup)
+        .setLngLat([data.lon, data.lat])
+        .addTo(map);
+}
+
+//#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·//
 

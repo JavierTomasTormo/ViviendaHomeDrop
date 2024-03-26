@@ -9,7 +9,7 @@ class DAOShop{
         //return "Llego al DAOShop";
          
 
-		$sql = "SELECT vh.ID_HomeDrop, vh.Precio, vh.Superficie, ch.Ciudad, vh.Calle, th.Type, oh.Operation, ih.ID_Imagen, ih.ID_HomeDrop, ih.Img, chd.Category
+		$sql = "SELECT vh.ID_HomeDrop, vh.Precio, vh.Superficie, ch.Ciudad, vh.Calle, th.Type, oh.Operation, ih.ID_Imagen, ih.ID_HomeDrop, ih.Img, chd.Category, vh.lat, vh.lon
 					FROM viviendashomedrop vh 
 						LEFT JOIN cityhomedrop ch ON vh.ID_City = ch.ID_City 
 						LEFT JOIN viviendastype vht ON vh.ID_HomeDrop = vht.ID_HomeDrop 
@@ -41,7 +41,7 @@ class DAOShop{
 	}
 /*-------*/
 	function SelectOneHome($id){
-		$sql = "SELECT vh.ID_HomeDrop, vh.Precio, vh.Superficie, ch.Ciudad, vh.Calle, th.Type, oh.Operation, ih.ID_Imagen, chd.Category
+		$sql = "SELECT vh.ID_HomeDrop, vh.Precio, vh.Superficie, ch.Ciudad, vh.Calle, th.Type, oh.Operation, ih.ID_Imagen, chd.Category, vh.lat, vh.lon
 				FROM viviendashomedrop vh 
 				LEFT JOIN cityhomedrop ch ON vh.ID_City = ch.ID_City 
 				LEFT JOIN viviendastype vht ON vh.ID_HomeDrop = vht.ID_HomeDrop 
@@ -53,6 +53,9 @@ class DAOShop{
 				LEFT JOIN categoryhomedrop chd ON chd.ID_Category = vc.ID_Category 
 				WHERE vh.ID_HomeDrop = $id
 				GROUP BY vh.ID_HomeDrop";
+
+
+		//return $sql;
 
 		$conexion = connect::con();
 		$res = mysqli_query($conexion, $sql)->fetch_object();
@@ -147,7 +150,7 @@ class DAOShop{
 		 //return("Llego al DAOShop");
 		 
 		// break;
-			$sql = "SELECT vh.ID_HomeDrop, vh.Precio, vh.Superficie, ch.Ciudad, vh.Calle, th.Type, oh.Operation, ih.ID_Imagen, ih.ID_HomeDrop, ih.Img
+			$sql = "SELECT vh.ID_HomeDrop, vh.Precio, vh.Superficie, ch.Ciudad, vh.Calle, th.Type, oh.Operation, ih.ID_Imagen, ih.ID_HomeDrop, ih.Img, vh.lat, vh.lon
 			FROM viviendashomedrop vh
 				LEFT JOIN cityhomedrop ch ON vh.ID_City = ch.ID_City
 				LEFT JOIN viviendastype vht ON vh.ID_HomeDrop = vht.ID_HomeDrop
@@ -175,7 +178,7 @@ class DAOShop{
 		//return("Llego al DAOShop FiltersShop");
 		 //return($Filters);
 
-					$consulta = "SELECT vh.ID_HomeDrop, vh.Precio, vh.Superficie, ch.ID_City ,ch.Ciudad, vh.Calle, th.ID_Type ,
+					$consulta = "SELECT vh.ID_HomeDrop, vh.Precio, vh.Superficie, ch.ID_City ,ch.Ciudad, vh.Calle, th.ID_Type ,vh.lat, vh.lon,
 					th.Type, oh.ID_Operation ,oh.Operation, ih.ID_Imagen, ih.ID_HomeDrop, ih.Img, chd.Category, chd.ID_Category
 					FROM viviendashomedrop vh
 					LEFT JOIN cityhomedrop ch ON vh.ID_City = ch.ID_City
@@ -332,7 +335,7 @@ function RedirectSearchDAO($FiltersSearch){
 	////////////////
 
 	$select = "SELECT vh.ID_HomeDrop, vh.Precio, vh.Superficie, ch.ID_City ,ch.Ciudad, vh.Calle, th.ID_Type ,th.Type, oh.ID_Operation ,oh.Operation, 
-					ih.ID_Imagen, ih.ID_HomeDrop, ih.Img, chd.Category, chd.ID_Category
+					ih.ID_Imagen, ih.ID_HomeDrop, ih.Img, chd.Category, chd.ID_Category, vh.lat, vh.lon
 	FROM viviendashomedrop vh
 		LEFT JOIN cityhomedrop ch ON vh.ID_City = ch.ID_City
 		LEFT JOIN viviendastype vht ON vh.ID_HomeDrop = vht.ID_HomeDrop

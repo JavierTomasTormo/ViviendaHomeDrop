@@ -768,3 +768,112 @@ color:#fff;
   background-color: #007bff;
   color: #fff;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#map {
+  position: fixed;
+  top: 16%; 
+  right: 2%; 
+  border-radius: 10px;
+  height: 80%;
+  width: 48%;
+  z-index: 1000; 
+
+}
+
+
+/* #map {
+  float: right;
+  border-radius: 10px;
+  height: 600px;
+  width: 40%;
+  margin-right: 50px;
+} */
+.container2 {
+  /* background-color: #fff; */
+  padding: 10px;
+  border-radius: 5px;
+
+}
+
+.wrapper2 {
+  /* float: right; */
+  width: 100%;
+  border-radius: 7px 7px 7px 7px;
+  -webkit-box-shadow: 0px 14px 32px 0px rgba(0, 0, 0, 0.15);
+  -moz-box-shadow: 0px 14px 32px 0px rgba(0, 0, 0, 0.15);
+  box-shadow: 0px 14px 32px 0px rgba(0, 0, 0, 0.15);
+} 
+
+
+.map-popup-details {
+  max-width: 300px;
+  background-color: #5cc69d;
+  border-radius: 5px;
+  padding: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  position: fixed; 
+  top: 50px; 
+  right: 50px; 
+}
+
+
+.map-popup-details h3 {
+  text-align: center;
+  margin-bottom: 10px;
+  color: #333; 
+}
+
+.map-popup-details .category {
+  text-align: center;
+  margin-bottom: 5px;
+  color: #666; 
+}
+
+/* Estilos para el precio */
+.map-popup-details .precio {
+  text-align: center;
+  margin-bottom: 5px;
+  color: #666; /* color del texto */
+}
+
+/* Estilos para la imagen */
+.map-popup-details img {
+  display: block;
+  margin: 0 auto;
+  max-width: 100%;
+  height: auto;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+/* Estilos para el enlace "Read More" */
+.map-popup-details .link {
+  display: block;
+  text-align: center;
+  margin-top: 10px;
+  color: #007bff; /* color del enlace */
+  text-decoration: none;
+}
+
+/* Estilos para el enlace "Read More" al pasar el ratón */
+.map-popup-details .link:hover {
+  text-decoration: underline;
+}
+.buy {
+  display: block;
+  margin: 0 auto; /* Esto centrará el botón horizontalmente */
+  text-align: center; /* Esto centra el texto dentro del botón */
+}
