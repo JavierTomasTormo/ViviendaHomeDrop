@@ -135,13 +135,13 @@ function CityCharger() {
                    .appendTo('#third-glider')
                    .html(
                      "<div class='overlayCity'>" +
-                         "<img class='carousel__img' src='" + data[row].Img + "' alt=''>" +
+                         "<img class='carousel__img' src='" + data[row].Img + "' alt='' style='min-height'>" +
                          "<p class='pdpCity'>" + data[row].Ciudad + "</p>" +
                      "</div>"
                      );
             }
             new Glider(document.getElementById('third-glider'), {
-                slidesToShow: 5,
+                slidesToShow: 6,
                 slidesToScroll: 1,
                 scrollLock: true,
                 draggable: false,
@@ -151,7 +151,7 @@ function CityCharger() {
                     // screens greater than > 400px
                     breakpoint: 400,
                     settings: {
-                      slidesToShow: 5,
+                      slidesToShow: 6,
                       slidesToScroll: 1,
                       duration: 1
                     }
@@ -160,7 +160,7 @@ function CityCharger() {
                     // screens greater than > 700px
                     breakpoint: 700,
                     settings: {
-                      slidesToShow: 5,
+                      slidesToShow: 6,
                       slidesToScroll: 1,
                       duration: 1
                     }
@@ -169,7 +169,7 @@ function CityCharger() {
                     // screens greater than > 1300px
                     breakpoint: 1300,
                     settings: {
-                      slidesToShow: 5,
+                      slidesToShow: 6,
                       slidesToScroll: 1,
                       duration: 1
                     }

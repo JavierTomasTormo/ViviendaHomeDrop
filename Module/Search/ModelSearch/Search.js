@@ -206,7 +206,7 @@ function AutocompleteSearch() {
 
     $("#search-btn").on("click", function () {
         let searchQuery = $("#autocom").val();
-        console.log("Realizar búsqueda con:", searchQuery);
+        //console.log("Realizar búsqueda con:", searchQuery);
     });
 
     $(document).on('click', '.searchElement', function () {
@@ -273,7 +273,7 @@ function ButtonSearch() {
     var FiltersSearch = JSON.parse(localStorage.getItem('Filters_Search') || '[]');
     localStorage.setItem('FiltersShop', JSON.stringify(FiltersSearch));    
     
-     console.log(localStorage.getItem('FiltersShop'));
+     //console.log(localStorage.getItem('FiltersShop'));
     // console.log(localStorage.getItem('Filters_Search'));
 
     // var dataFromLocalStorage = JSON.parse(localStorage.getItem('FiltersShop') || '[]');

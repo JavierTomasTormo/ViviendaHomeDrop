@@ -6,24 +6,19 @@ include($path . "Module/Shop/ModelShop/DAOShop.php");
 //#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#//
 switch ($_GET['Option']) {
 //#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#//
-
     case 'ListShop':
 
-    //-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-//
-        // $url_actual = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-        // echo '<script>';
-        //     echo 'console.log('.json_encode($url_actual).')'; 
-        // echo '</script>';
-    //-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-//
+        //-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-//
+            // $url_actual = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+            // echo '<script>';
+            //     echo 'console.log('.json_encode($url_actual).')'; 
+            // echo '</script>';
+        //-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-//
 
         include_once("C:/xampp\htdocs\ViviendaHomeDrop\Module\Shop\ViewShop\inc\Shop.html");
     break;
-
 //#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#//
-    case 'AllHomes':
-        //Llego aqui 3
-        //echo json_encode($_POST['OrderBy']);
-        // break;
+    /*case 'AllHomes':
 
         try {
             $DAOshop = new DAOShop();
@@ -38,8 +33,33 @@ switch ($_GET['Option']) {
             echo json_encode("error");
         }
     break;
+    */
+    case 'AllHomes':
+        // echo json_encode('Hola AllHomes');
+        // break;
+
+            $DAOshop = new DAOShop();
+            $start = $_POST['start'] ?? 0;
+            $limit = $_POST['limit'] ?? 3;
+
+            // echo json_encode($start);
+            // break;
+            // echo json_encode($limit);
+            // break;
+            // echo json_encode($_POST['OrderBy']);
+            // break;
+
+            $DatosHome = $DAOshop->SelectAllHomes($_POST['OrderBy'], $start, $limit);
+
+    
+        if (!empty($DatosHome)) {
+            echo json_encode($DatosHome);
+        } else {
+            echo json_encode("error");
+        }
+        break;
 //#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#//
-    case 'Redirect';
+    /*case 'Redirect';
         //   echo json_encode("Buenas Tardes");
         //   break;
         //echo json_encode($_POST['FiltersHome']);
@@ -58,22 +78,20 @@ switch ($_GET['Option']) {
         }
 
     break;
+    */
+    case 'Redirect':
+        $HomeQueryDAO = new DAOShop();
+        $start = $_POST['start'] ?? 0;
+        $limit = $_POST['limit'] ?? 3;
+        $selSlide = $HomeQueryDAO->RedirectDAO($_POST['FiltersHome'], $start, $limit);
+        if (!empty($selSlide)) {
+            echo json_encode($selSlide);
+        } else {
+            echo "error";
+        }
+    break;
 //#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#//
     case 'CountFilteredQueryShop':
-
-        // error_log("precioMin: " . $_POST['precioMin']);
-        // error_log("precioMax: " . $_POST['precioMax']);
-        
-        // echo "precioMin: " . $_POST['precioMin'] . "<br>";
-        // echo "precioMax: " . $_POST['precioMax'] . "<br>";
-
-        //echo json_encode("Buenas Tardes CountFilteredQueryShop");
-         //break;
-         //echo json_encode($_POST['FiltersShopCount']);
-         //break;
- 
-         //error_log("FiltersShopCount: " . print_r($_POST['FiltersShopCount'], true));
-
 
          $DAOFilter = new DAOShop();
          $count = $DAOFilter->CountFilteredQueryShop($_POST['FiltersShopCount']);
@@ -88,7 +106,7 @@ switch ($_GET['Option']) {
          }
          break;
 //#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#//
-    case 'FiltersHome':
+    /*case 'FiltersHome':
         //Llego aqui 3
         //  echo json_encode("Llego al Controller Shop FILTERSHOME");
         //  break;
@@ -111,8 +129,23 @@ switch ($_GET['Option']) {
          }
          
     break;
+    */
+    case 'FiltersHome':
+        $DAOFilter = new DAOShop();
+        $start = $_POST['start'] ?? 0;
+        $limit = $_POST['limit'] ?? 3;
+        $QueryRes = $DAOFilter->Filters_Home($_POST['FiltersHome'], $start, $limit);
+
+        //echo json_encode($QueryRes);
+
+        if (!empty($QueryRes)) {
+            echo json_encode($QueryRes);
+        } else {
+            echo "error";
+        }
+    break;
 //#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#//
-    case 'FiltersShop':
+    /*case 'FiltersShop':
         //Llego aqui 3
         //   echo json_encode('Llego al Controller Shop FILTERSSSSSHOP');
         //   break;
@@ -138,6 +171,18 @@ switch ($_GET['Option']) {
             echo "error";
         }
         
+    break;
+    */
+    case 'FiltersShop':
+        $DAOFilter = new DAOShop();
+        $start = $_POST['start'] ?? 0;
+        $limit = $_POST['limit'] ?? 3;
+        $QueryRes = $DAOFilter->Filters_Shop($_POST['FiltersShop'], $start, $limit);
+        if (!empty($QueryRes)) {
+            echo json_encode($QueryRes);
+        } else {
+            echo "error";
+        }
     break;
 //#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#//
     case 'DetailsHome':
@@ -183,67 +228,156 @@ switch ($_GET['Option']) {
         
     break;
 //#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#//
-case 'Visitas':
-    
-        //echo json_encode($_GET['ID_HomeDrop']);
-        //break;
+    case 'Visitas':
+        
+            //echo json_encode($_GET['ID_HomeDrop']);
+            //break;
 
-        $DAOFilter = new DAOShop();
-        $QueryRes = $DAOFilter->VisitasViviendas($_GET['id']);
+            $DAOFilter = new DAOShop();
+            $QueryRes = $DAOFilter->VisitasViviendas($_GET['id']);
 
-        //echo json_encode($QueryRes);
-        //break;
+            //echo json_encode($QueryRes);
+            //break;
 
 
-        if (!empty($QueryRes)) {
-            echo json_encode($QueryRes);
-        } else {
-            echo "error";
-        }
-
-    
-break;
-//#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#//
-case 'FiltersShopPrice':
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $priceMin = $_POST['precioMin'] ?? 0; 
-        $priceMax = $_POST['precioMax'] ?? 0; 
-
-        $DAOFilter = new DAOShop();
-        $QueryRes = $DAOFilter->FiltrosSilderPriceResults($priceMin, $priceMax);
-
+            if (!empty($QueryRes)) {
                 echo json_encode($QueryRes);
-                break;
-        if (!empty($QueryRes)) {
-            echo json_encode($QueryRes);
+            } else {
+                echo "error";
+            }
+
+        
+    break;
+//#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#//
+    case 'FiltersShopPrice':
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $priceMin = $_POST['precioMin'] ?? 0; 
+            $priceMax = $_POST['precioMax'] ?? 0; 
+
+            $DAOFilter = new DAOShop();
+            $QueryRes = $DAOFilter->FiltrosSilderPriceResults($priceMin, $priceMax);
+
+                    echo json_encode($QueryRes);
+                    break;
+            if (!empty($QueryRes)) {
+                echo json_encode($QueryRes);
+            } else {
+                echo "error";
+            }
         } else {
+            echo "error: método de solicitud incorrecto";
+        }
+        
+    break;
+//#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#//
+    case 'RedirectSearch';
+        //   echo json_encode("Buenas Tardes");
+        //   break;
+        // echo json_encode($_POST['FiltersSearch']);
+        // break;
+        $SearchQueryDAO = new DAOShop();
+        $start = $_POST['start'] ?? 0;
+        $limit = $_POST['limit'] ?? 3;
+        $selSlide = $SearchQueryDAO -> RedirectSearch($_POST['FiltersSearch'], $start, $limit);
+
+        //   echo json_encode($selSlide);
+        //   break;
+
+        if (!empty($selSlide)) {
+            echo json_encode($selSlide);
+        }
+        else {
             echo "error";
         }
-    } else {
-        echo "error: método de solicitud incorrecto";
-    }
-    
-break;
+
+    break;
 //#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#//
-case 'Search';
-    //   echo json_encode("Buenas Tardes");
-    //   break;
-     //echo json_encode($_POST['FiltersSearch']);
-     //break;
-    $SearchQueryDAO = new DAOShop();
-    $selSlide = $SearchQueryDAO -> RedirectSearchDAO($_POST['FiltersSearch']);
+    case 'Search';
+        //    echo json_encode("Buenas Tardes");
+        //    break;
+        //echo json_encode($_POST['FiltersSearch']);
+        //break;
+        $SearchQueryDAO = new DAOShop();
+        $selSlide = $SearchQueryDAO -> RedirectSearchDAO($_POST['FiltersSearch'], $start, $limit);
 
-    //   echo json_encode($selSlide);
-    //   break;
+        //   echo json_encode($selSlide);
+        //   break;
 
-    if (!empty($selSlide)) {
-        echo json_encode($selSlide);
-    }
-    else {
-        echo "error";
-    }
+        if (!empty($selSlide)) {
+            echo json_encode($selSlide);
+        }
+        else {
+            echo "error";
+        }
 
-break;
+    break;
+//#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#//
+    case 'CountGeneral';    
+        $homeQuery = new DAOShop();
+        $selSlide = $homeQuery -> CountGeneral();
+        if (!empty($selSlide)) {
+            echo json_encode($selSlide);
+        }
+        else {
+            echo "error";
+        }
+    break;
+//#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#//
+    case 'CountHomeFilt';    
+
+        // echo json_encode($_POST['filtrosPag']);
+        // break;
+
+        $homeQuery = new DAOShop();
+        $selSlide = $homeQuery -> CountHomeFilt($_POST['filtrosPag']);
+
+        if (!empty($selSlide)) {
+            echo json_encode($selSlide);
+        }
+        else {
+            echo "error";
+        }
+    break;
+//#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#//
+    case 'CountSearchFilt';
+    
+        //echo json_encode($_POST['flitroSearchPag']);
+        //echo json_encode('CountSearchFilt');
+        //break;
+
+        $homeQuery = new DAOShop();
+        $selSlide = $homeQuery -> CountSearchFilt($_POST['flitroSearchPag']);
+
+        // echo json_encode($selSlide);
+        // break;
+
+        if (!empty($selSlide)) {
+            echo json_encode($selSlide);
+        }
+        else {
+            echo "error";
+        }
+    break;
+//#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#//
+    case 'CountFiltShop';
+    
+        //echo json_encode($_POST['FiltersShopCount']);
+        //echo json_encode('FiltersShopCount');
+        //break;
+
+        $homeQuery = new DAOShop();
+        $selSlide = $homeQuery -> CountFiltShop($_POST['FiltersShopCount']);
+
+        // echo json_encode($selSlide);
+        // break;
+
+        if (!empty($selSlide)) {
+            echo json_encode($selSlide);
+        }
+        else {
+            echo "error";
+        }
+    break;
 //#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#//
     default;
         include("ViewParent/inc/error404.html");

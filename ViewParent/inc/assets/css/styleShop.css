@@ -793,6 +793,8 @@ color:#fff;
 
 }
 
+
+
 #mapDetails {
   overflow: visible;
   float: right;
@@ -885,4 +887,66 @@ color:#fff;
   display: block;
   margin: 0 auto; /* Esto centrará el botón horizontalmente */
   text-align: center; /* Esto centra el texto dentro del botón */
+}
+
+
+
+
+
+/* Estilo para la paginación */
+#pagination {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+}
+
+.page-item {
+  margin-right: 5px;
+}
+
+.page-link {
+  display: block;
+  padding: 8px 16px;
+  color: #b0a8a8;
+  text-decoration: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.page-link:hover {
+  background-color: #f4f4f4;
+}
+
+.page-item.active .page-link {
+  background-color: #007bff;
+  color: #fff;
+  border-color: #007bff;
+}
+
+.page-item.disabled .page-link {
+  pointer-events: none;
+  background-color: #f8f9fa;
+  color: #6c757d;
+  border-color: #ddd;
+}
+
+.page-item:first-child .page-link,
+.page-item:last-child .page-link {
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+
+.page-link:focus {
+  outline: none;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.page-item.active .page-link {
+  background-color: #fff; /* Fondo blanco para la página actual */
+  color: #007bff;
+  border-color: #007bff;
 }
