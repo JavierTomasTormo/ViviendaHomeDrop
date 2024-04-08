@@ -18,22 +18,6 @@ switch ($_GET['Option']) {
         include_once("C:/xampp\htdocs\ViviendaHomeDrop\Module\Shop\ViewShop\inc\Shop.html");
     break;
 //#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#//
-    /*case 'AllHomes':
-
-        try {
-            $DAOshop = new DAOShop();
-            $DatosHome = $DAOshop->SelectAllHomes($_POST['OrderBy']);
-        } catch (Exception $e) {
-            echo json_encode("error");
-        }
-
-        if (!empty($DatosHome)) {
-            echo json_encode($DatosHome);
-        } else {
-            echo json_encode("error");
-        }
-    break;
-    */
     case 'AllHomes':
         // echo json_encode('Hola AllHomes');
         // break;
@@ -59,26 +43,6 @@ switch ($_GET['Option']) {
         }
         break;
 //#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#//
-    /*case 'Redirect';
-        //   echo json_encode("Buenas Tardes");
-        //   break;
-        //echo json_encode($_POST['FiltersHome']);
-        // break;
-        $HomeQueryDAO = new DAOShop();
-        $selSlide = $HomeQueryDAO -> RedirectDAO($_POST['FiltersHome']);
-
-        //   echo json_encode($selSlide);
-        //   break;
-
-        if (!empty($selSlide)) {
-            echo json_encode($selSlide);
-        }
-        else {
-            echo "error";
-        }
-
-    break;
-    */
     case 'Redirect':
         $HomeQueryDAO = new DAOShop();
         $start = $_POST['start'] ?? 0;
@@ -106,30 +70,6 @@ switch ($_GET['Option']) {
          }
          break;
 //#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#//
-    /*case 'FiltersHome':
-        //Llego aqui 3
-        //  echo json_encode("Llego al Controller Shop FILTERSHOME");
-        //  break;
-    
-        // $response = array(
-        //     "message" => "Llego al Controller Shop FILTERSHOME",
-        //     "id" => $_POST['FiltersHome']
-        // );
-        // echo json_encode($response);
-        // break;
-
-
-         $DAOFilter = new DAOShop();
-         $QueryRes = $DAOFilter -> Filters_Home($_POST['FiltersHome']);
-         if (!empty($QueryRes)) {
-             echo json_encode($QueryRes);
-         }
-         else {
-             echo "error";
-         }
-         
-    break;
-    */
     case 'FiltersHome':
         $DAOFilter = new DAOShop();
         $start = $_POST['start'] ?? 0;
@@ -145,34 +85,6 @@ switch ($_GET['Option']) {
         }
     break;
 //#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#//
-    /*case 'FiltersShop':
-        //Llego aqui 3
-        //   echo json_encode('Llego al Controller Shop FILTERSSSSSHOP');
-        //   break;
-
-        //SI no hace el salto descomentar el console log de los promises
-
-         //echo json_encode($_POST['FiltersShop']);
-        // break;
-
-
-
-        $DAOFilter = new DAOShop();
-        $QueryRes = $DAOFilter -> Filters_Shop($_POST['FiltersShop']);
-
-        //echo json_encode($QueryRes);
-         //break;
-
-
-        if (!empty($QueryRes)) {
-            echo json_encode($QueryRes);
-        }
-        else {
-            echo "error";
-        }
-        
-    break;
-    */
     case 'FiltersShop':
         $DAOFilter = new DAOShop();
         $start = $_POST['start'] ?? 0;
@@ -367,6 +279,53 @@ switch ($_GET['Option']) {
 
         $homeQuery = new DAOShop();
         $selSlide = $homeQuery -> CountFiltShop($_POST['FiltersShopCount']);
+
+        // echo json_encode($selSlide);
+        // break;
+
+        if (!empty($selSlide)) {
+            echo json_encode($selSlide);
+        }
+        else {
+            echo "error";
+        }
+    break;
+//#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#//
+    case 'CountRelatedHomes';
+
+        //echo json_encode('CountRelatedHomes'); 
+        //
+        //echo json_encode($_POST['ID_HomeDrop']);
+         //break;
+
+        $homeQuery = new DAOShop();
+        $selSlide = $homeQuery -> CountRelatedHomes($_POST['Category'], $_POST['Ciudad'], $_POST['ID_HomeDrop']);
+
+        // echo json_encode($selSlide);
+        // break;
+
+        if (!empty($selSlide)) {
+            echo json_encode($selSlide);
+        }
+        else {
+            echo "error";
+        }
+    break;
+//#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#//
+    case 'ViviendasRelacionadas';
+
+        // echo json_encode('ViviendasRelacionadas'); 
+        
+        $Category = $_POST['CategoryVivRel'];
+        $loaded =  $_POST['loaded'];
+        $items =  $_POST['items'];
+        $Ciudad = $_POST['CiudadVivRel'];
+        $ID_HomeDrop = $_POST['ID_HomeDrop'];
+        //  echo json_encode( $ID_HomeDrop);
+        //  break;
+
+        $homeQuery = new DAOShop();
+        $selSlide = $homeQuery -> ViviendasRelacionadas($Category, $Ciudad,$ID_HomeDrop, $loaded, $items);
 
         // echo json_encode($selSlide);
         // break;

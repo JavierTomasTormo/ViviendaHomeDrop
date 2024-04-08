@@ -657,6 +657,76 @@ class DAOShop{
 		return $retrArray[0]["contador"][0];
 	}
 /*-------*/
+function CountRelatedHomes($Category, $Ciudad, $ID_HomeDrop) {
+	//return 'Yo me llamo Ralph';
+	//return $Category;
+
+	$consulta = "SELECT COUNT(DISTINCT vh.ID_HomeDrop) AS contador
+				FROM viviendashomedrop vh
+				LEFT JOIN cityhomedrop ch ON vh.ID_City = ch.ID_City
+				LEFT JOIN viviendastype vht ON vh.ID_HomeDrop = vht.ID_HomeDrop
+				LEFT JOIN typehomedrop th ON vht.ID_Type = th.ID_Type
+				LEFT JOIN viviendasoperation vho ON vh.ID_HomeDrop = vho.ID_HomeDrop
+				LEFT JOIN operationhomedrop oh ON vho.ID_Operation = oh.ID_Operation
+				LEFT JOIN imageneshomedrop ih ON ih.ID_HomeDrop = vh.ID_HomeDrop
+				LEFT JOIN viviendascategory vc ON vc.ID_HomeDrop = vh.ID_HomeDrop 
+				LEFT JOIN categoryhomedrop chd ON chd.ID_Category = vc.ID_Category 
+				WHERE (chd.Category = '$Category' OR ch.Ciudad = '$Ciudad') AND vh.ID_HomeDrop != $ID_HomeDrop";
+
+
+	//return $consulta;
+
+	$conexion = connect::con();
+	$res = mysqli_query($conexion, $consulta);
+	connect::close($conexion);
+
+	$retrArray = array();
+	if ($res) {
+		$row = mysqli_fetch_assoc($res);
+		$retrArray[] = $row;
+		mysqli_free_result($res);
+	}
+	return $retrArray[0]["contador"][0];
+}
+/*-------*/
+function ViviendasRelacionadas($Category, $Ciudad, $ID_HomeDrop, $loaded, $items) {
+	//return 'Yo me llamo ViviendasRelacionadas';
+	//return $Category;
+	// return $loaded;
+	// return $items;
+
+	$sql = "SELECT vh.ID_HomeDrop, vh.Precio, vh.Superficie, ch.Ciudad, vh.Calle, th.Type, oh.Operation, ih.ID_Imagen, ih.ID_HomeDrop, ih.Img, chd.Category, vh.lat, vh.lon
+				FROM viviendashomedrop vh
+				LEFT JOIN cityhomedrop ch ON vh.ID_City = ch.ID_City
+				LEFT JOIN viviendastype vht ON vh.ID_HomeDrop = vht.ID_HomeDrop
+				LEFT JOIN typehomedrop th ON vht.ID_Type = th.ID_Type
+				LEFT JOIN viviendasoperation vho ON vh.ID_HomeDrop = vho.ID_HomeDrop
+				LEFT JOIN operationhomedrop oh ON vho.ID_Operation = oh.ID_Operation
+				LEFT JOIN imageneshomedrop ih ON ih.ID_HomeDrop = vh.ID_HomeDrop
+				LEFT JOIN viviendascategory vc ON vc.ID_HomeDrop = vh.ID_HomeDrop 
+				LEFT JOIN categoryhomedrop chd ON chd.ID_Category = vc.ID_Category 
+				WHERE (chd.Category = '$Category' OR ch.Ciudad = '$Ciudad') AND vh.ID_HomeDrop != $ID_HomeDrop 
+				GROUP BY vh.ID_HomeDrop 
+				LIMIT $loaded, $items";
+
+
+	//return $sql;
+
+
+	$conexion = connect::con();
+	$res = mysqli_query($conexion, $sql);
+	connect::close($conexion);
+
+
+	$retrArray = array();
+	if (mysqli_num_rows($res) > 0) {
+	while ($row = mysqli_fetch_assoc($res)) {
+		$retrArray[] = $row;
+	}
+	}
+	return $retrArray;
+}
+/*-------*/
 }
 
 

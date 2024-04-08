@@ -950,3 +950,125 @@ color:#fff;
   color: #007bff;
   border-color: #007bff;
 }
+
+
+
+
+
+
+
+
+
+/* Estilo para el botón de carga más productos */
+.load_more_button {
+  display: block;
+  margin-top: 10px;
+  padding: 10px 20px;
+  background-color: #121415; /* Cambia el color de fondo según tu preferencia */
+  color: #fff; /* Cambia el color del texto según tu preferencia */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* Estilo para el botón de carga más productos al pasar el mouse sobre él */
+.load_more_button:hover {
+  background-color: #0e0f0f; /* Cambia el color de fondo al pasar el mouse */
+}
+
+
+
+
+#more_car__button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 50px; /* Ajusta este valor según sea necesario para la separación desde la parte superior */
+}
+
+
+
+#title_content {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center; /* Alinea los elementos flexibles horizontalmente al centro */
+  text-align: center; /* Alinea el texto dentro de los elementos al centro */
+}
+
+
+/* Asegúrate de que las cajas generadas dinámicamente mantengan un ancho fijo para que se ajusten correctamente en la disposición horizontal */
+.portfolio-item {
+  width: 340px; /* Aumentar el ancho para acomodar el contenido */
+  height: 400px; /* Aumentar la altura */
+  display: inline-block;
+  margin: 20px;
+  position: relative;
+  box-shadow: 4px 2px 6px #000;
+  border-radius: 10px;
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out; /* Simplificar la transición */
+}
+
+
+.portfolio-item:hover {
+  transform: scale(1.1);
+  box-shadow: 6px 3px 10px #000;
+}
+
+.item-main {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(rgba(0, 0, 0, 0.50), rgba(0, 0, 0, 0.10));
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.item-main h5 {
+  font-family: sans-serif;
+  font-weight: 400;
+  color: #fff;
+  font-size: 24px;
+  margin: 10px 0; /* Ajustar el margen */
+  text-align: center; /* Centrar el texto */
+}
+
+.item-main p {
+  font-family: sans-serif;
+  color: #fff;
+  margin: 0;
+}
+
+.item-main button {
+  cursor: pointer;
+  width: 100px;
+  height: 35px;
+  color: #fff;
+  font-size: 16px;
+  background: green;
+  border: none;
+  border-radius: 13px;
+  box-shadow: 0 2px 3px #000;
+  outline: none;
+}
+
+.item-main button:hover {
+  background: #ff5349;
+  font-size: 20px;
+  width: 120px;
+}
+
+.portfolio-image {
+  width: 100%;
+  height: auto; /* Cambiar a auto para mantener la proporción de la imagen */
+}
+
+.portfolio-image img {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+

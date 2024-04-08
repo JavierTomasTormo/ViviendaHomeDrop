@@ -874,53 +874,6 @@ function getValueByKey(array, key) {
     return item ? item[1] : undefined;
 }
 //#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·//
-/*function LoadJump() {
-        //console.log('##··##·Load Jump·##··##');
-        //console.log('Yo me llamo Ralph');
-        var FiltersHome = JSON.parse(localStorage.getItem('FiltersHome') || '[]');
-        //console.log(FiltersHome);
-
-                //REMOVE DATA BEFORE USING ON LIST
-                localStorage.removeItem('FiltersHome');
-
-        ajaxPromise('Module/Shop/ControllerShop/ControllerShop.php?Option=Redirect', 'POST', 'JSON', { 'FiltersHome': FiltersHome })
-            .then(function(shop) {
-                
-                //console.log(shop);
-                $("#ListViviendasHomeDrop").empty();
-                for (row in shop) {
-                    $('<div></div>').attr({ 'id': shop[row].ID_HomeDrop, 'class': 'list_content_shop' }).appendTo('#ListViviendasHomeDrop')
-                        .html(
-                            '<div class="container">' +
-                            '<div class="wrapper">' +
-                            '<div class="product-img">' +
-                            '<img src="' + (shop[row].Img ? shop[row].Img : '') + '" style="height: 420px; width: 327px; object-fit: cover;">' +
-                            '</div>' +
-                            '<div class="product-info">' +
-                            '<div class="product-text">' +
-                            '<h1><b>' + (shop[row].Type ? shop[row].Type : 'Tipo no disponible') + ' <h2><b>' + (shop[row].Operation ? shop[row].Operation : 'Operación no disponible') + '</b></h2><a class="list__heart" id="' + (shop[row].Ciudad ? shop[row].Ciudad : 'Ciudad no disponible') + '"><i id="' + (shop[row].Superficie ? shop[row].Superficie : '') + '" class=""></i></a></b></h1>' +
-                            '<h3> Descripción y Detalles: </h3>' +
-                            '<p> Próximamente... </p>' +
-                            '<p>' + (shop[row].Calle ? shop[row].Calle : '') + ',  ' + (shop[row].Ciudad ? shop[row].Ciudad : '') +'</p>' +
-                            '</div>' +
-                            '<br/><div class="product-price-btn">' +
-                            '<p><span>' + (shop[row].Precio ? shop[row].Precio + '€' : 'Precio no disponible') + '</span></p><br/>' +
-                            '<button id="' + (shop[row].ID_HomeDrop ? shop[row].ID_HomeDrop : '') + '" type="button" class="button buy">Details</button>' +
-                            '</div>' +
-                            '</div>' +
-                            '</div>' +
-                            '</div>'
-                        );
-                        //console.log((shop[row].Ciudad ? shop[row].Ciudad : ''));
-                }
-
-
-
-            }).catch(function() {
-                //window.location.href = "index.php?modules=exception&op=503&error=fail_salto&type=503";
-            });
-}*/
-
 function LoadJump() {
     var FiltersHome = JSON.parse(localStorage.getItem('FiltersHome')|| '[]');
     var start = localStorage.getItem('move') ? JSON.parse(localStorage.getItem('move'))[1] : 0; 
@@ -964,12 +917,6 @@ function LoadJump() {
         });
 }
 //#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·//
-/*function LoadHomeDropShop() {
-    var OrderBy =localStorage.getItem('FilterShop_OrderBy');
-    //console.log(OrderBy);
-    ajaxForSearch('Module/Shop/ControllerShop/ControllerShop.php?Option=AllHomes', 'POST', 'JSON', {'OrderBy': OrderBy});
-}*/
-
 function LoadHomeDropShop() {
     var OrderBy = localStorage.getItem('FilterShop_OrderBy');
     var start = localStorage.getItem('move') ? JSON.parse(localStorage.getItem('move'))[1] : 0;
@@ -989,55 +936,6 @@ function LoadHomeDropShop() {
     );
 }
 //#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·//
-/*
-    function ajaxForSearch(url, type, dataType, sData = undefined) {
-        //console.log(url)
-        //console.log(url, type, dataType, sData);
-
-        ajaxPromise(url, type, dataType, sData)
-            .then(function(data) {
-                //console.log(data);
-                $('#ListViviendasHomeDrop').empty();
-
-                if (data == "error") {
-                    $('<div></div>').appendTo('#ListViviendasHomeDrop')
-                        .html(
-                            '<h3>¡No se encuentran resultados con los filtros aplicados!</h3>'
-                        );
-                } else {
-                    for (row in data) {
-                        $('<div></div>').attr({ 'id': data[row].ID_HomeDrop, 'class': 'list_content_shop' }).appendTo('#ListViviendasHomeDrop')
-                            .html(
-                                '<div class="container">' +
-                                    '<div class="wrapper">' +
-                                        '<div class="product-img">' +
-                                            '<img src="' + data[row].Img + '" style="height: 420px; width: 327px; object-fit: cover;">' +
-                                        '</div>' +
-                                        '<div class="product-info">' +
-                                            '<div class="product-text">' +
-                                                '<h1><b>' + data[row].Type + ' <h2><b>' + data[row].Operation + '</b></h2><a class="list__heart" id="' + data[row].Ciudad + '"><i id="' + data[row].Superficie + '" class=""></i><i id="' + data[row].Category + '" class=""></i></a></b></h1>' +
-                                                '<h3> Descripción y Detalles: </h3>' +
-                                                '<p> Próximamente... </p>' +
-                                                '<p>' + data[row].Calle + ',  ' + data[row].Ciudad + '</p>' +
-                                            '</div>' +
-                                            '<br/><div class="product-price-btn">' +
-                                                '<p><span>' + data[row].Precio + '€</span></p><br/>' +
-                                                '<button id="' + data[row].ID_HomeDrop + '" type="button" class="button buy">Details</button>' +
-                                            '</div>' +
-                                        '</div>' +
-                                    '</div>' +
-                                '</div>'
-                            );
-
-                    }//endfor
-                }//endelse
-                AllMapBox(data);
-            }).catch(function() {
-                //window.location.href = "index.php?module=ctrl_exceptions&op=503&type=503&lugar=Function ajxForSearch SHOP";
-            });
-    }
- */
-
     function ajaxForSearch(durl, type , dataType , sData = undefined, total_prod = 0, items_page = 3) {
 
         
@@ -1135,7 +1033,8 @@ function clicks() {
 function loadDetails(ID_HomeDrop) {
     $("#pagination").empty();
     //REZAMOS A JESUCRISTO NUESTRO SEÑOR
-    //console.log(ID_HomeDrop);
+    console.log(ID_HomeDrop);
+
     //console.log("La ID llega Intacta");
     //return false;
     ajaxPromise('Module/Shop/ControllerShop/ControllerShop.php?Option=DetailsHome&id=' + ID_HomeDrop, 'POST', 'JSON', {})
@@ -1143,7 +1042,6 @@ function loadDetails(ID_HomeDrop) {
                 //console.log("Hola, ya llego a pasar las Promises");
                 //console.log(data);
         $('#ListViviendasHomeDrop').empty();
-        $('.Data_Img').empty();
         $('.Data_Home').empty();
         $('.Data_Img').empty();
         $('#map').hide();
@@ -1182,18 +1080,16 @@ function loadDetails(ID_HomeDrop) {
                             .append($('<a>').addClass('details__heart').attr('id', data[0].ID_HomeDrop)
                             .append($('<i>').attr('id', data[0].ID_HomeDrop).addClass('fa-solid fa-heart fa-lg')))
                     )
-                    
+
                 )
             );
-            
 
         $('.product_detail_car').append(productDetailDiv);
+        MasCasasRelacionadas(data[0].Category, data[0].Ciudad, data[0].ID_HomeDrop);
         MapBoxDetails(data[0]);
+       
 
-
-
-
-        $('.Data_Img').slick({
+        $('.date_img_dentro').slick({
             slidesToShow: 1.8,
             slidesToScroll: 1,
             arrows: true,
@@ -1323,7 +1219,7 @@ function Pagination(FiltersShop) {
 
 
 
-            console.log(url,{ 'FiltersShopCount': FiltersShop, 'filtrosPag': filtrosPag, 'flitroSearchPag': flitroSearchPag, 'total_pages' : total_pages });
+            //console.log(url,{ 'FiltersShopCount': FiltersShop, 'filtrosPag': filtrosPag, 'flitroSearchPag': flitroSearchPag, 'total_pages' : total_pages });
 
             console.log(localStorage.getItem('currentPageId'));
 
@@ -1450,6 +1346,127 @@ function Pagination(FiltersShop) {
 }
 /*·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~*/
 //#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·//
+function MasCasasRelacionadas(Category, Ciudad, ID_HomeDrop) {
 
+    //console.log('MasCasasRelacionadas');
+    //console.log(Category);
+    var Ciudad = Ciudad
+    var Category = Category;
+    var items = 0;
+    var ID_HomeDrop = ID_HomeDrop;
+
+    ajaxPromise('Module/Shop/ControllerShop/ControllerShop.php?Option=CountRelatedHomes', 'POST', 'JSON', { 'Category': Category, 'Ciudad': Ciudad, 'ID_HomeDrop': ID_HomeDrop })
+        .then(function(data) {
+
+            //console.log(data);
+
+            var TotalCountItems = data;
+            ViviendasRelacionadas(0, Category, Ciudad, TotalCountItems, ID_HomeDrop);
+            $(document).on("click", '.load_more_button', function() {
+                items = items + 3;
+                $('.more_car__button').empty();
+                ViviendasRelacionadas(items, Category, Ciudad,  TotalCountItems, ID_HomeDrop);
+            });
+        }).catch(function() {
+            console.error('error TotalCountItems');
+        });
+}
 //#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·//
+function ViviendasRelacionadas(loadeds = 0, Category, Ciudad, TotalCountItems, ID_HomeDrop) {
+    let items = 3;
+    let loaded = loadeds;
+    let CiudadVivRel = Ciudad;
+    let CategoryVivRel = Category;
+    let TotalCountItemsVivRel = TotalCountItems;
+
+    ajaxPromise(
+        'Module/Shop/ControllerShop/ControllerShop.php?Option=ViviendasRelacionadas', 
+        'POST', 
+        'JSON', 
+        { 'CategoryVivRel': CategoryVivRel, 'CiudadVivRel': CiudadVivRel, 'ID_HomeDrop': ID_HomeDrop, 'loaded': loaded, 'items': items }
+    )
+    .then(function(data) {
+        if (loaded == 0) {
+            $('<div></div>').attr({ 'id': 'title_content', class: 'title_content' }).appendTo('.results');
+
+            for (row in data) {
+                if (data[row].ID_HomeDrop != undefined) {
+                    $('<div></div>').attr({ 'id': data[row].ID_HomeDrop, 'class': 'more_info_list' }).appendTo('.title_content')
+                        .html(
+                            "<li class='portfolio-item'>" +
+                            "<div class='item-main'>" +
+                            "<div class='portfolio-image'>" +
+                            "<img src = " + data[row].Img + " alt='imagen' </img> " +
+                            "</div>" +
+                            "<h5>" + data[row].Ciudad + "  " + data[row].Category + "</h5>" +
+                            "</div>" +
+                            "</li>"
+                        );
+                }
+            }
+
+
+            $('<div></div>').attr({ 'id': 'more_car__button', 'class': 'more_car__button' }).appendTo('.results')
+                .html(
+                    '<button class="load_more_button" id="load_more_button">Cargar mas Viviendas Relacionadas</button>'
+                );
+        }
+        if (loaded >= 3) {
+            for (row in data) {
+                if (data[row].ID_HomeDrop != undefined) {
+                    $('<div></div>').attr({ 'id': data[row].ID_HomeDrop, 'class': 'more_info_list' }).appendTo('.title_content')
+                        .html(
+                            "<li class='portfolio-item'>" +
+                            "<div class='item-main'>" +
+                            "<div class='portfolio-image'>" +
+                            "<img src = " + data[row].Img + " alt='imagen car' </img> " +
+                            "</div>" +
+                            "<h5>" + data[row].Ciudad + "  " + data[row].Category + "</h5>" +
+                            "</div>" +
+                            "</li>"
+                        );
+                }
+            }
+
+            var TotalItems = TotalCountItemsVivRel - 3;
+            if (TotalItems <= loaded) {
+                $('.more_car__button').empty();
+                $('<div></div>').attr({ 'id': 'more_car__button', 'class': 'more_car__button' }).appendTo('.title_content')
+                    .html(
+                        "</br>"
+                    );
+            } else {
+                $('.more_car__button').empty();
+                $('<div></div>').attr({ 'id': 'more_car__button', 'class': 'more_car__button' }).appendTo('.results')
+                    .html(
+                        '<button class="load_more_button" id="load_more_button">Cargar mas Viviendas Relacionadas</button>'
+                    );
+            }
+        }
+
+        $('.more_info_list').click(function() {
+            let ID_HomeDrop = $(this).attr('id');
+            
+            $('.list_product_details').empty();
+            $('.date_img_dentro').empty();
+            $('#mapDetails').empty();
+            $('.results').empty();
+            $('.title_content').empty();
+            
+            setTimeout(function() {
+                //console.log(data);
+                //console.log(ID_HomeDrop);
+                loadDetails(ID_HomeDrop);
+            }, 200);
+        });
+
+
+    }).catch(function() {
+        console.error("error ViviendasRelacionadas");
+    });
+}
+
+
+
+
 //#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·//
