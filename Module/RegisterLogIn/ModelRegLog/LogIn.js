@@ -1,56 +1,52 @@
-function login() {
-    if (validate_login() != 0) {
+/*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*/
+function LogIn() {
+    //console.log('LogIn');
+
+    if (ValidateLogIn() != 0) {
         var data = $('#login__form').serialize();
-        ajaxPromise('module/login/ctrl/ctrl_login.php?op=login', 'POST', 'JSON', data)
+
+        console.log(data);
+
+        ajaxPromise('Module/RegisterLogIn/ControladorRegLog/ControladorRegLog.php?Option=LogIn', 'POST', 'JSON', {'data': data })
             .then(function(result) {
+
+                console.log(result);
+
                 if (result == "error_user") {
-                    document.getElementById('error_username_log').innerHTML = "El usario no existe,asegurase de que lo a escrito correctamente"
+                    document.getElementById('error_username_log').innerHTML = "Creemos que tu Usuario esta mal escrito o no existe"
+
                 } else if (result == "error_passwd") {
-                    document.getElementById('error_passwd_log').innerHTML = "La contraseña es incorrecta"
+                    document.getElementById('error_passwd_log').innerHTML = "Escribe mas despacio, la contraseña es errónea"
+
                 } else {
                     localStorage.setItem("token", result);
                     toastr.success("Loged succesfully");
 
                     if (localStorage.getItem('redirect_like')) {
-                        setTimeout(' window.location.href = "index.php?module=ctrl_shop&op=list"; ', 1000);
+                        setTimeout(' window.location.href = "index.php?page=Controller_HomeDrop&Option=List"; ', 1000);
                     } else {
-                        setTimeout(' window.location.href = "index.php?module=ctrl_home&op=list"; ', 1000);
+                        setTimeout(' window.location.href = "index.php?page=Controller_HomeDrop&Option=List"; ', 1000);
                     }
                 }
             }).catch(function(textStatus) {
                 if (console && console.log) {
-                    console.log("La solicitud ha fallado: " + textStatus);
+                    console.error("La solicitud ha fallado: " + textStatus);
                 }
             });
     }
 }
+/*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*/
+function ValidateLogIn() {
+    //console.log('ValidateLogIn');
 
-function key_login() {
-    $("#login").keypress(function(e) {
-        var code = (e.keyCode ? e.keyCode : e.which);
-        if (code == 13) {
-            e.preventDefault();
-            login();
-        }
-    });
-}
-
-function button_login() {
-    $('#login').on('click', function(e) {
-        e.preventDefault();
-        login();
-    });
-}
-
-function validate_login() {
     var error = false;
 
     if (document.getElementById('username_log').value.length === 0) {
-        document.getElementById('error_username_log').innerHTML = "Tienes que escribir el usuario";
+        document.getElementById('error_username_log').innerHTML = "Hey, escribe tu nombre de usuario o ni ChatGPT sabrá quien eres!";
         error = true;
     } else {
         if (document.getElementById('username_log').value.length < 5) {
-            document.getElementById('error_username_log').innerHTML = "El usuario tiene que tener 5 caracteres como minimo";
+            document.getElementById('error_username_log').innerHTML = "Usuario no encontrado, debe contener 5 caracteres como mínimo";
             error = true;
         } else {
             document.getElementById('error_username_log').innerHTML = "";
@@ -58,7 +54,7 @@ function validate_login() {
     }
 
     if (document.getElementById('passwd_log').value.length === 0) {
-        document.getElementById('error_passwd_log').innerHTML = "Tienes que escribir la contraseña";
+        document.getElementById('error_passwd_log').innerHTML = "Opss, al parecer no has escrito tu contraseña";
         error = true;
     } else {
         document.getElementById('error_passwd_log').innerHTML = "";
@@ -68,8 +64,33 @@ function validate_login() {
         return 0;
     }
 }
+/*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*/
+function KeyLogIn() {
+    
+    $("#login").keypress(function(e) {
+        var code = (e.keyCode ? e.keyCode : e.which);
+        //console.log('KeyLogIn Ready');
 
+        if (code == 13) {
+            e.preventDefault();
+            LogIn();
+        }
+    });
+}
+/*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*/
+function ButtonLogIn() {
+    
+    $('#login').on('click', function(e) {
+        //console.log('ButtonLogIn Ready');
+
+        e.preventDefault();
+        LogIn();
+    });
+}
+/*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*/
 $(document).ready(function() {
-    key_login();
-    button_login();
+    //console.log('LogIn.js Document Ready');
+    KeyLogIn();
+    ButtonLogIn();
 });
+/*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*/

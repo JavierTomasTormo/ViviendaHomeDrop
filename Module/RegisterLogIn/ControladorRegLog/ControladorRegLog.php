@@ -1,18 +1,19 @@
 <?php
-$path = $_SERVER['DOCUMENT_ROOT'] . '/CONCESIONARIO';
-include($path . "/module/login/model/DAO_login.php");
-include($path . "/model/middleware_auth.php");
+$path = $_SERVER['DOCUMENT_ROOT'] . '/ViviendaHomeDrop/';
+include($path . "Module/RegisterLogIn/ModelRegLog/DAORegLog.php");
+
+// include($path . "/model/middleware_auth.php");
 @session_start();
 //if (isset($_SESSION["tiempo"])) {  
     //$_SESSION["tiempo"] = time(); //Devuelve la fecha actual
 //}
 
-switch ($_GET['op']) {
-    case 'login-register_view';
-        include("module/login/view/login-register.html");
-        include('views/pages/footer.html');
-        break;
-
+switch ($_GET['Option']) {
+//~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~//    
+    case 'RegLogView';
+        include("Module/RegisterLogIn/ViewRegLog/RegLog.html");
+    break;
+//~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~//    
     case 'register':
         // Comprobar que la email no exista
         try {
@@ -49,12 +50,27 @@ switch ($_GET['op']) {
             echo json_encode("error_email");
             exit;
         }
-        break;
+    break;
+//~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~//    
+    case 'LogIn':
+        // echo json_encode("LogIn" );
+        // echo json_encode($_POST['data']);
 
-    case 'login':
+        $parts = explode('&', $_POST['data']);
+        $firstParam = explode('=', $parts[0]);
+        $paramName = $firstParam[0];
+        $paramValue = $firstParam[1];
+        $data = array($paramName => $paramValue);
+
+        //  echo json_encode($data);
+        // exit;
+
         try {
-            $daoLog = new DAOLogin();
-            $rdo = $daoLog->select_user($_POST['username_log']);
+            $daoLog = new DAORegLog();
+            $rdo = $daoLog->SelectUser($data);
+
+            echo json_encode($rdo);
+            break;
 
             if ($rdo == "error_user") {
                 echo json_encode("error_user");
@@ -64,6 +80,7 @@ switch ($_GET['op']) {
                     $token= create_token($rdo["username"]);
                     $_SESSION['username'] = $rdo['username']; //Guardamos el usario 
                     $_SESSION['tiempo'] = time(); //Guardamos el tiempo que se logea
+
                     echo json_encode($token);
                     exit;
                 } else {
@@ -75,24 +92,24 @@ switch ($_GET['op']) {
             echo json_encode("error");
             exit;
         }
-        break;
-
+    break;
+//~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~//    
     case 'logout':
         unset($_SESSION['username']);
         unset($_SESSION['tiempo']);
         session_destroy();
 
         echo json_encode('Done');
-        break;
-
+    break;
+//~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~//    
     case 'data_user':
         $json = decode_token($_POST['token']);
         $daoLog = new DAOLogin();
         $rdo = $daoLog->select_data_user($json['username']);
         echo json_encode($rdo);
         exit;
-        break;
-
+    break;
+//~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~//    
     case 'actividad':
         if (!isset($_SESSION["tiempo"])) {
             echo json_encode("inactivo");
@@ -106,8 +123,8 @@ switch ($_GET['op']) {
                 exit();
             }
         }
-        break;
-
+    break;
+//~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~//    
     case 'controluser':
         $token_dec = decode_token($_POST['token']);
 
@@ -123,21 +140,22 @@ switch ($_GET['op']) {
             echo json_encode("Wrong_User");
             exit();
         }
-        break;
-
+    break;
+//~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~//    
     case 'refresh_token':
         $old_token = decode_token($_POST['token']);
         $new_token = create_token($old_token['username']);
         echo json_encode($new_token);
-        break;
-
+    break;
+//~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~//    
     case 'refresh_cookie':
         session_regenerate_id();
         echo json_encode("Done");
         exit;
-        break;
-
+    break;
+//~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~//    
     default;
-        include("module/exceptions/views/pages/error404.php");
-        break;
+    include("ViewParent/inc/error404.html");
+    break;
+//~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~//    
 }

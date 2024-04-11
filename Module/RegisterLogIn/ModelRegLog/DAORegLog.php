@@ -1,17 +1,18 @@
 <?php
-    $path = $_SERVER['DOCUMENT_ROOT'] . '/CONCESIONARIO';
-    include($path . "/model/connect.php");
+    $path = $_SERVER['DOCUMENT_ROOT'] . '/ViviendaHomeDrop/';
+    include($path . "Model/Connect.php");
 
-    class DAOLogin{
-        function select_email($email){
+class DAORegLog{
+/*/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/*/ 
+    function select_email($email){
 			$sql = "SELECT email FROM users WHERE email='$email'";
 			$conexion = connect::con();
             $res = mysqli_query($conexion, $sql)->fetch_object();
             connect::close($conexion);
             return $res;
-		}
-
-        function insert_user($username, $email, $password){
+    }
+/*/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/*/
+    function insert_user($username, $email, $password){
             $hashed_pass = password_hash($password, PASSWORD_DEFAULT, ['cost' => 12]);
             $hashavatar = md5(strtolower(trim($email))); 
             $avatar = "https://i.pravatar.cc/500?u=$hashavatar";
@@ -22,10 +23,21 @@
             $res = mysqli_query($conexion, $sql);
             connect::close($conexion);
             return $res;
-        }
+    }
+/*/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/*/
+    function SelectUser($username){
 
-        function select_user($username){
-			$sql = "SELECT `username`, `password`, `email`, `type_user`, `avatar` FROM `users` WHERE username='$username'";
+        //return 'wenas';
+        
+        $userAlias = $username['username_log'];
+
+        //return $userAlias;
+
+			$sql = "SELECT `ID_User`, `Username`, `Password`, `Email`, `UserType`, `Avatar` FROM `users` WHERE username='$userAlias'";
+
+
+            //return $sql;
+
 			$conexion = connect::con();
             $res = mysqli_query($conexion, $sql)->fetch_object();
             connect::close($conexion);
@@ -36,14 +48,14 @@
             }else {
                 return "error_user";
             }
-        }
-
-        function select_data_user($username){
+    }
+/*/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/*/
+    function select_data_user($username){
 			$sql = "SELECT * FROM users WHERE username='$username'";
 			$conexion = connect::con();
             $res = mysqli_query($conexion, $sql)->fetch_object();
             connect::close($conexion);
             return $res;
-        }
-
     }
+/*/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/*/
+}

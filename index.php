@@ -30,6 +30,10 @@ if (isset($_SESSION['Pages'])) {
     } elseif ($Pages === 'ControllerShop') {
         include("ViewParent/inc/utils/TopPageShop.html");
         include("ViewParent/inc/nav.html");
+
+    } elseif ($Pages === 'RegLog') {
+        include("ViewParent/inc/utils/TopPageRegLog.html");
+        include("ViewParent/inc/nav.html");
     }
 } else {
 

@@ -32,6 +32,10 @@
             include_once('Module/HomeDropModule/Vista/ListHomeDrop.html');
         break;
 
+        case "RegLog":
+            include_once('Module/RegisterLogIn/ViewRegLog/RegLog.html');
+        break;
+
         case "Controller_HomeDrop":
             include_once("Module/HomeDropModule/Controlador/Controller_HomeDrop.php");
         break;
