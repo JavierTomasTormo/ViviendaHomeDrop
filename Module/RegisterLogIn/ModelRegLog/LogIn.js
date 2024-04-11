@@ -31,6 +31,7 @@ function LogIn() {
             }).catch(function(textStatus) {
                 if (console && console.log) {
                     console.error("La solicitud ha fallado: " + textStatus);
+                    toastr.error("La solicitud ha fallado: " + textStatus);
                 }
             });
     }
