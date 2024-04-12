@@ -14,15 +14,40 @@ switch ($_GET['Option']) {
         include("Module/RegisterLogIn/ViewRegLog/RegLog.html");
     break;
 //~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~//    
-    case 'register':
-        // Comprobar que la email no exista
+    case 'Register':
+        $post_data = urldecode($_POST['data']);
+        $pairs = explode('&', $post_data);
+        $data = array();
+
+        foreach ($pairs as $pair) {
+            list($key, $value) = explode('=', $pair);
+        
+            $value = urldecode($value);
+        
+            $data[$key] = $value;
+        }
+
+        $username_reg = $data['username_reg'];
+        $passwd1_reg = $data['passwd1_reg'];
+        $passwd2_reg = $data['passwd2_reg'];
+        $email_reg = $data['email_reg'];
+        //echo json_encode($username_reg);
+        //echo json_encode($passwd1_reg);
+        // echo json_encode($passwd2_reg);
+        //echo json_encode($email_reg);
+        // exit;
+
         try {
-            $daoLog = new DAOLogin();
-            $check = $daoLog->select_email($_POST['email_reg']);
+            $daoLog = new DAORegLog();
+            $check = $daoLog->SelectEmail($email_reg, $username_reg);
+            // echo json_encode($check);
+            // break;
         } catch (Exception $e) {
             echo json_encode("error");
             exit;
         }
+        // echo json_encode($check);
+        // break;
 
         if ($check) {
             $check_email = false;
@@ -30,24 +55,29 @@ switch ($_GET['Option']) {
             $check_email = true;
         }
 
-        // Si no existe el email creará el usuario
-        if ($check_email) {
-            try {
-                $daoLog = new DAOLogin();
-                $rdo = $daoLog->insert_user($_POST['username_reg'], $_POST['email_reg'], $_POST['passwd1_reg']);
-            } catch (Exception $e) {
-                echo json_encode("error");
-                exit;
-            }
-            if (!$rdo) {
-                echo json_encode("error_user");
+        // echo json_encode($check_email);
+        // break;
+
+        if ($check_email == true) {
+                // echo json_encode('bnc');
+                // break;
+                //Aqui llega
+
+                $daoLog = new DAORegLog();
+                $rdo = $daoLog->InsertUser($username_reg, $email_reg, $passwd2_reg);
+
+                // echo json_encode($rdo);
+                // break;
+
+            if ($rdo == false) {
+                echo json_encode("Error en el Usuario");
                 exit;
             } else {
-                echo json_encode("ok");
+                echo json_encode("Procreed");
                 exit;
             }
         } else {
-            echo json_encode("error_email");
+            echo json_encode("Error en el email");
             exit;
         }
     break;
@@ -58,26 +88,32 @@ switch ($_GET['Option']) {
 
         $parts = explode('&', $_POST['data']);
         $firstParam = explode('=', $parts[0]);
+        $secondParam = explode('=', $parts[1]);
         $paramName = $firstParam[0];
         $paramValue = $firstParam[1];
         $data = array($paramName => $paramValue);
 
-        //  echo json_encode($data);
-        // exit;
+        //  echo json_encode($secondParam[1]);
+        // break;
 
         try {
             $daoLog = new DAORegLog();
             $rdo = $daoLog->SelectUser($data);
 
-            echo json_encode($rdo);
-            break;
+            // echo json_encode($rdo);
+            // break;
 
             if ($rdo == "error_user") {
                 echo json_encode("error_user");
                 exit;
             } else {
-                if (password_verify($_POST['passwd_log'], $rdo['password'])) {
-                    $token= create_token($rdo["username"]);
+
+                //
+                //
+                //
+                //
+                if (password_verify($secondParam[1], $rdo['Password'])) {
+                    // $token= create_token($rdo["username"]);
                     $_SESSION['username'] = $rdo['username']; //Guardamos el usario 
                     $_SESSION['tiempo'] = time(); //Guardamos el tiempo que se logea
 

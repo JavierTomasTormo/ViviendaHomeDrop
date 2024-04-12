@@ -4,26 +4,88 @@
 
 class DAORegLog{
 /*/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/*/ 
-    function select_email($email){
-			$sql = "SELECT email FROM users WHERE email='$email'";
+    function SelectEmail($email, $username){
+			$sql = "SELECT Email FROM users WHERE Email = '$email'";
+            // $sql = "SELECT Email FROM users WHERE Email = '$email' AND Username = '$username'";
+            //return $sql;
+
 			$conexion = connect::con();
             $res = mysqli_query($conexion, $sql)->fetch_object();
             connect::close($conexion);
             return $res;
     }
 /*/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/*/
-    function insert_user($username, $email, $password){
+ /*   function InsertUser($username, $email, $password){
+
+
+        //return $username;
+
             $hashed_pass = password_hash($password, PASSWORD_DEFAULT, ['cost' => 12]);
+            // return $hashed_pass;
+
             $hashavatar = md5(strtolower(trim($email))); 
+            // return $hashavatar;
+
             $avatar = "https://i.pravatar.cc/500?u=$hashavatar";
-            $sql ="   INSERT INTO `users`(`username`, `password`, `email`, `type_user`, `avatar`) 
-            VALUES ('$username','$hashed_pass','$email','client','$avatar')";
+            // return $avatar;
+
+
+            
+            $sql ="INSERT INTO `Users`(`Username`, `Password`, `Email`, `UserType`, `Avatar`) 
+                    VALUES ('$username','$hashed_pass','$email','client','$avatar')";
+            
+            //return $sql;
 
             $conexion = connect::con();
-            $res = mysqli_query($conexion, $sql);
-            connect::close($conexion);
-            return $res;
+
+            if (!$conexion) {
+                return("Error al conectar a la base de datos: " . mysqli_connect_error());
+            } else {
+                //return('Si conecta a la base de datos');
+
+                $res = mysqli_query($conexion, $sql);
+                return $res;
+                connect::close($conexion);
+
+                if (!$res) {
+                    return "Error en la consulta: " . mysqli_error($conexion);
+                    return false;
+                } else {
+                    return "Consulta ejecutada correctamente.";
+                    return true;
+                }
+            }
+    }*/
+    function InsertUser($username, $email, $password){
+
+        $hashed_pass = password_hash($password, PASSWORD_DEFAULT, ['cost' => 12]);
+        $hashavatar = md5(strtolower(trim($email))); 
+        $avatar = "https://i.pravatar.cc/500?u=$hashavatar";
+    
+        try {
+            $conexion = new PDO("mysql:host=localhost;dbname=homedropviviendas", "root", "");
+
+            $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    
+            $sql = "INSERT INTO `Users`(`Username`, `Password`, `Email`, `UserType`, `Avatar`) VALUES (:username, :password, :email, 'client', :avatar)";
+            $statement = $conexion->prepare($sql);
+    
+            $statement->bindParam(':username', $username);
+            $statement->bindParam(':password', $hashed_pass);
+            $statement->bindParam(':email', $email);
+            $statement->bindParam(':avatar', $avatar);
+    
+            $statement->execute();
+    
+            $conexion = null;
+
+            return true;
+        } catch(PDOException $e) {
+            // Manejar errores
+            return "Error al insertar usuario: " . $e->getMessage();
+        }
     }
+    
 /*/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/*/
     function SelectUser($username){
 

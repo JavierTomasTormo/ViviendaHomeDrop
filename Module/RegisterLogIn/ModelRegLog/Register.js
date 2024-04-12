@@ -6,8 +6,11 @@ function Register() {
     if (ValidateRegister() != 0) {
         var data = $('#register__form').serialize();
 
-        ajaxPromise('module/login/ctrl/ctrl_login.php?op=register', 'POST', 'JSON', data)
+        ajaxPromise('Module/RegisterLogIn/ControladorRegLog/ControladorRegLog.php?Option=Register', 'POST', 'JSON', {'data': data })
             .then(function(result) {
+
+                console.log(result);
+
                 if (result == "error_email") {
                     document.getElementById('error_email_reg').innerHTML = "El email ya esta en uso, asegurate de no tener ya una cuenta"
                 } else if (result == "error_user") {
@@ -18,7 +21,7 @@ function Register() {
                 }
             }).catch(function(textStatus) {
                 if (console && console.log) {
-                    console.log("La solicitud ha fallado: " + textStatus);
+                    console.error("La solicitud ha fallado: " + textStatus);
                     toastr.error("La solicitud ha fallado: " + textStatus);
                 }
             });

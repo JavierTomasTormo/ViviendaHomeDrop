@@ -21,12 +21,10 @@ function LogIn() {
                 } else {
                     localStorage.setItem("token", result);
                     toastr.success("Loged succesfully");
+                    console.log(localStorage.getItem('token'));
 
-                    if (localStorage.getItem('redirect_like')) {
-                        setTimeout(' window.location.href = "index.php?page=Controller_HomeDrop&Option=List"; ', 1000);
-                    } else {
-                        setTimeout(' window.location.href = "index.php?page=Controller_HomeDrop&Option=List"; ', 1000);
-                    }
+                       // setTimeout(' window.location.href = "index.php?page=Controller_HomeDrop&Option=List"; ', 1000);
+
                 }
             }).catch(function(textStatus) {
                 if (console && console.log) {
