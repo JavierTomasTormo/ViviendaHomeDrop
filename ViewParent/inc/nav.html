@@ -13,56 +13,71 @@
  
             <div class="navbar-collapse collapse">
 
-
                 <ul class="nav navbar-nav search_container" style="float: right; margin-right: 5%; min-width: 55%;">
                     
                     <li><a href="http://localhost/ViviendaHomeDrop/index.php?page=ListHomeDrop">HOME</a></li>
+
                     <li><a href="http://localhost/ViviendaHomeDrop/index.php?page=Shop">SHOP</a></li>
-                
-                    <br>
-                    <li class="inline">
-                        <!-- <div>  -->
-                            <select class="search_selectCity">
-                                <!-- <option value="city" disabled selected>Ciudad</option> -->
-                            </select>
-                    </li>
+                                    
+                    <li class="inline"><select class="search_selectCity"></select></li>
+
+                    <li><select class="search_selectOperation"></select></li>
+
                     <li>
-                            <select class="search_selectOperation">
-                                <!-- <option value="operation" disabled selected>Operación</option> -->
-                            </select>
-                    </li>
-                    <li>
-                            
                             <input type="text" id="autocom" autocomplete="off" placeholder="Buscar..." class="search-input">
                             <button class="search-button" id="search-btn"><i class="fa fa-search"></i></button>
-                            <!-- <br> -->
                             <div id="search_auto" class="search_auto"></div>
-                        <!-- </div> -->
-                        <!-- ----------------------------------------- -->
-                    </li>
-                    <li></li>
-                    <li></li>
-                    <li><a href="http://localhost/ViviendaHomeDrop/index.php?page=RegLog" 
-                            style="
-                            padding: 5px 10px; 
-                            background-color: #d5b568; 
-                            color: black;
-                            font-weight: 800;
-                            border-radius: 5px; 
-                            transition: background-color 0.3s ease;
-                            margin-bottom: 10px;
-                            ">
-                            Register/LogIn
-                        </a>
                     </li>
 
+                    <li></li>
+
+                    <li id="userSection" style="display: none;"></li>
+
+                    <li ><a href="http://localhost/ViviendaHomeDrop/index.php?page=RegLog" id="loginBtn">Register/LogIn</a></li>
                     
                 </ul>
-
                 
             </div>
             
-        <!-- </div> -->
     </nav>
+            <script>
+                document.addEventListener("DOMContentLoaded", function() {
+                    var userData = JSON.parse(localStorage.getItem("loggedInUser"));
+                    if (userData) {
+                        $('#loginBtn').hide();
 
+                        var userAvatar = $("<img>")
+                            .attr({
+                                id: "userAvatar",
+                                src: userData.avatar,
+                                alt: "Avatar",
+                                width: 50
+                            });
+                        
+                        var usernameSpan = $("<span></span>")
+                            .attr("id", "username")
+                            .text(userData.username);
+                        
+                        $("#userSection").append(userAvatar).append(usernameSpan);
+                        
+                        $('#userSection').css({
+                            "display": "flex",
+                            "background-color": "#d5b568",
+                            "border-radius": "5px"
+                        });
+
+                        $('#username').css({
+                            "color": "black",
+                            "font-weight": "800"
+                        });
+                    } else {
+                        $('#userSection').hide();
+                    }
+
+                    $('#userSection').on('click', function() {
+                        localStorage.removeItem("loggedInUser");
+                        location.reload();
+                    });
+                });
+            </script>
    <!--/.NAVBAR END-->

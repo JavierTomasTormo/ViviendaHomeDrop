@@ -13,6 +13,22 @@ option {
   padding: 5px;
   border: 1px solid #ccc; 
 }
+#userSection img {
+  border-radius: 50%; 
+}
+
+#loginBtn {
+  padding: 5px 10px;
+  background-color: #d5b568;
+  color: black;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* Style for #userSection */
+#userSection {
+  display: none;
+}
 
 
 option:checked {

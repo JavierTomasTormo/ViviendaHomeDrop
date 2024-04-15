@@ -108,16 +108,18 @@ switch ($_GET['Option']) {
                 exit;
             } else {
 
-                //
-                //
-                //
-                //
+
+                echo json_encode($rdo);
+                exit;
+
+
                 if (password_verify($secondParam[1], $rdo['Password'])) {
                     // $token= create_token($rdo["username"]);
-                    $_SESSION['username'] = $rdo['username']; //Guardamos el usario 
-                    $_SESSION['tiempo'] = time(); //Guardamos el tiempo que se logea
+                    // $_SESSION['username'] = $rdo['username'];
+                    // $_SESSION['tiempo'] = time(); 
 
-                    echo json_encode($token);
+                    echo json_encode('Proceso exitoso');
+                    // echo json_encode($token);
                     exit;
                 } else {
                     echo json_encode("error_passwd");

@@ -29,6 +29,24 @@ i.fa {
 }
 
 
+#userSection img {
+  border-radius: 50%; 
+}
+
+#loginBtn {
+  padding: 5px 10px;
+  background-color: #d5b568;
+  color: black;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#userSection {
+  display: none;
+  
+}
+
+
 p {
     font-weight:300;
     line-height:30px;

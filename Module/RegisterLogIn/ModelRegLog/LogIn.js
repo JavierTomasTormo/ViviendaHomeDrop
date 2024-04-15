@@ -5,33 +5,41 @@ function LogIn() {
     if (ValidateLogIn() != 0) {
         var data = $('#login__form').serialize();
 
-        console.log(data);
+        //console.log(data);
 
         ajaxPromise('Module/RegisterLogIn/ControladorRegLog/ControladorRegLog.php?Option=LogIn', 'POST', 'JSON', {'data': data })
-            .then(function(result) {
+        .then(function(result) {
+            console.log(result);
 
-                console.log(result);
+            if (result === "error_user") {
+                document.getElementById('error_username_log').innerHTML = "Creemos que tu Usuario esta mal escrito o no existe";
+            } else if (result === "error_passwd") {
+                document.getElementById('error_passwd_log').innerHTML = "Escribe más despacio, la contraseña es errónea";
+            } else {
+                localStorage.setItem("token", result);
+                toastr.success("Logged in successfully");
+            
+                console.log("Token:", result.token);
+                console.log("Avatar:", result.Avatar);
+                console.log("Username:", result.Username);        
+   
 
-                if (result == "error_user") {
-                    document.getElementById('error_username_log').innerHTML = "Creemos que tu Usuario esta mal escrito o no existe"
+                localStorage.setItem("loggedInUser", JSON.stringify({
+                    token: result.token,
+                    avatar: result.Avatar,
+                    username: result.Username
+                }));
 
-                } else if (result == "error_passwd") {
-                    document.getElementById('error_passwd_log').innerHTML = "Escribe mas despacio, la contraseña es errónea"
 
-                } else {
-                    localStorage.setItem("token", result);
-                    toastr.success("Loged succesfully");
-                    console.log(localStorage.getItem('token'));
+                setTimeout(function() {
+                    window.location.href = "index.php?page=Controller_HomeDrop&Option=List";
+                }, 1000);
+            }
+        })
+        .catch(function(error) {
+            console.error('Error:', error);
+        });
 
-                       // setTimeout(' window.location.href = "index.php?page=Controller_HomeDrop&Option=List"; ', 1000);
-
-                }
-            }).catch(function(textStatus) {
-                if (console && console.log) {
-                    console.error("La solicitud ha fallado: " + textStatus);
-                    toastr.error("La solicitud ha fallado: " + textStatus);
-                }
-            });
     }
 }
 /*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*/
