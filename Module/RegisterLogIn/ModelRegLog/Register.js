@@ -12,13 +12,24 @@ function Register() {
                 console.log(result);
 
                 if (result == "error_email") {
-                    document.getElementById('error_email_reg').innerHTML = "El email ya esta en uso, asegurate de no tener ya una cuenta"
+                    document.getElementById('error_email_reg').innerHTML = "El email ya esta en uso, si es tuyo ponte en contacto con nosotros por telepatía o por bizum ;-)";
+                    toastr.error("La solicitud ha fallado: " + result);
+
                 } else if (result == "error_user") {
-                    document.getElementById('error_username_reg').innerHTML = "El usuario ya esta en uso, intentalo con otro"
+                    document.getElementById('error_username_reg').innerHTML = "Llegaste tarde, otro usuario ya tiene este Nickname";
+                    toastr.error("La solicitud ha fallado: " + result);
+
+                } else if (result == "error") {
+                    console.error("La solicitud ha fallado: " + result);
+                    toastr.error("La solicitud ha fallado: " + result);
+                    
                 } else {
                     toastr.success("Registery succesfully");
+
                     setTimeout(' window.location.href = "index.php?module=ctrl_login&op=RegLogView"; ', 1000);
                 }
+
+
             }).catch(function(textStatus) {
                 if (console && console.log) {
                     console.error("La solicitud ha fallado: " + textStatus);

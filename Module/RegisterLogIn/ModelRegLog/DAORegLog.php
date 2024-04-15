@@ -56,6 +56,7 @@ class DAORegLog{
                 }
             }
     }*/
+//
     function InsertUser($username, $email, $password){
 
         $hashed_pass = password_hash($password, PASSWORD_DEFAULT, ['cost' => 12]);
@@ -85,7 +86,6 @@ class DAORegLog{
             return "Error al insertar usuario: " . $e->getMessage();
         }
     }
-    
 /*/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/*/
     function SelectUser($username){
 

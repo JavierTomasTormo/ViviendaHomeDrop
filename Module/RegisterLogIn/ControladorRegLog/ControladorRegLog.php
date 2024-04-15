@@ -70,14 +70,14 @@ switch ($_GET['Option']) {
                 // break;
 
             if ($rdo == false) {
-                echo json_encode("Error en el Usuario");
+                echo json_encode("error_user");
                 exit;
             } else {
                 echo json_encode("Procreed");
                 exit;
             }
         } else {
-            echo json_encode("Error en el email");
+            echo json_encode("error_email");
             exit;
         }
     break;
