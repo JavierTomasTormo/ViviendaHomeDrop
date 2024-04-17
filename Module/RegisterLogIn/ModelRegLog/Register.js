@@ -26,7 +26,9 @@ function Register() {
                 } else {
                     toastr.success("Registery succesfully");
 
-                    setTimeout(' window.location.href = "index.php?module=ctrl_login&op=RegLogView"; ', 1000);
+                   setTimeout(
+                        location.reload()
+                    , 1000);
                 }
 
 

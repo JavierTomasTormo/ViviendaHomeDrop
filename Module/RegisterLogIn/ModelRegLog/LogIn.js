@@ -3,11 +3,19 @@ function LogIn() {
     //console.log('LogIn');
 
     if (ValidateLogIn() != 0) {
-        var data = $('#login__form').serialize();
+        var formDataArray = $('#login__form').serializeArray();
 
-        //console.log(data);
+        var formData = {};
+        $.each(formDataArray, function(index, field){
+            formData[field.name] = field.value;
+        });
 
-        ajaxPromise('Module/RegisterLogIn/ControladorRegLog/ControladorRegLog.php?Option=LogIn', 'POST', 'JSON', {'data': data })
+        // console.log(formData);
+        // console.log(formData['passwd_log']);
+        // console.log(formData['username_log']);
+
+
+        ajaxPromise('Module/RegisterLogIn/ControladorRegLog/ControladorRegLog.php?Option=LogIn', 'POST', 'JSON', {'passwd_log': formData['passwd_log'], 'username_log': formData['username_log'] })
         .then(function(result) {
             console.log(result);
 
@@ -16,18 +24,19 @@ function LogIn() {
             } else if (result === "error_passwd") {
                 document.getElementById('error_passwd_log').innerHTML = "Escribe más despacio, la contraseña es errónea";
             } else {
-                localStorage.setItem("token", result);
+                localStorage.setItem("token", result.token);
                 toastr.success("Logged in successfully");
             
-                console.log("Token:", result.token);
-                console.log("Avatar:", result.Avatar);
-                console.log("Username:", result.Username);        
+                // console.log(localStorage.getItem('token'));     
+                // console.log("Token:", result.token);
+                // console.log("Avatar:", result.user['Avatar']);
+                // console.log("Username:", result.user['Username']);        
    
 
                 localStorage.setItem("loggedInUser", JSON.stringify({
                     token: result.token,
-                    avatar: result.Avatar,
-                    username: result.Username
+                    avatar: result.user['Avatar'],
+                    username: result.user['Username']
                 }));
 
 

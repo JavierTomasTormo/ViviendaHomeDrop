@@ -4,9 +4,9 @@ include($path . "Module/RegisterLogIn/ModelRegLog/DAORegLog.php");
 //include($path . "Model/MiddleWareAuth.php");
 
 @session_start();
-//if (isset($_SESSION["tiempo"])) {  
-    //$_SESSION["tiempo"] = time(); //Devuelve la fecha actual
-//}
+// if (isset($_SESSION["tiempo"])) {  
+//     $_SESSION["tiempo"] = time(); //Devuelve la fecha actual
+// }
 
 switch ($_GET['Option']) {
 //~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~//    
@@ -15,6 +15,10 @@ switch ($_GET['Option']) {
     break;
 //~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~//    
     case 'Register':
+
+        // echo json_encode('Hola?');
+        // break;
+
         $post_data = urldecode($_POST['data']);
         $pairs = explode('&', $post_data);
         $data = array();
@@ -34,7 +38,7 @@ switch ($_GET['Option']) {
         //echo json_encode($username_reg);
         //echo json_encode($passwd1_reg);
         // echo json_encode($passwd2_reg);
-        //echo json_encode($email_reg);
+        // echo json_encode($email_reg);
         // exit;
 
         try {
@@ -83,43 +87,42 @@ switch ($_GET['Option']) {
     break;
 //~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~//    
     case 'LogIn':
+        include($path . "Model/MiddleWareAuth.php");
         // echo json_encode("LogIn" );
-        // echo json_encode($_POST['data']);
 
-        $parts = explode('&', $_POST['data']);
-        $firstParam = explode('=', $parts[0]);
-        $secondParam = explode('=', $parts[1]);
-        $paramName = $firstParam[0];
-        $paramValue = $firstParam[1];
-        $data = array($paramName => $paramValue);
 
-        //  echo json_encode($secondParam[1]);
+        $useranme_log = $_POST['username_log'];
+        $passwd_log = $_POST['passwd_log'];
+
+        // echo json_encode($useranme_log);
+        // echo json_encode($passwd_log);
         // break;
 
         try {
             $daoLog = new DAORegLog();
-            $rdo = $daoLog->SelectUser($data);
-
+            $rdo = $daoLog->SelectUser($useranme_log);
+            // echo json_encode($rdo);
             // echo json_encode($rdo);
             // break;
-
             if ($rdo == "error_user") {
                 echo json_encode("error_user");
-                exit;
+                break;
             } else {
+                // echo json_encode($rdo->Password);
+                // // echo json_encode('No hay un error de usuario');
+                // break;
+                if (password_verify($passwd_log, $rdo -> Password)) {
 
+                    $token = CreateToken($rdo -> Username);
+                    $_SESSION['Username'] = $rdo -> Username;
+                    $_SESSION['tiempo'] = time(); 
 
-                echo json_encode($rdo);
-                exit;
-
-
-                if (password_verify($secondParam[1], $rdo['Password'])) {
-                    // $token= create_token($rdo["username"]);
-                    // $_SESSION['username'] = $rdo['username'];
-                    // $_SESSION['tiempo'] = time(); 
-
-                    echo json_encode('Proceso exitoso');
-                    // echo json_encode($token);
+                    $response = array(
+                        'token' => $token,
+                        'user' => $rdo
+                    );
+                    
+                    echo json_encode($response);
                     exit;
                 } else {
                     echo json_encode("error_passwd");
@@ -132,6 +135,23 @@ switch ($_GET['Option']) {
         }
     break;
 //~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~//    
+    case 'ControlUser':
+        $token_dec = DecodeToken($_POST['token']);
+
+        if ($token_dec['exp'] < time()) {
+            echo json_encode("Wrong_User");
+            exit();
+        }
+
+        if (isset($_SESSION['username']) && ($_SESSION['username']) == $token_dec['username']) {
+            echo json_encode("Correct_User");
+            exit();
+        } else {
+            echo json_encode("Wrong_User");
+            exit();
+        }
+    break;
+//~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~//  
     case 'logout':
         unset($_SESSION['username']);
         unset($_SESSION['tiempo']);
@@ -141,8 +161,9 @@ switch ($_GET['Option']) {
     break;
 //~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~//    
     case 'data_user':
-        $json = decode_token($_POST['token']);
-        $daoLog = new DAOLogin();
+        //include($path . "Model/MiddleWareAuth.php");
+        $json = DecodeToken($_POST['token']);
+        $daoLog = new DAORegLog();
         $rdo = $daoLog->select_data_user($json['username']);
         echo json_encode($rdo);
         exit;
@@ -162,27 +183,10 @@ switch ($_GET['Option']) {
             }
         }
     break;
-//~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~//    
-    case 'controluser':
-        $token_dec = decode_token($_POST['token']);
-
-        if ($token_dec['exp'] < time()) {
-            echo json_encode("Wrong_User");
-            exit();
-        }
-
-        if (isset($_SESSION['username']) && ($_SESSION['username']) == $token_dec['username']) {
-            echo json_encode("Correct_User");
-            exit();
-        } else {
-            echo json_encode("Wrong_User");
-            exit();
-        }
-    break;
-//~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~//    
+//~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~//      
     case 'refresh_token':
-        $old_token = decode_token($_POST['token']);
-        $new_token = create_token($old_token['username']);
+        $old_token = DecodeToken($_POST['token']);
+        $new_token = CreateToken($old_token['username']);
         echo json_encode($new_token);
     break;
 //~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~//    
@@ -193,7 +197,7 @@ switch ($_GET['Option']) {
     break;
 //~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~//    
     default;
-    include("ViewParent/inc/error404.html");
+        include("ViewParent/inc/error404.html");
     break;
 //~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~//    
 }

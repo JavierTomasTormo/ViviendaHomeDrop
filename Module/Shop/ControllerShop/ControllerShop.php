@@ -1,7 +1,10 @@
 <?php
 $path = $_SERVER['DOCUMENT_ROOT'] . '/ViviendaHomeDrop/';
 include($path . "Module/Shop/ModelShop/DAOShop.php");
-
+@session_start();
+if (isset($_SESSION["tiempo"])) {  
+    $_SESSION["tiempo"] = time(); //Devuelve la fecha actual
+}
 
 //#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#//
 switch ($_GET['Option']) {

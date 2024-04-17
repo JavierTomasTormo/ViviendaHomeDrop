@@ -63,7 +63,8 @@
                         $('#userSection').css({
                             "display": "flex",
                             "background-color": "#d5b568",
-                            "border-radius": "5px"
+                            "border-radius": "5px",
+                            "min-width": "14%"
                         });
 
                         $('#username').css({
@@ -74,8 +75,14 @@
                         $('#userSection').hide();
                     }
 
+                    // console.log(localStorage.getItem('token'));  
+                    // console.log("Token:", userData.token);
+                    // console.log("Avatar:", userData.avatar);
+                    // console.log("Username:", userData.username);      
+
                     $('#userSection').on('click', function() {
                         localStorage.removeItem("loggedInUser");
+                        localStorage.removeItem('token');
                         location.reload();
                     });
                 });

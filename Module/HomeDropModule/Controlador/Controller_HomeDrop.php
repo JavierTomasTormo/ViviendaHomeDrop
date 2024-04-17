@@ -1,7 +1,10 @@
 <?php
     $path = $_SERVER['DOCUMENT_ROOT'] . '/ViviendaHomeDrop/';
     include($path . "Module/HomeDropModule/Modelo/DAOHomeDrop.php");
-
+    @session_start();
+    if (isset($_SESSION["tiempo"])) {  
+        $_SESSION["tiempo"] = time(); //Devuelve la fecha actual
+    }
     // include("/ViviendaHomeDrop/Module/HomeDropModule/Modelo/DAOHomeDrop.php");
     //localhost/ViviendaHomeDrop/index.php?page=Controller_HomeDrop&Option=List
 //#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#//

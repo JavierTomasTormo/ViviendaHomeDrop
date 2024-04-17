@@ -15,48 +15,6 @@ class DAORegLog{
             return $res;
     }
 /*/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/*/
- /*   function InsertUser($username, $email, $password){
-
-
-        //return $username;
-
-            $hashed_pass = password_hash($password, PASSWORD_DEFAULT, ['cost' => 12]);
-            // return $hashed_pass;
-
-            $hashavatar = md5(strtolower(trim($email))); 
-            // return $hashavatar;
-
-            $avatar = "https://i.pravatar.cc/500?u=$hashavatar";
-            // return $avatar;
-
-
-            
-            $sql ="INSERT INTO `Users`(`Username`, `Password`, `Email`, `UserType`, `Avatar`) 
-                    VALUES ('$username','$hashed_pass','$email','client','$avatar')";
-            
-            //return $sql;
-
-            $conexion = connect::con();
-
-            if (!$conexion) {
-                return("Error al conectar a la base de datos: " . mysqli_connect_error());
-            } else {
-                //return('Si conecta a la base de datos');
-
-                $res = mysqli_query($conexion, $sql);
-                return $res;
-                connect::close($conexion);
-
-                if (!$res) {
-                    return "Error en la consulta: " . mysqli_error($conexion);
-                    return false;
-                } else {
-                    return "Consulta ejecutada correctamente.";
-                    return true;
-                }
-            }
-    }*/
-//
     function InsertUser($username, $email, $password){
 
         $hashed_pass = password_hash($password, PASSWORD_DEFAULT, ['cost' => 12]);
@@ -89,13 +47,9 @@ class DAORegLog{
 /*/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/*/
     function SelectUser($username){
 
-        //return 'wenas';
-        
-        $userAlias = $username['username_log'];
+        //return $username;
 
-        //return $userAlias;
-
-			$sql = "SELECT `ID_User`, `Username`, `Password`, `Email`, `UserType`, `Avatar` FROM `users` WHERE username='$userAlias'";
+			$sql = "SELECT `ID_User`, `Username`, `Password`, `Email`, `UserType`, `Avatar` FROM `users` WHERE username='$username'";
 
 
             //return $sql;
@@ -103,6 +57,8 @@ class DAORegLog{
 			$conexion = connect::con();
             $res = mysqli_query($conexion, $sql)->fetch_object();
             connect::close($conexion);
+
+            return $res;
 
             if ($res) {
                 $value = get_object_vars($res);
