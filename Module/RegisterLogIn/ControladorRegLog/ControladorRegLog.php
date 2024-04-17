@@ -136,7 +136,12 @@ switch ($_GET['Option']) {
     break;
 //~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~//    
     case 'ControlUser':
+
+        return 'Hola ControlUser de el permaURL o algo asi';
+
         $token_dec = DecodeToken($_POST['token']);
+
+        return $token_dec;
 
         if ($token_dec['exp'] < time()) {
             echo json_encode("Wrong_User");
