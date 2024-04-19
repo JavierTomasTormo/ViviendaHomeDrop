@@ -28,7 +28,7 @@ function DecodeToken($token){
 
     $rt_token = json_decode($token_dec, TRUE);
 
-    return $rt_token['Username'];
+    return $rt_token;
 }
 //*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-//
 

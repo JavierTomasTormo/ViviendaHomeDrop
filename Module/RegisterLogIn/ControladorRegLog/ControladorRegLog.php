@@ -1,7 +1,7 @@
 <?php
 $path = $_SERVER['DOCUMENT_ROOT'] . '/ViviendaHomeDrop/';
 include($path . "Module/RegisterLogIn/ModelRegLog/DAORegLog.php");
-//include($path . "Model/MiddleWareAuth.php");
+// include($path . "Model/MiddleWareAuth.php");
 
 @session_start();
 // if (isset($_SESSION["tiempo"])) {  
@@ -122,6 +122,8 @@ switch ($_GET['Option']) {
                         'user' => $rdo
                     );
                     
+
+                    // echo json_encode($_SESSION);
                     echo json_encode($response);
                     exit;
                 } else {
@@ -136,19 +138,24 @@ switch ($_GET['Option']) {
     break;
 //~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~//    
     case 'ControlUser':
+        include($path . "Model/MiddleWareAuth.php");
 
-        return 'Hola ControlUser de el permaURL o algo asi';
+        // echo json_encode($_POST['token']);
+        // break;
+        // echo json_encode($_SESSION);
+        // break;
 
         $token_dec = DecodeToken($_POST['token']);
 
-        return $token_dec;
+        // echo json_encode($token_dec['exp']);
+        // break;
 
         if ($token_dec['exp'] < time()) {
             echo json_encode("Wrong_User");
             exit();
         }
 
-        if (isset($_SESSION['username']) && ($_SESSION['username']) == $token_dec['username']) {
+        if (isset($_SESSION['Username']) && ($_SESSION['Username']) == $token_dec['Username']) {
             echo json_encode("Correct_User");
             exit();
         } else {
@@ -157,6 +164,53 @@ switch ($_GET['Option']) {
         }
     break;
 //~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~//  
+    case 'Actividad':
+        if (!isset($_SESSION["tiempo"])) {
+            echo json_encode("Inactivo");
+            exit();
+        } else {
+            if ((time() - $_SESSION["tiempo"]) >= 1800) { //1800s=30min
+                echo json_encode("Inactivo");
+                exit();
+            } else {
+                echo json_encode("Activo");
+                exit();
+            }
+        }
+    break;
+//~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~//  
+    case 'RefreshToken':
+        include($path . "Model/MiddleWareAuth.php");
+
+        // echo json_encode($_POST['token']);
+        // break;
+
+        $OldToken = DecodeToken($_POST['token']);
+
+        // echo json_encode('Old?');
+        // echo json_encode($OldToken['Username']);
+        // break;
+
+        $NewToken = CreateToken($OldToken['Username']);
+        echo json_encode($NewToken);
+    break;
+//~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~//       
+    case 'RefreshCookie':
+        session_regenerate_id();
+        echo json_encode("Done");
+        exit;
+    break;
+//~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~// 
+    case 'DataUser':
+        include($path . "Model/MiddleWareAuth.php");
+        
+        $json = DecodeToken($_POST['token']);
+        $daoLog = new DAORegLog();
+        $rdo = $daoLog->select_data_user($json['username']);
+        echo json_encode($rdo);
+        exit;
+    break;
+//~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~// 
     case 'logout':
         unset($_SESSION['username']);
         unset($_SESSION['tiempo']);
@@ -164,43 +218,7 @@ switch ($_GET['Option']) {
 
         echo json_encode('Done');
     break;
-//~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~//    
-    case 'data_user':
-        //include($path . "Model/MiddleWareAuth.php");
-        $json = DecodeToken($_POST['token']);
-        $daoLog = new DAORegLog();
-        $rdo = $daoLog->select_data_user($json['username']);
-        echo json_encode($rdo);
-        exit;
-    break;
-//~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~//    
-    case 'actividad':
-        if (!isset($_SESSION["tiempo"])) {
-            echo json_encode("inactivo");
-            exit();
-        } else {
-            if ((time() - $_SESSION["tiempo"]) >= 1800) { //1800s=30min
-                echo json_encode("inactivo");
-                exit();
-            } else {
-                echo json_encode("activo");
-                exit();
-            }
-        }
-    break;
-//~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~//      
-    case 'refresh_token':
-        $old_token = DecodeToken($_POST['token']);
-        $new_token = CreateToken($old_token['username']);
-        echo json_encode($new_token);
-    break;
-//~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~//    
-    case 'refresh_cookie':
-        session_regenerate_id();
-        echo json_encode("Done");
-        exit;
-    break;
-//~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~//    
+//~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~//       
     default;
         include("ViewParent/inc/error404.html");
     break;
