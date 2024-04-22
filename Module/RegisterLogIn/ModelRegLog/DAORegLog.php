@@ -68,8 +68,8 @@ class DAORegLog{
             }
     }
 /*/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/*/
-    function select_data_user($username){
-			$sql = "SELECT * FROM users WHERE username='$username'";
+    function SeleccionarDatosUsuario($username){
+			$sql = "SELECT * FROM users WHERE username = '$username'";
 			$conexion = connect::con();
             $res = mysqli_query($conexion, $sql)->fetch_object();
             connect::close($conexion);

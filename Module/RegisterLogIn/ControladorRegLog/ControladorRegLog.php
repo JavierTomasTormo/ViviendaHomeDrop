@@ -204,9 +204,17 @@ switch ($_GET['Option']) {
     case 'DataUser':
         include($path . "Model/MiddleWareAuth.php");
         
+        // echo json_encode($_POST['token']);
+        // break;
+
         $json = DecodeToken($_POST['token']);
+
+        // echo json_encode($json);
+        // break;
+
         $daoLog = new DAORegLog();
-        $rdo = $daoLog->select_data_user($json['username']);
+        $rdo = $daoLog->SeleccionarDatosUsuario($json['Username']);
+        
         echo json_encode($rdo);
         exit;
     break;

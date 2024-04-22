@@ -15,9 +15,9 @@
 
                 <ul class="nav navbar-nav search_container" style="float: right; margin-right: 5%; min-width: 55%;">
                     
-                    <li><a href="http://localhost/ViviendaHomeDrop/index.php?page=ListHomeDrop">HOME</a></li>
+                    <li><a href="http://localhost/ViviendaHomeDrop/index.php?page=ListHomeDrop" id="home">HOME</a></li>
 
-                    <li><a href="http://localhost/ViviendaHomeDrop/index.php?page=Shop">SHOP</a></li>
+                    <li><a href="http://localhost/ViviendaHomeDrop/index.php?page=Shop" id="shop">SHOP</a></li>
                                     
                     <li class="inline"><select class="search_selectCity"></select></li>
 
@@ -32,6 +32,11 @@
                     <li></li>
 
                     <li id="userSection" style="display: none;"></li>
+                        <li class="opc_CRUD"></li>
+                        <li class="opc_exceptions"></li>
+                        <li class="log-icon"></li>
+                        <li id="des_inf_user"></li>
+
 
                     <li ><a href="http://localhost/ViviendaHomeDrop/index.php?page=RegLog" id="loginBtn">Register/LogIn</a></li>
                     
@@ -40,52 +45,5 @@
             </div>
             
     </nav>
-            <!-- <script>
-                document.addEventListener("DOMContentLoaded", function() {
-                    var userData = JSON.parse(localStorage.getItem("loggedInUser"));
-                    if (userData) {
-                        $('#loginBtn').hide();
-
-                        var userAvatar = $("<img>")
-                            .attr({
-                                id: "userAvatar",
-                                src: userData.avatar,
-                                alt: "Avatar",
-                                width: 50
-                            });
-                        
-                        var usernameSpan = $("<span></span>")
-                            .attr("id", "username")
-                            .text(userData.username);
-                        
-                        $("#userSection").append(userAvatar).append(usernameSpan);
-                        
-                        $('#userSection').css({
-                            "display": "flex",
-                            "background-color": "#d5b568",
-                            "border-radius": "5px",
-                            "min-width": "14%"
-                        });
-
-                        $('#username').css({
-                            "color": "black",
-                            "font-weight": "800"
-                        });
-                    } else {
-                        $('#userSection').hide();
-                    }
-
-                    // console.log(localStorage.getItem('token'));  
-                    // console.log("Token:", userData.token);
-                    // console.log("Avatar:", userData.avatar);
-                    // console.log("Username:", userData.username);      
-
-                    $('#userSection').on('click', function() {
-                        localStorage.removeItem("loggedInUser");
-                        localStorage.removeItem('token');
-                        
-                        location.reload();
-                    });
-                });
-            </script> -->
+            
    <!--/.NAVBAR END-->

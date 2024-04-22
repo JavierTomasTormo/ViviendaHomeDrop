@@ -5,28 +5,34 @@ function ProtectURL() {
     //console.log(token);
     // const data = JSON.parse(response);
 
-    ajaxPromise('Module/RegisterLogIn/ControladorRegLog/ControladorRegLog.php?Option=ControlUser', 'POST', 'JSON', { 'token': token })
-        .then(function(response) {
-            // console.log(response); 
+        if (token) {
+            ajaxPromise('Module/RegisterLogIn/ControladorRegLog/ControladorRegLog.php?Option=ControlUser', 'POST', 'JSON', { 'token': token })
+            .then(function(response) {
+                // console.log(response); 
+    
+                if (!response) {
+                    console.error('Error: Respuesta vacía del servidor');
+                } 
+                if (response === "Correct_User") {
+                    console.log("CORRECTO--> El usuario conectado coincide con el Loggeado");
+    
+                } else if (response === "Wrong_User") {
+                    console.log("ERROR--> Se está intentando forzar una cuenta");
+                    LogOutAuto();
+    
+                } else {
+                    console.error('Error: Respuesta del servidor inesperada');
+    
+                }
+            })
+            .catch(function(error) {
+                console.error('Error:', error);
+            }); 
+        } else {
+            var hoy = new Date();   
+            console.log("No hay token disponible: \n" + hoy.toDateString() + "\n" + hoy.toLocaleTimeString());
 
-            if (!response) {
-                console.error('Error: Respuesta vacía del servidor');
-            } 
-            if (response === "Correct_User") {
-                console.log("CORRECTO--> El usuario conectado coincide con el Loggeado");
-
-            } else if (response === "Wrong_User") {
-                console.log("ERROR--> Se está intentando forzar una cuenta");
-                LogOutAuto();
-
-            } else {
-                console.error('Error: Respuesta del servidor inesperada');
-
-            }
-        })
-        .catch(function(error) {
-            console.error('Error:', error);
-        }); 
+        }
 }
         //========================================================//
 //============================ControlActivity============================//
