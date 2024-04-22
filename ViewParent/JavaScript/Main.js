@@ -51,7 +51,7 @@ function LoadMenu() {
                 console.log("Error al cargar los datos del user");
             });
     } else {
-        console.log("No hay token disponible");
+        console.info("No hay token disponible");
         $('.opc_CRUD').empty();
         $('.opc_exceptions').empty();
         $('#user_info').hide();
