@@ -304,6 +304,7 @@ function updateResultsCount() {
         });
     
 }
+//#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·//
 function showToast(text) {
     //console.log(text);
     Toastify({
@@ -724,7 +725,6 @@ function LoadSearch() {
         });
 }
 //#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·//
-//#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·//
 function HighlightFilters() {
 
     // var flitroSearch = (localStorage.getItem('Filters_Search') || undefined);
@@ -869,6 +869,7 @@ if (Operation) {
     localStorage.setItem('FiltrosApplied', FiltrosApplied2);
 
 }
+//#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·//
 function getValueByKey(array, key) {
     var item = array.find(item => item[0] === key);
     return item ? item[1] : undefined;
@@ -888,6 +889,9 @@ function LoadJump() {
     )
         .then(function(shop) {
             $("#ListViviendasHomeDrop").empty();
+
+            //console.log(shop);
+
             for (row in shop) {
                 $('<div></div>').attr({ 'id': shop[row].ID_HomeDrop, 'class': 'list_content_shop' }).appendTo('#ListViviendasHomeDrop')
                     .html(
@@ -936,62 +940,84 @@ function LoadHomeDropShop() {
     );
 }
 //#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·//
-    function ajaxForSearch(durl, type , dataType , sData = undefined, total_prod = 0, items_page = 3) {
-
-        
-        //console.log(durl, type , dataType , sData);
-
-        var url2 = durl;
-        var filter = sData;
+function ajaxForSearch(durl, type , dataType , sData = undefined, total_prod = 0, items_page = 3) {
     
-        ajaxPromise(url2, type, dataType, filter)
-            .then(function(data) {
+    //console.log(durl, type , dataType , sData);
+    var url2 = durl;
+    var filter = sData;
 
-                //console.log(url2, type, dataType, filter, data);
-                //console.log(data);
+    ajaxPromise(url2, type, dataType, filter)
+        .then(function(data) {
+            //console.log(url2, type, dataType, filter, data);
+            //console.log(data);
+            $('#ListViviendasHomeDrop').empty();
 
-                $('#ListViviendasHomeDrop').empty();
-    
-                if (data == "error") {
-                    $('<div></div>').appendTo('#ListViviendasHomeDrop')
+            if (data == "error") {
+                $('<div></div>').appendTo('#ListViviendasHomeDrop')
+                    .html(
+                        '<h3>¡No se encuentran resultados con los filtros aplicados!</h3>'
+                    );
+            } else {
+                for (var row in data) {
+                    $('<div></div>').attr({ 'id': data[row].ID_HomeDrop, 'class': 'list_content_shop' }).appendTo('#ListViviendasHomeDrop')
                         .html(
-                            '<h3>¡No se encuentran resultados con los filtros aplicados!</h3>'
+                            '<div class="container">' +
+                            '<div class="wrapper">' +
+                            '<div class="product-img">' +
+                            '<img src="' + data[row].Img + '" style="height: 420px; width: 327px; object-fit: cover;">' +
+                            '</div>' +
+                            '<div class="product-info">' +
+                            //
+                            //
+                            '<div class="LikeHeart"></div>' +
+                            //
+                            //
+                            '<div class="product-text">' +
+                            '<h1><b>' + data[row].Type + ' <h2><b>' + data[row].Operation + '</b></h2><a class="list__heart" id="' + data[row].Ciudad + '"><i id="' + data[row].Superficie + '" class=""></i><i id="' + data[row].Category + '" class=""></i></a></b></h1>' +
+                            '<h3> Descripción y Detalles: </h3>' +
+                            '<p> Próximamente... </p>' +
+                            '<p>' + data[row].Calle + ',  ' + data[row].Ciudad + '</p>' +
+                            '</div>' +
+                            '<div class="product-price-btn">' +
+                            '<p><span>' + data[row].Precio + '€</span></p><br/>' +
+                            '<button id="' + data[row].ID_HomeDrop + '" type="button" class="button buy">Details</button>' +
+                            '</div>' +
+                            '</div>' +
+                            '</div>' +
+                            '</div>'
                         );
-                } else {
-                    for (var row in data) {
-                        $('<div></div>').attr({ 'id': data[row].ID_HomeDrop, 'class': 'list_content_shop' }).appendTo('#ListViviendasHomeDrop')
-                            .html(
-                                '<div class="container">' +
-                                '<div class="wrapper">' +
-                                '<div class="product-img">' +
-                                '<img src="' + data[row].Img + '" style="height: 420px; width: 327px; object-fit: cover;">' +
-                                '</div>' +
-                                '<div class="product-info">' +
-                                '<div class="product-text">' +
-                                '<h1><b>' + data[row].Type + ' <h2><b>' + data[row].Operation + '</b></h2><a class="list__heart" id="' + data[row].Ciudad + '"><i id="' + data[row].Superficie + '" class=""></i><i id="' + data[row].Category + '" class=""></i></a></b></h1>' +
-                                '<h3> Descripción y Detalles: </h3>' +
-                                '<p> Próximamente... </p>' +
-                                '<p>' + data[row].Calle + ',  ' + data[row].Ciudad + '</p>' +
-                                '</div>' +
-                                '<br/><div class="product-price-btn">' +
-                                '<p><span>' + data[row].Precio + '€</span></p><br/>' +
-                                '<button id="' + data[row].ID_HomeDrop + '" type="button" class="button buy">Details</button>' +
-                                '</div>' +
-                                '</div>' +
-                                '</div>' +
-                                '</div>'
-                            );
-                    }
-                    if (localStorage.getItem('id')) {
-                        document.getElementById(move_id).scrollIntoView();
-                    }
                 }
-                AllMapBox(data);
-            })
-            .catch(function() {
-                //window.location.href = "index.php?module=ctrl_exceptions&op=503&type=503&lugar=Function ajxForSearch SHOP";
-            });
+                if (localStorage.getItem('id')) {
+                    document.getElementById(move_id).scrollIntoView();
+                }
+            }
+            AllMapBox(data);
+        })
+        .catch(function() {
+        });
+}
+//#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·//
+$(document).on('click', '.LikeHeart', function (e) {
+    $(this).toggleClass("is-active");
+    var token = localStorage.getItem('token');
+    
+    //console.log(token);
+
+    if (token){
+        if ($(this).hasClass("is-active")) {
+            console.log('Like');
+        } else {
+            console.log('Dislike');
+        }
+
+    } else {
+        setTimeout('window.location.href = "http://localhost/ViviendaHomeDrop/index.php?page=RegLog";', 1000);
+
     }
+
+
+});
+
 //#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·//
 function clicks() {
     $(document).on("click", ".button.buy", function() {
@@ -1033,7 +1059,7 @@ function clicks() {
 function loadDetails(ID_HomeDrop) {
     $("#pagination").empty();
     //REZAMOS A JESUCRISTO NUESTRO SEÑOR
-    console.log(ID_HomeDrop);
+    //console.log(ID_HomeDrop);
 
     //console.log("La ID llega Intacta");
     //return false;
@@ -1344,7 +1370,6 @@ function Pagination(FiltersShop) {
             $('#' + currentPageId).addClass('active');
         });
 }
-/*·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~*/
 //#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·//
 function MasCasasRelacionadas(Category, Ciudad, ID_HomeDrop) {
 
@@ -1465,8 +1490,14 @@ function ViviendasRelacionadas(loadeds = 0, Category, Ciudad, TotalCountItems, I
         console.error("error ViviendasRelacionadas");
     });
 }
+//#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·//
 
 
 
 
 //#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·//
+/*·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~*/
+/*·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~*/
+/*·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~*/
+/*·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~*/
+/*·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~*/

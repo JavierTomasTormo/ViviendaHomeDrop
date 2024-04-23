@@ -86,6 +86,27 @@ select option {
 }
 
 /*++++++++++++++++++++++++++++++++++++++*/
+
+
+.LikeHeart {
+  width: 100px;
+  height: 100px;
+  float: right;
+  background: url("https://cssanimation.rocks/images/posts/steps/heart.png") no-repeat;
+  background-position: 0 0;
+  cursor: pointer;
+  transition: background-position 1s steps(28);
+  transition-duration: 0s;
+}
+
+.LikeHeart.is-active {
+  transition-duration: 1s;
+  background-position: -2800px 0;
+}
+
+
+
+
 .wrapper {
   float: left;
   height: 420px;
@@ -157,7 +178,7 @@ select option {
   letter-spacing: 0.2em;
 }
 .product-text p {
-  height: 125px;
+   height: 70px; 
   margin: 0 0 0 38px;
   font-family: 'Playfair Display', serif;
   color: #8d8d8d;

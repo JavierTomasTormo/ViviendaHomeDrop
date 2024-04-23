@@ -22,90 +22,6 @@ function ajaxPromise(sUrl, sType, sTData, sData = undefined) {
 }
 //--------------------------------------------//
 //================LOAD-HEADER================//
-/*function LoadMenu() {
-    var token = localStorage.getItem('token');
-
-    //console.info('LoadMenu');
-
-    if (token) {
-        ajaxPromise('Module/RegisterLogIn/ControladorRegLog/ControladorRegLog.php?Option=DataUser', 'POST', 'JSON', { 'token': token })
-            .then(function(data) {
-                $('#loginBtn').hide();
-
-                console.log(data);
-
-                if (data.UserType == "client") {
-                    console.log("Client loged");
-                    $('.opc_CRUD').empty();
-                    $('.opc_exceptions').empty();
-
-                } if (data.UserType == "admin") {
-                    console.log("Admin loged");
-                    $('.opc_CRUD').show();
-                    $('.opc_exceptions').show();
-
-                }
-
-
-
-                var userData = JSON.parse(localStorage.getItem("loggedInUser"));
-
-
-                if (userData) {
-                    $('#loginBtn').hide();
-
-                    var userAvatar = $("<img>")
-                        .attr({
-                            id: "userAvatar",
-                            src: userData.avatar,
-                            alt: "Avatar",
-                            width: 60
-                        });
-                    
-                    var usernameSpan = $("<span></span>")
-                        .attr("id", "username")
-                        .text(userData.username);
-                    
-                    $("#userSection").append(userAvatar).append(usernameSpan);
-                    
-                    $('#userSection').css({
-                        "display": "flex",
-                        "background-color": "#d5b568",
-                        "border-radius": "5px",
-                        "min-width": "8%"
-                    });
-
-                    $('#username').css({
-                        "color": "black",
-                        "font-weight": "800"
-                    });
-                } else {
-                    $('#userSection').hide();
-                }
-
-                // console.log(localStorage.getItem('token'));  
-                // console.log("Token:", userData.token);
-                // console.log("Avatar:", userData.avatar);
-                // console.log("Username:", userData.username);      
-
-                $('#userSection').on('click', function() {
-
-                    $('<p></p>').attr({ 'id': 'user_info' }).appendTo('#des_inf_user')
-                    .html(
-                        '<button id="logout"><i id="icon-logout" class="fa-solid fa-right-from-bracket"></i></button>' +
-                        '<a>' + data.Username + '<a/>'
-
-                    )
-
-                    //location.reload();
-                });
-
-
-            }).catch(function() {
-                console.log("Error al cargar los datos del user");
-            });
-    } 
-}*/
 function LoadMenu() {
     var token = localStorage.getItem('token');
 
@@ -114,9 +30,7 @@ function LoadMenu() {
             .then(function(data) {
                 $('#loginBtn').hide();
 
-                console.log(data);
-
-                var menval = 0;
+                //console.log(data);
 
                 if (data.UserType == "client") {
                     console.log("Client loged");
@@ -133,7 +47,7 @@ function LoadMenu() {
 
                 if (userData) {
                     $('#loginBtn').hide();
-
+                
                     var userAvatar = $("<img>")
                         .attr({
                             id: "userAvatar",
@@ -141,66 +55,87 @@ function LoadMenu() {
                             alt: "Avatar",
                             width: 60
                         });
-                    
+                
                     var usernameSpan = $("<span></span>")
                         .attr("id", "username")
                         .text(userData.username);
-                    
-                    $("#userSection").append(userAvatar).append(usernameSpan);
-                    
+                
+                    var userMenu = $('<div id="user_menu" style="display: none;">' +
+                                        '<button id="logout_button">Logout</button>' +
+                                        '<button id="profile_button">Profile</button>' +
+                                        '<button id="close_menu_button">Close</button>' +
+                                    '</div>');
+                
+                    var table = $('<table style="width: 100%;"></table>');
+                    var trAvatar = $('<tr></tr>').appendTo(table);
+                    var trButtons = $('<tr></tr>').appendTo(table);
+                
+                    var tdAvatar = $('<td style="vertical-align: top;"></td>').appendTo(trAvatar);
+                    var tdUserInfo = $('<td style="vertical-align: top; text-align: right;"></td>').appendTo(trAvatar);
+                    var tdButtons = $('<td colspan="2" style="text-align: right;"></td>').appendTo(trButtons);
+                
+                    tdAvatar.append(userAvatar);
+                    tdUserInfo.append(usernameSpan);
+                    tdButtons.append(userMenu);
+                
+                    $('#userSection').append(table);
+                
                     $('#userSection').css({
                         "display": "flex",
                         "background-color": "#d5b568",
                         "border-radius": "5px",
-                        "min-width": "8%",
+                        "padding": "10px"
                     });
-
+                
                     $('#username').css({
                         "color": "black",
                         "font-weight": "800"
                     });
 
-                    var userMenu = $('<div id="user_menu" style="display: none;">' +
-                                        '<button id="logout_button">Logout</button>' +
-                                        '<button id="close_menu_button">Close</button>' +
-                                    '</div>');
-
-                    $('#userSection').append(userMenu);
-
-                    var menuOpen = false; 
-
+                    $('#user_menu button').css({
+                        "background-color": "#4d4d4d",
+                        "border": "none",
+                        "color": "white",
+                        "padding": "10px 20px",
+                        "text-align": "center",
+                        "text-decoration": "none",
+                        "display": "inline-block",
+                        "font-size": "16px",
+                        "margin": "4px 2px",
+                        "cursor": "pointer",
+                        "border-radius": "5px"
+                    });
+                    
+                    $('#user_menu button:hover').css({
+                        "background-color": "#fff"
+                    });
+                    
+                    var menuOpen = 0; 
+                    
                     $('#userSection').on('click', function() { 
-                        if (!menuOpen) { 
+                        //console.log(menuOpen);
+
+                        if (menuOpen === 0) { 
                             $('#user_menu').show();
-                            menuOpen = true;
+
+                        } if (menuOpen === 1) {
+                            $('#user_menu').hide(); 
+                            menuOpen = 0;
+
                         }
                     });
-
+                    
                     $('#close_menu_button').on('click', function() {
-                        $('#user_menu').hide(); 
-                        menuOpen = false;
+                        //console.log('close');
+                        menuOpen = 1;
+                        
                     });
-
-                    // var userMenu = $('<div id="user_menu" style="display: none;">' +
-                    //                     '<button id="logout_button">Logout</button>' +
-                    //                 '</div>');
-
-                    // $('#userSection').append(userMenu);
-
-
-                    // $('#userSection').on('click', function() { 
-                    //     $('#user_menu').toggle();
-
-                    // });
-
-                    // $('#logout_button').on('click', function() {
-                    //     // Aquí puedes agregar la lógica para el logout
-                    //     // Por ejemplo, eliminar el token del localStorage y redirigir a la página de inicio de sesión
-                    //     // localStorage.removeItem('token');
-                    //     // window.location.href = 'index.php?module=ctrl_login&op=login-register_view';
-                    // });
-
-
+                    
+                    $('#profile_button').on('click', function() {
+                        console.log('profile');
+                        
+                    });
+                    
                 } else {
                     $('#userSection').hide();
                 }
@@ -210,31 +145,11 @@ function LoadMenu() {
             });
     }
 }
-
-/*                        // menval
-if (menval = 0) {
-    $('#userSection').css({
-        "display": "flex",
-        "background-color": "#d5b568",
-        "border-radius": "5px",
-        "min-width": "100%",
-    });
-    menval = 1;
-} else {
-    $('#userSection').css({
-        "display": "flex",
-        "background-color": "#d5b568",
-        "border-radius": "5px",
-        "min-width": "8%",
-    });
-    menval = 0;
-}
-*/
-
 //--------------------------------------------//
 //================CLICK-LOGOUT================//
 function ClickLogOut() {
-    $(document).on('click', '#logout', function() {
+    $(document).on('click', '#logout_button', function() {
+        
 
         localStorage.removeItem("loggedInUser");
         localStorage.removeItem('token');
@@ -249,27 +164,33 @@ function ClickLogOut() {
 //--------------------------------------------//
 //================LOG-OUT================//
 function LogOut() {
-    ajaxPromise('module/login/ctrl/ctrl_login.php?op=logout', 'POST', 'JSON')
+    console.log('logout');
+    ajaxPromise('Module/RegisterLogIn/ControladorRegLog/ControladorRegLog.php?Option=LogOut', 'POST', 'JSON')
         .then(function(data) {
+
+            //console.log(data);
+
             localStorage.removeItem('token');
-            window.location.href = "index.php?module=ctrl_home&op=list";
+            window.location.href = "index.php";
         }).catch(function() {
-            console.log('Something has occured');
+            console.error('Something wrong has occured');
         });
 }
-
-// Remove localstorage('page') with click in shop
+//--------------------------------------------//
+//================Pagination_DataRemove================//
 function ClickShop() {
     $(document).on('click', '#shop', function() {
         localStorage.removeItem('currentPageId');
         localStorage.removeItem('move');
     });
 }
-
+//--------------------------------------------//
+//================DocReady================//
 $(document).ready(function() {
     LoadMenu();
     ClickLogOut();
-    // click_shop();
+    ClickShop();
 });
+//--------------------------------------------//
 
 

@@ -219,8 +219,10 @@ switch ($_GET['Option']) {
         exit;
     break;
 //~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~// 
-    case 'logout':
-        unset($_SESSION['username']);
+    case 'LogOut':
+        // echo json_encode($_SESSION);
+        // break;
+        unset($_SESSION['Username']);
         unset($_SESSION['tiempo']);
         session_destroy();
 

@@ -90,7 +90,7 @@ function LogOutAuto() {
 
     toastr.warning("Error, tiempo de sesión expirado");
 
-    setTimeout('window.location.href = "http://localhost/ViviendaHomeDrop/index.php?page=RegLog";', 2000);
+    setTimeout('window.location.href = "http://localhost/ViviendaHomeDrop/index.php?page=RegLog";', 1000);
 }
         //========================================================//
 //============================Document Ready============================//
