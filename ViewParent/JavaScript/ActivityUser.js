@@ -70,6 +70,7 @@ function RefreshToken() {
 
                 console.log("Refresh token correctly");
                 localStorage.setItem("token", DataToken);
+                location.reload();
                 LoadMenu();
             });
     }
@@ -79,6 +80,7 @@ function RefreshToken() {
 function RefreshCookie() {
     ajaxPromise('Module/RegisterLogIn/ControladorRegLog/ControladorRegLog.php?Option=RefreshCookie', 'POST', 'JSON')
         .then(function(response) {
+            location.reload();
             console.log("Refresh cookie correctly", response);
         });
 }
