@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 25-03-2024 a las 21:15:24
+-- Tiempo de generación: 23-04-2024 a las 20:04:28
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -68,7 +68,8 @@ INSERT INTO `cityhomedrop` (`ID_City`, `Ciudad`, `Img`) VALUES
 (3, 'Valencia', 'ViewParent/IMG/Homes/CityCarousel/CityValencia.jpg'),
 (7, 'Barcelona', 'ViewParent/IMG/Homes/CityCarousel/CityBarcelona.jpg'),
 (9, 'Alicante', 'ViewParent\\IMG\\Homes\\CityCarousel\\CityAlicante.jpg'),
-(10, 'San Juan de Alicante', 'ViewParent\\IMG\\Homes\\CityCarousel\\CitySanJuandeAlicante.jpg');
+(10, 'San Juan de Alicante', 'ViewParent\\IMG\\Homes\\CityCarousel\\CitySanJuandeAlicante.jpg'),
+(11, 'Coimbra', 'ViewParent/IMG/Homes/CityCarousel/CityCoimbra.jpg');
 
 -- --------------------------------------------------------
 
@@ -96,7 +97,13 @@ INSERT INTO `exceptionlogs` (`ID_Exception`, `ID_HomeDrop`, `ErrorType`, `Spots`
 (8, 8, 503, 'Function load_like_user SHOP', '2022-04-01 11:37:16'),
 (9, 9, 503, 'Function load_like_user SHOP', '2022-04-01 11:37:16'),
 (10, 10, 503, 'Function load_like_user SHOP', '2022-04-01 11:37:16'),
-(11, 7, 503, 'Function load_like_user SHOP', '2022-04-01 11:37:31');
+(11, 7, 503, 'Function load_like_user SHOP', '2022-04-01 11:37:31'),
+(12, 22, 503, 'Carrusel_Brands HOME', '2024-03-26 00:00:00'),
+(13, 23, 503, 'Carrusel_Brands HOME', '2024-03-26 00:00:00'),
+(14, 24, 503, 'Carrusel_Brands HOME', '2024-03-26 00:00:00'),
+(15, 25, 503, 'Carrusel_Brands HOME', '2024-03-26 00:00:00'),
+(16, 26, 503, 'Carrusel_Brands HOME', '2024-03-26 00:00:00'),
+(17, 27, 503, 'Carrusel_Brands HOME', '2024-03-26 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -153,7 +160,13 @@ INSERT INTO `imageneshomedrop` (`ID_Imagen`, `ID_HomeDrop`, `Img`) VALUES
 (36, 20, 'ViewParent\\IMG\\Homes\\TypeCarousel\\Stock.jpg'),
 (37, 20, 'ViewParent\\IMG\\Homes\\TypeCarousel\\Stock.jpg'),
 (38, 21, 'ViewParent\\IMG\\Homes\\TypeCarousel\\Stock.jpg'),
-(39, 21, 'ViewParent\\IMG\\Homes\\TypeCarousel\\Stock.jpg');
+(39, 21, 'ViewParent\\IMG\\Homes\\TypeCarousel\\Stock.jpg'),
+(40, 22, 'ViewParent\\IMG\\Homes\\TypeCarousel\\Stock.jpg'),
+(41, 23, 'ViewParent\\IMG\\Homes\\TypeCarousel\\Stock.jpg'),
+(42, 24, 'ViewParent\\IMG\\Homes\\TypeCarousel\\Stock.jpg'),
+(43, 25, 'ViewParent\\IMG\\Homes\\TypeCarousel\\Stock.jpg'),
+(44, 26, 'ViewParent\\IMG\\Homes\\TypeCarousel\\Stock.jpg'),
+(45, 27, 'ViewParent\\IMG\\Homes\\TypeCarousel\\Stock.jpg');
 
 -- --------------------------------------------------------
 
@@ -209,6 +222,37 @@ INSERT INTO `typehomedrop` (`ID_Type`, `Img`, `Type`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `users`
+--
+
+CREATE TABLE `users` (
+  `ID_User` int(30) NOT NULL,
+  `Username` varchar(25) DEFAULT NULL,
+  `Password` varchar(100) DEFAULT NULL,
+  `Email` varchar(50) DEFAULT NULL,
+  `UserType` varchar(50) DEFAULT NULL,
+  `Avatar` varchar(100) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `users`
+--
+
+INSERT INTO `users` (`ID_User`, `Username`, `Password`, `Email`, `UserType`, `Avatar`) VALUES
+(54, 'HakyaLoL', '$2y$12$F.pWu/guPN6dKkdp1cju4uVlBNnHYsXL1XoY9wd6JBiV0Bu/8Akm2', 'javiertomas2003@gmail.com', 'admin', 'https://i.pravatar.cc/500?u=516afa276ca664f8c41d4d4fae15684e'),
+(55, 'GYMaster', '$2y$12$ooHVnRZdV3/xKKZXRLqm6.Bdv16CMdPdtvp9TV6wn9qd1CK/i2qcC', 'gymaster69@gmail.com', 'client', 'https://i.pravatar.cc/500?u=edabb60e60a59298a46c9b8ab76ca545'),
+(56, 'Jimaster', '$2y$12$hSvwLbpBwW3vfviQ92lq7Ou9/hAGKCasDiv6QM3Kfv.qe8a4le.VG', 'jimaster@gmail.com', 'client', 'https://i.pravatar.cc/500?u=cf3328b5372ff0967c490aa90b2a7e6e'),
+(57, 'Gabotto', '$2y$12$lGapVK/a1Cmpwi85AxoT6OrBL6CCIYCRYsruuwHE9WbNWhjLFOQUu', 'gabotto@gmai.com', 'client', 'https://i.pravatar.cc/500?u=aaef94f16c77b0e62a973be625d6656d'),
+(58, 'Gabotto2', '$2y$12$jKXYehZcavlVMhgUdarUwuhMSJj.QW5ofsqIsYv/S35k.gc9BPSSW', 'gabotto2@gmail.com', 'client', 'https://i.pravatar.cc/500?u=cb094041b74f7f2ccfc8430050ee928f'),
+(59, 'Gabotto3', '$2y$12$jgnWwwJ6H7lgZu3kvxPFfOwODJIq0KQUceu24IIb.2X9BrmUuhvYi', 'gabotto3@gmail.com', 'client', 'https://i.pravatar.cc/500?u=44676d5d1a66ed78a8e7f4b4039745c7'),
+(61, 'Hakya', '$2y$12$sFfmaJoGeWZRaqvITeCxY.c0hAUJ70vV.GgrvOlVyRgyORv3/OPe2', 'javiertomastormo@gmail.com', 'client', 'https://i.pravatar.cc/500?u=6348b9cd9c83fc5e59103cbb7307c884'),
+(67, 'TestFinal', '$2y$12$.OaT24fbHBpjrMUdVi64OOt9X780OBdT1WFON0oytJmclEg4G0Vje', 'TestFinal@gmail.com', 'client', 'https://i.pravatar.cc/500?u=b8b3d98b6696cf7cbf6831d4612a3cad'),
+(68, 'TestFinal2', '$2y$12$MkB9w/5NywgZZcQlLY9uou9JVmdaVanbE0/2MOa.tng.O.svtuP36', 'TestFinal2@gmail.com', 'client', 'https://i.pravatar.cc/500?u=2627158fe1d09e7b70a8929efd3f1568'),
+(70, 'Manoleishon', '$2y$12$WF4DZKTcIgKlpI7mXC6QceEsIb3BeaOPVzI15zR0nkHy.AlcFWgyy', 'manoleishon@gmail.com', 'client', 'https://i.pravatar.cc/500?u=21f62174421f8a16f329da58c5941994');
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `viviendascategory`
 --
 
@@ -254,7 +298,13 @@ INSERT INTO `viviendascategory` (`ID_Category`, `ID_HomeDrop`) VALUES
 (3, 10),
 (4, 11),
 (5, 20),
-(6, 21);
+(6, 21),
+(2, 22),
+(3, 23),
+(4, 24),
+(5, 25),
+(6, 26),
+(7, 27);
 
 -- --------------------------------------------------------
 
@@ -279,26 +329,32 @@ CREATE TABLE `viviendashomedrop` (
 --
 
 INSERT INTO `viviendashomedrop` (`ID_HomeDrop`, `Precio`, `Calle`, `Superficie`, `ID_City`, `Fecha_Pub`, `lon`, `lat`, `vivistas`) VALUES
-(2, 120000.00, 'Nombre de la Calle 1', 150, 2, '2022-01-01', -3.65258032, 40.41878752, 3),
-(3, 95000.00, 'Nombre de la Calle 2', 120, 2, '2022-01-02', -3.64752145, 40.49223018, 3),
-(4, 80000.00, 'Nombre de la Calle 3', 100, 3, '2022-01-03', -0.36798473, 39.48518580, 0),
-(5, 135000.00, 'Nombre de la Calle 4', 180, 7, '2022-01-04', 2.22488321, 41.39665864, 1),
-(6, 110000.00, 'Nombre de la Calle 5', 140, 9, '2022-01-05', -0.47765642, 38.42724200, 1),
-(7, 75000.00, 'Nombre de la Calle 6', 90, 10, '2022-01-06', -0.52902076, 38.45017021, 2),
-(8, 90000.00, 'Nombre de la Calle 7', 110, 2, '2022-01-07', -3.63048668, 40.41905599, 0),
-(9, 98000.00, 'Nombre de la Calle 8', 125, 3, '2022-01-08', -0.28496001, 39.51983198, 0),
-(10, 115000.00, 'Nombre de la Calle 9', 135, 7, '2022-01-09', 2.24903995, 41.41350378, 0),
-(11, 105000.00, 'Nombre de la Calle 10', 130, 10, '2022-01-10', -0.51410092, 38.48568405, 0),
-(12, 125000.00, 'Nombre de la Calle 11', 160, 2, '2024-03-06', -3.69767696, 40.47656302, 0),
+(2, 120500.00, 'Nombre de la Calle 1', 150, 2, '2022-01-01', -3.65258032, 40.41878752, 19),
+(3, 95005.00, 'Nombre de la Calle 2', 120, 2, '2022-01-02', -3.64752145, 40.49223018, 8),
+(4, 85800.00, 'Nombre de la Calle 3', 100, 3, '2022-01-03', -0.36798473, 39.48518580, 28),
+(5, 135050.00, 'Nombre de la Calle 4', 180, 7, '2022-01-04', 2.22488321, 41.39665864, 72),
+(6, 110030.00, 'Nombre de la Calle 5', 140, 9, '2022-01-05', -0.47765642, 38.42724200, 10),
+(7, 75009.00, 'Nombre de la Calle 6', 90, 10, '2022-01-06', -0.52902076, 38.45017021, 12),
+(8, 95000.00, 'Nombre de la Calle 7', 110, 2, '2022-01-07', -3.63048668, 40.41905599, 6),
+(9, 98060.00, 'Nombre de la Calle 8', 125, 3, '2022-01-08', -0.28496001, 39.51983198, 12),
+(10, 115070.00, 'Nombre de la Calle 9', 135, 7, '2022-01-09', 2.24903995, 41.41350378, 2),
+(11, 105000.00, 'Nombre de la Calle 10', 130, 10, '2022-01-10', -0.51410092, 38.48568405, 1),
+(12, 125000.00, 'Nombre de la Calle 11', 160, 2, '2024-03-06', -3.69767696, 40.47656302, 1),
 (13, 85000.00, 'Nombre de la Calle 12', 110, 3, '2024-03-06', -0.29585400, 39.49284094, 0),
 (14, 95000.00, 'Nombre de la Calle 13', 130, 7, '2024-03-06', 2.24676671, 41.48311073, 1),
-(15, 140000.00, 'Nombre de la Calle 14', 180, 9, '2024-03-06', -0.41104648, 38.40093542, 1),
+(15, 140000.00, 'Nombre de la Calle 14', 180, 9, '2024-03-06', -0.41104648, 38.40093542, 15),
 (16, 80000.00, 'Nombre de la Calle 15', 100, 10, '2024-03-06', -0.46038344, 38.47227652, 1),
-(17, 92000.00, 'Nombre de la Calle 16', 115, 2, '2024-03-06', -3.62586705, 40.47583518, 0),
+(17, 92000.00, 'Nombre de la Calle 16', 115, 2, '2024-03-06', -3.62586705, 40.47583518, 12),
 (18, 110000.00, 'Nombre de la Calle 17', 140, 3, '2024-03-06', -0.31492295, 39.49967970, 1),
-(19, 128000.00, 'Nombre de la Calle 18', 155, 7, '2024-03-06', 2.23816737, 41.41959773, 2),
-(20, 75000.00, 'Nombre de la Calle 19', 95, 9, '2024-03-06', -0.40281345, 38.43263959, 1),
-(21, 105000.00, 'Nombre de la Calle 20', 120, 10, '2024-03-06', -0.52656173, 38.44627261, 0);
+(19, 128000.00, 'Nombre de la Calle 18', 155, 7, '2024-03-06', 2.23816737, 41.41959773, 31),
+(20, 75000.00, 'Nombre de la Calle 19', 95, 9, '2024-03-06', -0.40281345, 38.43263959, 2),
+(21, 105000.00, 'Nombre de la Calle 20', 120, 10, '2024-03-06', -0.52656173, 38.44627261, 1),
+(22, 100000.00, 'Nombre de la Calle 21', 130, 11, '2024-03-06', -8.42083300, 40.21149100, 6),
+(23, 90000.00, 'Nombre de la Calle 22', 110, 11, '2024-03-06', -8.41614100, 40.20331400, 3),
+(24, 110000.00, 'Nombre de la Calle 23', 140, 11, '2024-03-06', -8.40566100, 40.21192100, 1),
+(25, 95000.00, 'Nombre de la Calle 24', 120, 11, '2024-03-06', -8.41489300, 40.20915700, 2),
+(26, 105000.00, 'Nombre de la Calle 25', 125, 11, '2024-03-06', -8.41754800, 40.20756400, 1),
+(27, 85000.00, 'Nombre de la Calle 26', 115, 11, '2024-03-06', -8.42183600, 40.21464700, 4);
 
 -- --------------------------------------------------------
 
@@ -335,7 +391,13 @@ INSERT INTO `viviendasoperation` (`ID_Operation`, `ID_HomeDrop`) VALUES
 (3, 18),
 (4, 19),
 (5, 20),
-(6, 21);
+(6, 21),
+(2, 22),
+(3, 23),
+(4, 24),
+(5, 25),
+(6, 26),
+(2, 27);
 
 -- --------------------------------------------------------
 
@@ -372,7 +434,13 @@ INSERT INTO `viviendastype` (`ID_Type`, `ID_HomeDrop`) VALUES
 (8, 18),
 (9, 19),
 (10, 20),
-(1, 21);
+(1, 21),
+(2, 22),
+(3, 23),
+(4, 24),
+(5, 25),
+(6, 26),
+(7, 27);
 
 --
 -- Índices para tablas volcadas
@@ -415,6 +483,14 @@ ALTER TABLE `operationhomedrop`
 ALTER TABLE `typehomedrop`
   ADD PRIMARY KEY (`ID_Type`),
   ADD UNIQUE KEY `ID_Type` (`ID_Type`);
+
+--
+-- Indices de la tabla `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`ID_User`),
+  ADD UNIQUE KEY `Username` (`Username`),
+  ADD UNIQUE KEY `Email` (`Email`);
 
 --
 -- Indices de la tabla `viviendascategory`
@@ -471,7 +547,7 @@ ALTER TABLE `exceptionlogs`
 -- AUTO_INCREMENT de la tabla `imageneshomedrop`
 --
 ALTER TABLE `imageneshomedrop`
-  MODIFY `ID_Imagen` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `ID_Imagen` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 
 --
 -- AUTO_INCREMENT de la tabla `operationhomedrop`
@@ -480,10 +556,16 @@ ALTER TABLE `operationhomedrop`
   MODIFY `ID_Operation` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
+-- AUTO_INCREMENT de la tabla `users`
+--
+ALTER TABLE `users`
+  MODIFY `ID_User` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=71;
+
+--
 -- AUTO_INCREMENT de la tabla `viviendashomedrop`
 --
 ALTER TABLE `viviendashomedrop`
-  MODIFY `ID_HomeDrop` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `ID_HomeDrop` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- Restricciones para tablas volcadas
