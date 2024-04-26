@@ -88,15 +88,19 @@ select option {
 /*++++++++++++++++++++++++++++++++++++++*/
 
 
+
+
 .LikeHeart {
   width: 100px;
   height: 100px;
-  float: right;
+  float: right; 
   background: url("https://cssanimation.rocks/images/posts/steps/heart.png") no-repeat;
   background-position: 0 0;
   cursor: pointer;
   transition: background-position 1s steps(28);
   transition-duration: 0s;
+  margin-top: -15px;
+  margin-right: -10px;
 }
 
 .LikeHeart.is-active {
@@ -104,6 +108,12 @@ select option {
   background-position: -2800px 0;
 }
 
+.resultsCountLike {
+  float: right; 
+  font-size: 19px;
+  margin-top: 30px;
+  margin-right: -80px;
+}
 
 
 

@@ -2,6 +2,7 @@
 $(document).ready(function() {
 
     updateResultsCount();
+    // CountLikes();
     //console.log('DocumentReady');
 /*************************************************************************************/
     let FiltrosAplicados = localStorage.getItem('FiltrosApplied');
@@ -940,8 +941,11 @@ function LoadHomeDropShop() {
     );
 }
 //#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·//
+//#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·//
+//#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·//
+//#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·//
+//#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·//
 function ajaxForSearch(durl, type , dataType , sData = undefined, total_prod = 0, items_page = 3) {
-    
     //console.log(durl, type , dataType , sData);
     var url2 = durl;
     var filter = sData;
@@ -968,8 +972,9 @@ function ajaxForSearch(durl, type , dataType , sData = undefined, total_prod = 0
                             '</div>' +
                             '<div class="product-info">' +
                             //
-                            //
-                            '<div class="LikeHeart"></div>' +
+                            //                                
+                                '<div class="LikeHeart" id="' + data[row].ID_HomeDrop + '"></div><br>' +
+                                '<b><div class="resultsCountLike" id="resultsCountLike'+data[row].ID_HomeDrop+'">0 Likes</div></b>' + 
                             //
                             //
                             '<div class="product-text">' +
@@ -986,38 +991,80 @@ function ajaxForSearch(durl, type , dataType , sData = undefined, total_prod = 0
                             '</div>' +
                             '</div>'
                         );
+                    // Llamar a la función CountLikes para cada ID_HomeDrop
+                    CountLikes(data[row].ID_HomeDrop);
                 }
                 if (localStorage.getItem('id')) {
                     document.getElementById(move_id).scrollIntoView();
                 }
             }
             AllMapBox(data);
+            
         })
         .catch(function() {
         });
 }
+
 //#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·//
 $(document).on('click', '.LikeHeart', function (e) {
     $(this).toggleClass("is-active");
     var token = localStorage.getItem('token');
+    var ID_HomeDropLike = $(this).attr('id');
+
     
     //console.log(token);
 
     if (token){
         if ($(this).hasClass("is-active")) {
             console.log('Like');
+            console.log(ID_HomeDropLike);
+            CountLikes(ID_HomeDropLike);
+
         } else {
             console.log('Dislike');
-        }
+            console.log(ID_HomeDropLike);
+            CountLikes(ID_HomeDropLike);
 
+        }
     } else {
         setTimeout('window.location.href = "http://localhost/ViviendaHomeDrop/index.php?page=RegLog";', 1000);
 
     }
 
+    
 
 });
+//#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·//
+function CountLikes(ID_HomeDropLike) {
 
+        $.ajax({
+            url: 'Module/Shop/ControllerShop/ControllerShop.php?Option=CountLikes',
+            type: 'POST',
+            dataType: 'JSON',
+            data: {ID_HomeDropLike: ID_HomeDropLike},
+            success: function(response) {
+               console.log(response);
+                console.log(ID_HomeDropLike);
+        
+                if (!response.error) {
+                    $('#resultsCountLike'+ID_HomeDropLike+'').text(response.count + "Likes");
+
+                    //console.log(response.count);
+
+                } else {
+                    console.error("Error al obtener el count");
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error("Error en la petición AJAX", error);
+            }
+        });
+    
+}
+//#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·//
+//#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·//
+//#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·//
+//#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·//
 //#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·//
 function clicks() {
     $(document).on("click", ".button.buy", function() {

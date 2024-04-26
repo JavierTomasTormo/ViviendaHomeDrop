@@ -341,6 +341,24 @@ switch ($_GET['Option']) {
         }
     break;
 //#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#//
+case 'CountLikes':
+    // echo json_encode($_POST['ID_HomeDropLike']);
+    // echo json_encode('Hola');
+    // break;
+
+    $DAOFilter = new DAOShop();
+    $count = $DAOFilter->CountLikes($_POST['ID_HomeDropLike']);
+
+    //echo json_encode($count);
+   //break;
+
+    if ($count !== false) {
+        echo json_encode(['count' => $count]);
+    } else {
+        echo json_encode(['error' => 'No se pudo obtener el conteo']);
+    }
+    break;
+//#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#//
     default;
         include("ViewParent/inc/error404.html");
     break;

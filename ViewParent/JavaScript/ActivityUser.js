@@ -67,10 +67,10 @@ function RefreshToken() {
             .then(function(DataToken) {
 
                 // console.log(DataToken);
-
+                location.reload();
                 console.log("Refresh token correctly");
                 localStorage.setItem("token", DataToken);
-                location.reload();
+                
                 LoadMenu();
             });
     }
