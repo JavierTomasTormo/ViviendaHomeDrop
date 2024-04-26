@@ -341,22 +341,56 @@ switch ($_GET['Option']) {
         }
     break;
 //#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#//
-case 'CountLikes':
-    // echo json_encode($_POST['ID_HomeDropLike']);
-    // echo json_encode('Hola');
-    // break;
+    case 'CountLikes':
+        // echo json_encode($_POST['ID_HomeDropLike']);
+        // echo json_encode('Hola');
+        // break;
 
-    $DAOFilter = new DAOShop();
-    $count = $DAOFilter->CountLikes($_POST['ID_HomeDropLike']);
+        $DAOFilter = new DAOShop();
+        $count = $DAOFilter->CountLikes($_POST['ID_HomeDropLike']);
 
-    //echo json_encode($count);
-   //break;
+        //echo json_encode($count);
+        //break;
 
-    if ($count !== false) {
-        echo json_encode(['count' => $count]);
-    } else {
-        echo json_encode(['error' => 'No se pudo obtener el conteo']);
-    }
+        if ($count !== false) {
+            echo json_encode(['count' => $count]);
+        } else {
+            echo json_encode(['error' => 'No se pudo obtener el conteo']);
+        }
+    break;
+//#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#//
+    case 'Like':
+        include($path . "Model/MiddleWareAuth.php");
+
+        // echo json_encode($_POST['ID_HomeDropLike']);
+        //  echo json_encode($_POST['token']);
+        //  break;
+        $json = DecodeToken($_POST['token']);
+        // echo json_encode($json);
+        // break;
+
+        $DAOFilter = new DAOShop();
+        $count = $DAOFilter->Likes($_POST['ID_HomeDropLike'], $json['Username']);
+
+
+    break;
+//#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#//
+    case 'DisLike':
+        include($path . "Model/MiddleWareAuth.php");
+
+        // echo json_encode($_POST['ID_HomeDropLike']);
+        //  echo json_encode($_POST['token']);
+        //  break;
+        $json = DecodeToken($_POST['token']);
+        // echo json_encode($json);
+        // break;
+
+        $DAOFilter = new DAOShop();
+        $count = $DAOFilter->DisLikes($_POST['ID_HomeDropLike'], $json['Username']);
+
+        echo json_encode($count);
+        break;
+
     break;
 //#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#//
     default;

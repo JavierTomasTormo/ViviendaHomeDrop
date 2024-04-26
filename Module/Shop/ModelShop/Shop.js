@@ -1017,12 +1017,27 @@ $(document).on('click', '.LikeHeart', function (e) {
     if (token){
         if ($(this).hasClass("is-active")) {
             console.log('Like');
-            console.log(ID_HomeDropLike);
+            // console.log(ID_HomeDropLike);
+            
+            $.ajax({
+                url: 'Module/Shop/ControllerShop/ControllerShop.php?Option=Like',
+                type: 'POST',
+                dataType: 'JSON',
+                data: {ID_HomeDropLike: ID_HomeDropLike, token: token},
+            });
             CountLikes(ID_HomeDropLike);
 
         } else {
             console.log('Dislike');
-            console.log(ID_HomeDropLike);
+            //console.log(ID_HomeDropLike);
+
+            $.ajax({
+                url: 'Module/Shop/ControllerShop/ControllerShop.php?Option=DisLike',
+                type: 'POST',
+                dataType: 'JSON',
+                data: {ID_HomeDropLike: ID_HomeDropLike, token: token},
+            });
+
             CountLikes(ID_HomeDropLike);
 
         }
@@ -1031,7 +1046,7 @@ $(document).on('click', '.LikeHeart', function (e) {
 
     }
 
-    
+    CountLikes(ID_HomeDropLike);
 
 });
 //#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·//
@@ -1043,11 +1058,11 @@ function CountLikes(ID_HomeDropLike) {
             dataType: 'JSON',
             data: {ID_HomeDropLike: ID_HomeDropLike},
             success: function(response) {
-               console.log(response);
-                console.log(ID_HomeDropLike);
+               //console.log(response);
+                //console.log(ID_HomeDropLike);
         
                 if (!response.error) {
-                    $('#resultsCountLike'+ID_HomeDropLike+'').text(response.count + "Likes");
+                    $('#resultsCountLike'+ID_HomeDropLike+'').text(response.count + " Likes");
 
                     //console.log(response.count);
 

@@ -733,11 +733,54 @@ class DAOShop{
 		// return("Llego al DAOShop CountLikes");
 		// return($ID_HomeDrop);
 
-		$consulta = "SELECT COUNT(DISTINCT vh.ID_HomeDrop) AS total
+		$consulta = "SELECT COUNT(vh.ID_HomeDrop) AS total
 						FROM likeshomedrop vh
 						WHERE vh.ID_HomeDrop = $ID_HomeDrop"; 
 
 
+
+		//return($consulta);
+
+		$conexion = connect::con();
+		$res = mysqli_query($conexion, $consulta);
+		connect::close($conexion);
+
+		if ($res && $row = mysqli_fetch_assoc($res)) {
+			return $row['total'];
+		} else {
+			return false;
+		}
+	}
+	/*-------*/
+	function Likes($ID_HomeDrop, $Username){
+
+
+		// return("Llego al DAOShop CountLikes");
+		// return($ID_HomeDrop);
+
+		$consulta = "INSERT INTO `likeshomedrop`(`ID_HomeDrop`, `ID_User`) VALUES ($ID_HomeDrop,(SELECT ID_User FROM users WHERE Username = '$Username' ))"; 
+
+
+
+		//return($consulta);
+
+		$conexion = connect::con();
+		$res = mysqli_query($conexion, $consulta);
+		connect::close($conexion);
+
+		if ($res && $row = mysqli_fetch_assoc($res)) {
+			return $row['total'];
+		} else {
+			return false;
+		}
+	}
+	/*-------*/
+	function DisLikes($ID_HomeDrop, $Username){
+
+		// return("Llego al DAOShop CountLikes");
+		// return($ID_HomeDrop);
+
+		$consulta = "DELETE FROM `likeshomedrop` WHERE ID_HomeDrop = $ID_HomeDrop AND ID_User= (SELECT ID_User FROM users WHERE Username = '$Username')"; 
 
 		//return($consulta);
 
