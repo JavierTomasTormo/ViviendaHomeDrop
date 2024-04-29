@@ -942,9 +942,6 @@ function LoadHomeDropShop() {
 }
 //#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·//
 //#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·//
-//#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·//
-//#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·//
-//#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·//
 function ajaxForSearch(durl, type , dataType , sData = undefined, total_prod = 0, items_page = 3) {
     //console.log(durl, type , dataType , sData);
     var url2 = durl;
@@ -962,13 +959,10 @@ function ajaxForSearch(durl, type , dataType , sData = undefined, total_prod = 0
                 );
         } else {
             for (var row in data) {
-                // Crear un div para cada elemento
                 $('<div></div>').attr({ 'id': data[row].ID_HomeDrop, 'class': 'list_content_shop' }).appendTo('#ListViviendasHomeDrop');
 
-                // Llamar a una función para construir el HTML y agregarlo al div correspondiente
                 buildProductHTML(data[row]);
                 
-                // Llamar a la función CountLikes para cada ID_HomeDrop
                 CountLikes(data[row].ID_HomeDrop);
             }
             if (localStorage.getItem('id')) {
@@ -984,45 +978,62 @@ function ajaxForSearch(durl, type , dataType , sData = undefined, total_prod = 0
                 '<img src="' + productData.Img + '" style="height: 420px; width: 327px; object-fit: cover;">' +
                 '</div>' +
                 '<div class="product-info">';
+            if (token) {
+                $.ajax({
+                    url: 'Module/Shop/ControllerShop/ControllerShop.php?Option=UserLikes',
+                    type: 'POST',
+                    dataType: 'JSON',
+                    data: { ID_HomeDropLike: productData.ID_HomeDrop, token: token },
+                    success: function(response) {
+                        //console.log(response);
 
-            $.ajax({
-                url: 'Module/Shop/ControllerShop/ControllerShop.php?Option=UserLikes',
-                type: 'POST',
-                dataType: 'JSON',
-                data: { ID_HomeDropLike: productData.ID_HomeDrop, token: token },
-                success: function(response) {
-                    //console.log(response);
+                        if (response === 'Like') {
+                            productHTML += '<div class="LikeHeart is-active" id="' + productData.ID_HomeDrop + '"></div><br>' +
+                                '<b><div class="resultsCountLike" id="resultsCountLike' + productData.ID_HomeDrop + '">0 Likes</div></b>';
+                        } if (response === 'NoLike') {
+                            productHTML += '<div class="LikeHeart" id="' + productData.ID_HomeDrop + '"></div><br>' +
+                                '<b><div class="resultsCountLike" id="resultsCountLike' + productData.ID_HomeDrop + '">0 Likes</div></b>';
+                        }
 
-                    if (response === 'Like') {
-                        productHTML += '<div class="LikeHeart is-active" id="' + productData.ID_HomeDrop + '"></div><br>' +
-                            '<b><div class="resultsCountLike" id="resultsCountLike' + productData.ID_HomeDrop + '">0 Likes</div></b>';
-                    } else {
-                        productHTML += '<div class="LikeHeart" id="' + productData.ID_HomeDrop + '"></div><br>' +
-                            '<b><div class="resultsCountLike" id="resultsCountLike' + productData.ID_HomeDrop + '">0 Likes</div></b>';
+                        productHTML += '<div class="product-text">' +
+                            '<h1><b>' + productData.Type + '</b> <h2><b>' + productData.Operation + '</b></h2><a class="list__heart" id="' + productData.Ciudad + '"><i id="' + productData.Superficie + '" class=""></i><i id="' + productData.Category + '" class=""></i></a></b></h1>' +
+                            '<h3> Descripción y Detalles: </h3>' +
+                            '<p> Próximamente... </p>' +
+                            '<p>' + productData.Calle + ',  ' + productData.Ciudad + '</p>' +
+                            '</div>' +
+                            '<div class="product-price-btn">' +
+                            '<p><span>' + productData.Precio + '€</span></p><br/>' +
+                            '<button id="' + productData.ID_HomeDrop + '" type="button" class="button buy">Details</button>' +
+                            '</div>' +
+                            '</div>' +
+                            '</div>' +
+                            '</div>';
+
+                        $('#' + productData.ID_HomeDrop).html(productHTML);
                     }
+                });
+            } else {
+                productHTML += '<div class="LikeHeart" id="' + productData.ID_HomeDrop + '"></div><br>' +
+                '<b><div class="resultsCountLike" id="resultsCountLike' + productData.ID_HomeDrop + '">0 Likes</div></b>';
 
-                    // Agregar el resto del HTML después de recibir la respuesta AJAX
-                    productHTML += '<div class="product-text">' +
-                        '<h1><b>' + productData.Type + '</b> <h2><b>' + productData.Operation + '</b></h2><a class="list__heart" id="' + productData.Ciudad + '"><i id="' + productData.Superficie + '" class=""></i><i id="' + productData.Category + '" class=""></i></a></b></h1>' +
-                        '<h3> Descripción y Detalles: </h3>' +
-                        '<p> Próximamente... </p>' +
-                        '<p>' + productData.Calle + ',  ' + productData.Ciudad + '</p>' +
-                        '</div>' +
-                        '<div class="product-price-btn">' +
-                        '<p><span>' + productData.Precio + '€</span></p><br/>' +
-                        '<button id="' + productData.ID_HomeDrop + '" type="button" class="button buy">Details</button>' +
-                        '</div>' +
-                        '</div>' +
-                        '</div>' +
-                        '</div>';
+                productHTML += '<div class="product-text">' +
+                    '<h1><b>' + productData.Type + '</b> <h2><b>' + productData.Operation + '</b></h2><a class="list__heart" id="' + productData.Ciudad + '"><i id="' + productData.Superficie + '" class=""></i><i id="' + productData.Category + '" class=""></i></a></b></h1>' +
+                    '<h3> Descripción y Detalles: </h3>' +
+                    '<p> Próximamente... </p>' +
+                    '<p>' + productData.Calle + ',  ' + productData.Ciudad + '</p>' +
+                    '</div>' +
+                    '<div class="product-price-btn">' +
+                    '<p><span>' + productData.Precio + '€</span></p><br/>' +
+                    '<button id="' + productData.ID_HomeDrop + '" type="button" class="button buy">Details</button>' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>';
 
-                    $('#' + productData.ID_HomeDrop).html(productHTML);
-                }
-            });
+                $('#' + productData.ID_HomeDrop).html(productHTML);
+            }
         }
-
 }
-
 //#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·//
 $(document).on('click', '.LikeHeart', function (e) {
     $(this).toggleClass("is-active");
@@ -1099,9 +1110,6 @@ function CountLikes(ID_HomeDropLike) {
         });
     
 }
-//#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·//
-//#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·//
-//#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·//
 //#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·//
 //#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·//
 function clicks() {
