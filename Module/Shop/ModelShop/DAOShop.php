@@ -795,6 +795,28 @@ class DAOShop{
 		}
 	}
 	/*-------*/
+	function UserLikes($ID_HomeDrop, $Username){
+
+		// return("Llego al DAOShop CountLikes");
+		// return($ID_HomeDrop);
+
+		$consulta = "SELECT vh.ID_HomeDrop AS total
+					FROM likeshomedrop vh
+					WHERE vh.ID_HomeDrop = $ID_HomeDrop AND ID_User= (SELECT ID_User FROM users WHERE Username = '$Username')"; 
+
+		//return($consulta);
+
+		$conexion = connect::con();
+		$res = mysqli_query($conexion, $consulta);
+		connect::close($conexion);
+
+		if ($res && $row = mysqli_fetch_assoc($res)) {
+			return $row['total'];
+		} else {
+			return false;
+		}
+	}
+	/*-------*/
 }
 
 

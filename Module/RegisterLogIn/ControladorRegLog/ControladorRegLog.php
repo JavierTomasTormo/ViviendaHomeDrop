@@ -13,6 +13,28 @@ switch ($_GET['Option']) {
     case 'RegLogView';
         include("Module/RegisterLogIn/ViewRegLog/RegLog.html");
     break;
+//~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~//  
+    case 'LikedHouses':
+        // echo json_encode($_POST['Username']);
+        // break;
+
+        try {
+            $daoLog = new DAORegLog();
+            $count = $daoLog->LikedHouses($_POST['Username']);
+            
+        } catch (Exception $e) {
+            echo json_encode("error");
+            exit;
+        }
+
+
+        if (!empty($count)) {
+            echo json_encode($count);
+        } else {
+            
+            echo json_encode("error");
+        }
+    break;
 //~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~//    
     case 'Register':
 
@@ -228,7 +250,7 @@ switch ($_GET['Option']) {
 
         echo json_encode('Done');
     break;
-//~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~//       
+//~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~·~//         
     default;
         include("ViewParent/inc/error404.html");
     break;

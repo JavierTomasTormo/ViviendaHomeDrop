@@ -30,7 +30,7 @@ function LoadMenu() {
             .then(function(data) {
                 $('#loginBtn').hide();
 
-                //console.log(data);
+                // console.log(data);
 
                 if (data.UserType == "client") {
                     console.log("Client loged");
@@ -62,8 +62,9 @@ function LoadMenu() {
                 
                     var userMenu = $('<div id="user_menu" style="display: none;">' +
                                         '<button id="logout_button">Logout</button>' +
-                                        '<button id="profile_button">Profile</button>' +
+                                        
                                         '<button id="close_menu_button">Close</button>' +
+                                        '<button id="profile_button">¡¡ <b> Liked </b>!!</button>' +
                                     '</div>');
                 
                     var table = $('<table style="width: 100%;"></table>');
@@ -126,15 +127,100 @@ function LoadMenu() {
                     });
                     
                     $('#close_menu_button').on('click', function() {
-                        //console.log('close');
-                        menuOpen = 1;
+                        $('#profile_button').html('¡¡ <b> Liked </b>!!'); 
+                        $('#profile_button').removeAttr('disabled');
+                        $('#profile_button').removeClass('liked'); 
                         
+                        
+                        menuOpen = 1;
+                        viviendasMenu.empty();
                     });
+
                     
                     $('#profile_button').on('click', function() {
-                        console.log('profile');
-                        
+                        //console.log(data);
+                        //console.log('profile');
+
+                        $.ajax({
+                            url: 'Module/RegisterLogIn/ControladorRegLog/ControladorRegLog.php?Option=LikedHouses',
+                            type: 'POST',
+                            dataType: 'JSON',
+                            data: { Username: data.Username }
+                        })
+                        .done(function(response) {
+                            
+                            var viviendasMenu = $('#profile_button');
+                            viviendasMenu.empty(); 
+                            
+                            
+                            $.each(response, function(index, vivienda) {
+                                //console.log(vivienda);
+                            
+                                viviendasMenu.css({
+                                    "max-height": "500px",
+                                    "overflow-y": "auto"
+                                }); 
+
+                                var listItem = $('<li>').css({
+                                    "border": "2px solid #ccc",
+                                    "padding": "20px",
+                                    "margin-bottom": "20px",
+                                    "width": "950px",
+                                    "list-style-type": "none",
+                                    "border-radius": "10px",
+                                    "box-shadow": "0 4px 8px 0 rgba(0,0,0,0.2)"
+                                });
+                            
+                                var labelStyle = {
+                                    "font-weight": "bold",
+                                    "color": "#333",
+                                    "display": "inline-block",
+                                    "width": "200px",
+                                    "font-size": "1.2em"
+                                };
+                            
+                                var valueStyle = {
+                                    "color": "#fff",
+                                    "font-size": "1.1em"
+                                };
+                            
+                                listItem.append($('<span>').text('Calle:').css(labelStyle));
+                                listItem.append($('<span>').text(vivienda.Calle).css(valueStyle)).append('<br>');
+                            
+                                listItem.append($('<span>').text('Category:').css(labelStyle));
+                                listItem.append($('<span>').text(vivienda.Category).css(valueStyle)).append('<br>');
+                            
+                                listItem.append($('<span>').text('Ciudad:').css(labelStyle));
+                                listItem.append($('<span>').text(vivienda.Ciudad).css(valueStyle)).append('<br>');
+                            
+                                listItem.append($('<span>').text('ID_HomeDrop:').css(labelStyle));
+                                listItem.append($('<span>').text(vivienda.ID_HomeDrop).css(valueStyle)).append('<br>');
+                            
+                                listItem.append($('<span>').text('ID_Imagen:').css(labelStyle));
+                                listItem.append($('<span>').text(vivienda.ID_Imagen).css(valueStyle)).append('<br>');
+                            
+                                listItem.append($('<span>').text('Operation:').css(labelStyle));
+                                listItem.append($('<span>').text(vivienda.Operation).css(valueStyle)).append('<br>');
+                            
+                                listItem.append($('<span>').text('Precio:').css(labelStyle));
+                                listItem.append($('<span>').text(vivienda.Precio).css(valueStyle)).append('<br>');
+                            
+                                listItem.append($('<span>').text('Superficie:').css(labelStyle));
+                                listItem.append($('<span>').text(vivienda.Superficie).css(valueStyle)).append('<br>');
+                            
+                                listItem.append($('<span>').text('Type:').css(labelStyle));
+                                listItem.append($('<span>').text(vivienda.Type).css(valueStyle));
+                            
+                                viviendasMenu.append(listItem);
+                            });
+                            
+                            viviendasMenu.show(); 
+
+                        }).fail(function(jqXHR, textStatus, errorThrown) {
+                            console.error('Error al cargar la lista de viviendas:', errorThrown);
+                        });
                     });
+                    
                     
                 } else {
                     $('#userSection').hide();

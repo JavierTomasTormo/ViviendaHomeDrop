@@ -393,6 +393,27 @@ switch ($_GET['Option']) {
 
     break;
 //#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#//
+    case 'UserLikes':
+        include($path . "Model/MiddleWareAuth.php");
+
+        // echo json_encode($_POST['ID_HomeDropLike']);
+        //  echo json_encode($_POST['token']);
+        //  break;
+        $json = DecodeToken($_POST['token']);
+        // echo json_encode($json);
+        // break;
+
+        $DAOFilter = new DAOShop();
+        $count = $DAOFilter->UserLikes($_POST['ID_HomeDropLike'], $json['Username']);
+
+        if (!empty($count)) {
+            echo json_encode("Like");
+        }
+        else {
+            echo json_encode ("NoLike");
+        }
+    break;
+//#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#·#//
     default;
         include("ViewParent/inc/error404.html");
     break;
